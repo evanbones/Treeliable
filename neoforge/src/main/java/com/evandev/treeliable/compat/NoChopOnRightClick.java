@@ -5,8 +5,6 @@ import com.evandev.treeliable.api.ChopEvent;
 import com.evandev.treeliable.common.config.ModConfig;
 import com.evandev.treeliable.common.util.TickUtil;
 import net.minecraft.world.entity.Entity;
-import net.neoforged.bus.api.EventPriority;
-import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
@@ -34,14 +32,13 @@ public class NoChopOnRightClick {
         }
     }
 
+    // TODO: check this
     private static class EventHandler {
-        @SubscribeEvent(priority = EventPriority.HIGHEST)
         public static void onBlockStartClick(PlayerInteractEvent.RightClickBlock event) {
             long time = event.getLevel().getGameTime();
             lastRightClickTickByPlayers.put(event.getEntity(), time);
         }
 
-        @SubscribeEvent
         public static void onChop(ChopEvent.StartChopEvent event) {
             long time = event.getLevel().getGameTime();
             if (lastRightClickTickByPlayers.getOrDefault(event.getPlayer(), TickUtil.NEVER) == time) {
