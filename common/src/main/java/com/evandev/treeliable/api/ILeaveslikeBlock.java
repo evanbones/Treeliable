@@ -5,7 +5,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-public interface ILeaveslikeBlock extends ITreeChopBlockBehavior {
+public interface ILeaveslikeBlock extends ITreeliableBlockBehavior {
 
     /**
      * Called when the tree this block is attached to is felled.

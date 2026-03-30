@@ -98,11 +98,11 @@ public class ModConfig {
     public boolean verboseAPI = false;
 
     @SerializedName("choppable_blocks")
-    public List<String> choppableBlocks = Arrays.asList("#treechop:choppables", "#minecraft:logs");
+    public List<String> choppableBlocks = Arrays.asList("#treeliable:choppables", "#minecraft:logs");
     @SerializedName("choppable_blocks_exceptions")
     public List<String> choppableBlocksExceptions = Arrays.asList("minecraft:bamboo", "#dynamictrees:branches", "dynamictrees:trunk_shell");
     @SerializedName("leaves_blocks")
-    public List<String> leavesBlocks = Arrays.asList("#treechop:leaves_like", "#minecraft:leaves");
+    public List<String> leavesBlocks = Arrays.asList("#treeliable:leaves_like", "#minecraft:leaves");
     @SerializedName("leaves_blocks_exceptions")
     public List<String> leavesBlocksExceptions = new ArrayList<>();
     @SerializedName("chopping_items")

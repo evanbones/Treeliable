@@ -2,6 +2,7 @@ package com.evandev.treeliable.server;
 
 import com.evandev.treeliable.common.settings.ChoppingEntity;
 import com.evandev.treeliable.common.settings.SyncedChopData;
+import com.evandev.treeliable.platform.server.Server;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerLevel;
@@ -14,7 +15,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-public class NeoForgeServer extends Server {
+public class NeoForgeServer extends com.evandev.treeliable.platform.server.Server {
     static {
         Server.instance = new NeoForgeServer();
     }

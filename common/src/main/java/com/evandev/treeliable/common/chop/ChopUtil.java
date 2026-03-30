@@ -1,13 +1,13 @@
 package com.evandev.treeliable.common.chop;
 
-import com.evandev.treeliable.TreeChopException;
+import com.evandev.treeliable.TreeliableException;
 import com.evandev.treeliable.Treeliable;
 import com.evandev.treeliable.api.*;
 import com.evandev.treeliable.common.config.*;
 import com.evandev.treeliable.common.settings.ChopSettings;
 import com.evandev.treeliable.common.util.ClassUtil;
 import com.evandev.treeliable.platform.Services;
-import com.evandev.treeliable.server.Server;
+import com.evandev.treeliable.platform.server.Server;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.server.level.ServerLevel;
@@ -191,7 +191,7 @@ public class ChopUtil {
         }
     }
 
-    public static boolean chop(ServerPlayer agent, ServerLevel level, BlockPos pos, BlockState blockState, ItemStack tool, Object trigger) throws TreeChopException {
+    public static boolean chop(ServerPlayer agent, ServerLevel level, BlockPos pos, BlockState blockState, ItemStack tool, Object trigger) throws TreeliableException {
         ChopSettings chopSettings = Server.instance().getPlayerChopData(agent).getSettings();
         if (ChopUtil.playerWantsToChop(agent, chopSettings)) {
             int numChops = ChopUtil.getNumChopsByTool(tool, blockState);
@@ -202,11 +202,11 @@ public class ChopUtil {
         return false;
     }
 
-    public static boolean chop(ServerPlayer agent, ServerLevel level, BlockPos pos, BlockState blockState, ItemStack tool, Object trigger, int numChops, boolean treesMustHaveLeaves) throws TreeChopException {
+    public static boolean chop(ServerPlayer agent, ServerLevel level, BlockPos pos, BlockState blockState, ItemStack tool, Object trigger, int numChops, boolean treesMustHaveLeaves) throws TreeliableException {
         try {
             return chopUnsafe(agent, level, pos, blockState, tool, trigger, numChops, treesMustHaveLeaves);
         } catch (Exception e) {
-            throw new TreeChopException(String.format("Parameters: %s, %s, %s, %s, %s, %s, %s, %s", agent, level, pos, blockState, tool, trigger, numChops, treesMustHaveLeaves), e);
+            throw new TreeliableException(String.format("Parameters: %s, %s, %s, %s, %s, %s, %s, %s", agent, level, pos, blockState, tool, trigger, numChops, treesMustHaveLeaves), e);
         }
     }
 

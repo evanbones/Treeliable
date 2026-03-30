@@ -1,10 +1,10 @@
-package com.evandev.treeliable.server.commands;
+package com.evandev.treeliable.platform.server.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import com.evandev.treeliable.TreeChopException;
+import com.evandev.treeliable.TreeliableException;
 import com.evandev.treeliable.common.chop.ChopUtil;
 import com.evandev.treeliable.common.util.LevelUtil;
 import net.minecraft.commands.CommandSourceStack;
@@ -16,7 +16,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class ServerCommands {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
-        LiteralArgumentBuilder<CommandSourceStack> builder = Commands.literal("treechop")
+        LiteralArgumentBuilder<CommandSourceStack> builder = Commands.literal("treeliable")
                 .requires(source -> source.hasPermission(2));
 
         builder.then(Commands.literal("chop")
@@ -57,7 +57,7 @@ public class ServerCommands {
             if (felled) {
                 LevelUtil.harvestBlock(source.getPlayer(), source.getLevel(), pos, ItemStack.EMPTY, true);
             }
-        } catch (TreeChopException e) {
+        } catch (TreeliableException e) {
             // ignore
         }
     }

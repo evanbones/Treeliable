@@ -1,7 +1,7 @@
 package com.evandev.treeliable.compat;
 
 import com.evandev.treeliable.api.ITreeBlock;
-import com.evandev.treeliable.api.TreeChopAPI;
+import com.evandev.treeliable.api.TreeliableAPI;
 import com.evandev.treeliable.api.TreeData;
 import com.evandev.treeliable.api.TreeDetectorBuilder;
 import com.evandev.treeliable.common.config.Lazy;
@@ -20,7 +20,7 @@ public class HugeMushroomHandler implements ITreeBlock {
     private static final Lazy<Set<Block>> leaves = new Lazy<>(() -> ModConfig.getIdentifiedBlocks(ModConfig.get().hugeMushroomLeaves).collect(Collectors.toSet()));
     private static ITreeBlock detectionHandler;
 
-    public static void register(TreeChopAPI api) {
+    public static void register(TreeliableAPI api) {
         detectionHandler = new TreeDetectorBuilder()
                 .logs(HugeMushroomHandler::isLog)
                 .leaves(HugeMushroomHandler::isLeaves)

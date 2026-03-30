@@ -7,7 +7,7 @@ import com.evandev.treeliable.common.settings.ChopSettings;
 import com.evandev.treeliable.common.settings.Setting;
 import com.evandev.treeliable.common.settings.SettingsField;
 import com.evandev.treeliable.common.settings.SyncedChopData;
-import com.evandev.treeliable.server.Server;
+import com.evandev.treeliable.platform.server.Server;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;

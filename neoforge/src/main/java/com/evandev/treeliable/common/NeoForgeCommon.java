@@ -1,6 +1,6 @@
 package com.evandev.treeliable.common;
 
-import com.evandev.treeliable.TreeChopException;
+import com.evandev.treeliable.TreeliableException;
 import com.evandev.treeliable.Treeliable;
 import com.evandev.treeliable.common.chop.ChopUtil;
 import com.evandev.treeliable.common.config.ModConfig;
@@ -39,7 +39,7 @@ public class NeoForgeCommon {
             if (ChopUtil.chop(agent, level, pos, blockState, tool, event)) {
                 event.setCanceled(true);
             }
-        } catch (TreeChopException e) {
+        } catch (TreeliableException e) {
             Treeliable.cry(e);
         }
     }

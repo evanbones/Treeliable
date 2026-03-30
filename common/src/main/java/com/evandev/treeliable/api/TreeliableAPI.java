@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-public interface TreeChopAPI {
+public interface TreeliableAPI {
     /**
      * Changes whether the specified block can be chopped. Overrides the Treeliable configuration files. See {@link
      * #isBlockChoppable}
@@ -36,7 +36,7 @@ public interface TreeChopAPI {
     /**
      * Changes Treeliable-related behaviors for a specified block. This <b>only</b> works for blocks that have the
      * appropriate block tags to be considered choppable or leaveslike (see
-     * <a href="https://github.com/hammertater/treechop/wiki/Adding-compatibility-with-TreeChop">the wiki</a>).
+     * <a href="https://github.com/hammertater/treeliable/wiki/Adding-compatibility-with-Treeliable">the wiki</a>).
      * <p>
      * <b>Log behaviors</b> - See {@link ISimpleChoppableBlock} for a default handler
      * implementation. For more advanced control, see {@link IChoppableBlock}, {@link IFellableBlock}, {@link
@@ -44,7 +44,7 @@ public interface TreeChopAPI {
      * <p>
      * <b>Leaves behaviors</b> - See {@link ILeaveslikeBlock}.
      */
-    void registerBlockBehavior(Block block, ITreeChopBlockBehavior handler);
+    void registerBlockBehavior(Block block, ITreeliableBlockBehavior handler);
 
     /**
      * Removes a registered block handler.
@@ -56,7 +56,7 @@ public interface TreeChopAPI {
      *
      * @return {@code null} if no handler is registered for {@code block}
      */
-    ITreeChopBlockBehavior getRegisteredBlockBehavior(Block block);
+    ITreeliableBlockBehavior getRegisteredBlockBehavior(Block block);
 
     /**
      * Changes chopping behaviors while holding a specified item.
@@ -104,29 +104,29 @@ public interface TreeChopAPI {
     boolean canChopWithItem(Player player, ItemStack stack, Level level, BlockPos pos, BlockState blockState);
 
     /**
-     * Retrieves information about a tree with its origin at {@code pos}. The "base" of the tree is formed by {@code pos} and any connected {@code treechop:chopped_log} blocks, and the "tree" consists of this base and any log blocks that are supported by it. For most trees, this means that unchopped blocks below {@code pos} are *not* part of the tree.
+     * Retrieves information about a tree with its origin at {@code pos}. The "base" of the tree is formed by {@code pos} and any connected {@code treeliable:chopped_log} blocks, and the "tree" consists of this base and any log blocks that are supported by it. For most trees, this means that unchopped blocks below {@code pos} are *not* part of the tree.
      * <p>
      * Currently, no caching is performed. Every call produces a new {@link TreeData} instance. This may change in the future.
      * <p>
      * Fires a tree detection event.
      * @param level
      * @param pos
-     * @return Always returns a {@link TreeData}, but it may be empty if {@code pos} is not part of a tree. Use {@link TreeData#isAProperTree(boolean)} to check whether it is a valid tree (e.g., connected to leaves) according to the {@code treechop-common.toml} configuration.
+     * @return Always returns a {@link TreeData}, but it may be empty if {@code pos} is not part of a tree. Use {@link TreeData#isAProperTree(boolean)} to check whether it is a valid tree (e.g., connected to leaves) according to the {@code treeliable-common.toml} configuration.
      */
     TreeData getTree(Level level, BlockPos pos);
 
     /**
-     * @deprecated Use {@link TreeChopAPI#registerBlockBehavior} instead.
+     * @deprecated Use {@link TreeliableAPI#registerBlockBehavior} instead.
      */
-    @Deprecated void registerChoppableBlockBehavior(Block block, ITreeChopBlockBehavior handler);
+    @Deprecated void registerChoppableBlockBehavior(Block block, ITreeliableBlockBehavior handler);
 
     /**
-     * @deprecated Use {@link TreeChopAPI#deregisterBlockBehavior} instead.
+     * @deprecated Use {@link TreeliableAPI#deregisterBlockBehavior} instead.
      */
     @Deprecated boolean deregisterChoppableBlockBehavior(Block block);
 
     /**
-     * @deprecated Use {@link TreeChopAPI#getRegisteredBlockBehavior} instead.
+     * @deprecated Use {@link TreeliableAPI#getRegisteredBlockBehavior} instead.
      */
-    @Deprecated ITreeChopBlockBehavior getRegisteredChoppableBlockBehavior(Block block);
+    @Deprecated ITreeliableBlockBehavior getRegisteredChoppableBlockBehavior(Block block);
 }

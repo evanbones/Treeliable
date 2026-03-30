@@ -1,7 +1,7 @@
 package com.evandev.treeliable.common;
 
 import com.evandev.treeliable.Treeliable;
-import com.evandev.treeliable.TreeChopException;
+import com.evandev.treeliable.TreeliableException;
 import com.evandev.treeliable.common.chop.ChopUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -20,7 +20,7 @@ public class FabricCommon {
             boolean chopped;
             try {
                 chopped = ChopUtil.chop(serverPlayer, serverLevel, pos, blockState, tool, null);
-            } catch (TreeChopException e) {
+            } catch (TreeliableException e) {
                 Treeliable.cry(e);
                 chopped = false;
             }

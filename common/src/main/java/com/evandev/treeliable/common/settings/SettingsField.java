@@ -6,10 +6,10 @@ import net.minecraft.network.FriendlyByteBuf;
 import java.util.Set;
 
 public enum SettingsField {
-    CHOPPING("choppingEnabled", "treechop.setting.chopping", Boolean.TRUE),
-    SNEAK_BEHAVIOR("sneakBehavior", "treechop.setting.sneak_behavior", SneakBehavior.INVERT_CHOPPING),
-    TREES_MUST_HAVE_LEAVES("treeMustHaveLeaves", "treechop.setting.trees_must_have_leaves", Boolean.TRUE),
-    CHOP_IN_CREATIVE_MODE("chopInCreativeMode", "treechop.setting.chop_in_creative_mode", Boolean.FALSE);
+    CHOPPING("choppingEnabled", "treeliable.setting.chopping", Boolean.TRUE),
+    SNEAK_BEHAVIOR("sneakBehavior", "treeliable.setting.sneak_behavior", SneakBehavior.INVERT_CHOPPING),
+    TREES_MUST_HAVE_LEAVES("treeMustHaveLeaves", "treeliable.setting.trees_must_have_leaves", Boolean.TRUE),
+    CHOP_IN_CREATIVE_MODE("chopInCreativeMode", "treeliable.setting.chop_in_creative_mode", Boolean.FALSE);
 
     public static final SettingsField[] VALUES = values();
 
@@ -60,7 +60,7 @@ public enum SettingsField {
 
     public String getValueName(Object value) {
         if (value instanceof Boolean bool) {
-            return I18n.get(bool ? "treechop.setting.state.on" : "treechop.setting.state.off");
+            return I18n.get(bool ? "treeliable.setting.state.on" : "treeliable.setting.state.off");
         } else if (value instanceof SneakBehavior sneakBehavior) {
             return sneakBehavior.getFancyText();
         }

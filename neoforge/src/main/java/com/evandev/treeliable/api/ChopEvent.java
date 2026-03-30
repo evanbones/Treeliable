@@ -83,7 +83,7 @@ abstract public class ChopEvent extends Event {
      *   <li> to activate the on-screen chop indicator when the player highlights a choppable block
      *   <li> to add tree information to Jade/WTHIT/TheOneProbe/etc. popups
      * </ul>
-     * Can be canceled to prevent tree detection. Note that detection events only trigger for blocks that are considered choppable (see {@link TreeChopAPI#isBlockChoppable}).
+     * Can be canceled to prevent tree detection. Note that detection events only trigger for blocks that are considered choppable (see {@link TreeliableAPI#isBlockChoppable}).
      */
     public static class DetectTreeEvent extends ChopEvent implements ICancellableEvent {
         private TreeData treeData;
@@ -109,8 +109,8 @@ abstract public class ChopEvent extends Event {
 
     /**
      * Signals that a block is about to be chopped. Fires after a player breaks a choppable block (see {@link
-     * TreeChopAPI#isBlockChoppable}), but before it is replaced by a chopped block (usually a {@code
-     * treechop:chopped_log}). Can be canceled to prevent chopping.
+     * TreeliableAPI#isBlockChoppable}), but before it is replaced by a chopped block (usually a {@code
+     * treeliable:chopped_log}). Can be canceled to prevent chopping.
      */
     public static class StartChopEvent extends ChopEvent implements ICancellableEvent {
         private final Object trigger;

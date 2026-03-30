@@ -57,7 +57,7 @@ public class ConfirmedSetting extends Setting {
                                 fieldName,
                                 valueName,
                                 ChatFormatting.RED,
-                                I18n.get("treechop.setting.missing_permissions")
+                                I18n.get("treeliable.setting.missing_permissions")
                         ));
                     }
                 }

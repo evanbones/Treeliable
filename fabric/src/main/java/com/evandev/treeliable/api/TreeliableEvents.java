@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 /**
  * Events used by Treeliable. Listeners can alter how and when chopping occurs.
  */
-public final class TreeChopEvents {
+public final class TreeliableEvents {
 
     public static final Event<BeforeChop> BEFORE_CHOP = EventFactory.createArrayBacked(BeforeChop.class,
             (listeners) -> (world, player, pos, state, chopData) -> {
@@ -139,15 +139,15 @@ public final class TreeChopEvents {
             }
     );
 
-    private TreeChopEvents() {
+    private TreeliableEvents() {
     }
 
     @FunctionalInterface
     public interface BeforeChop {
         /**
          * Signals that a block is about to be chopped. Fires after a player breaks a choppable block (see {@link
-         * TreeChopAPI#isBlockChoppable}), but before it is replaced by a chopped block (usually a {@code
-         * treechop:chopped_log}).
+         * TreeliableAPI#isBlockChoppable}), but before it is replaced by a chopped block (usually a {@code
+         * treeliable:chopped_log}).
          *
          * @param chopData Stores the number of chops to perform and whether to fell if possible
          * @return {@code false} to prevent chopping and instead break the block normally
@@ -190,7 +190,7 @@ public final class TreeChopEvents {
          *   <li> activate the on-screen chop indicator when the player highlights a choppable block
          *   <li> add tree information to Jade/WTHIT/TheOneProbe/etc. popups
          * </ul>
-         * Note that detection events only trigger for blocks that are considered choppable (see {@link TreeChopAPI#isBlockChoppable}).
+         * Note that detection events only trigger for blocks that are considered choppable (see {@link TreeliableAPI#isBlockChoppable}).
          *
          * @return null to prevent tree detection
          */

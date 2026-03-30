@@ -57,27 +57,27 @@ public class FabricPlatformHelper implements IPlatformHelper {
 
     @Override
     public TreeData detectTreeEvent(Level level, ServerPlayer player, BlockPos blockPos, BlockState blockState, TreeData treeData) {
-        return TreeChopEvents.DETECT_TREE.invoker().onDetectTree(level, player, blockPos, blockState, treeData);
+        return TreeliableEvents.DETECT_TREE.invoker().onDetectTree(level, player, blockPos, blockState, treeData);
     }
 
     @Override
     public boolean startChopEvent(ServerPlayer agent, ServerLevel level, BlockPos pos, BlockState blockState, ChopData chopData, Object trigger) {
-        return TreeChopEvents.BEFORE_CHOP.invoker().beforeChop(level, agent, pos, blockState, chopData);
+        return TreeliableEvents.BEFORE_CHOP.invoker().beforeChop(level, agent, pos, blockState, chopData);
     }
 
     @Override
     public void finishChopEvent(ServerPlayer agent, ServerLevel level, BlockPos pos, BlockState blockState, ChopDataImmutable chopData, ChopResult chopResult) {
-        TreeChopEvents.AFTER_CHOP.invoker().afterChop(level, agent, pos, blockState, chopData, chopResult instanceof FellTreeResult);
+        TreeliableEvents.AFTER_CHOP.invoker().afterChop(level, agent, pos, blockState, chopData, chopResult instanceof FellTreeResult);
     }
 
     @Override
     public boolean startFellTreeEvent(ServerPlayer player, Level level, BlockPos choppedPos, FellData fellData) {
-        return TreeChopEvents.BEFORE_FELL.invoker().beforeFell(level, player, choppedPos, fellData);
+        return TreeliableEvents.BEFORE_FELL.invoker().beforeFell(level, player, choppedPos, fellData);
     }
 
     @Override
     public void finishFellTreeEvent(ServerPlayer player, Level level, BlockPos choppedPos, FellData fellData) {
-        TreeChopEvents.AFTER_FELL.invoker().afterFell(level, player, choppedPos, fellData);
+        TreeliableEvents.AFTER_FELL.invoker().afterFell(level, player, choppedPos, fellData);
     }
 
     @Override

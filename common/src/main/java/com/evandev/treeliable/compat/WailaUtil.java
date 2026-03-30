@@ -1,6 +1,6 @@
 package com.evandev.treeliable.compat;
 
-import com.evandev.treeliable.TreeChopException;
+import com.evandev.treeliable.TreeliableException;
 import com.evandev.treeliable.Treeliable;
 import com.evandev.treeliable.api.TreeData;
 import com.evandev.treeliable.client.Client;
@@ -25,7 +25,7 @@ public class WailaUtil {
         String originalBlockName = net.minecraft.locale.Language.getInstance().getOrDefault(
                 state.getBlock().getDescriptionId()
         );
-        return net.minecraft.network.chat.Component.translatable("treechop.waila.chopped_x", originalBlockName);
+        return net.minecraft.network.chat.Component.translatable("treeliable.waila.chopped_x", originalBlockName);
     }
 
     public static BlockState getLogState(Level level, BlockPos pos, BlockState state) {
@@ -54,7 +54,7 @@ public class WailaUtil {
                                    Consumer<ItemStack> addTreeBlockStack) {
         try {
             addTreeInfoOrCrash(level, pos, showTreeBlocks, showNumChops, addNumChops, addTreeBlockStack);
-        } catch (TreeChopException e) {
+        } catch (TreeliableException e) {
             Treeliable.cry(e);
         }
     }
@@ -64,14 +64,14 @@ public class WailaUtil {
                                           boolean showTreeBlocks,
                                           boolean showNumChops,
                                           Consumer<Component> addNumChops,
-                                          Consumer<ItemStack> addTreeBlockStack) throws TreeChopException {
+                                          Consumer<ItemStack> addTreeBlockStack) throws TreeliableException {
 
         try {
             TreeData tree = Client.treeCache.getTree(level, pos);
 
             if (tree.isAProperTree(Client.getChopSettings().getTreesMustHaveLeaves())) {
                 if (showNumChops) {
-                    addNumChops.accept(Component.translatable("treechop.waila.x_out_of_y_chops", tree.getChops(), ChopUtil.numChopsToFell(level, tree.streamLogs())));
+                    addNumChops.accept(Component.translatable("treeliable.waila.x_out_of_y_chops", tree.getChops(), ChopUtil.numChopsToFell(level, tree.streamLogs())));
                 }
 
                 if (showTreeBlocks) {
@@ -88,7 +88,7 @@ public class WailaUtil {
                 }
             }
         } catch (Exception e) {
-            throw new TreeChopException(String.format("Parameters: %s, %s, %s, %s", level, pos, showTreeBlocks, showNumChops), e);
+            throw new TreeliableException(String.format("Parameters: %s, %s, %s, %s", level, pos, showTreeBlocks, showNumChops), e);
         }
     }
 }

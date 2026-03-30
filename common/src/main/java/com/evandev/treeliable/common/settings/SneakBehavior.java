@@ -8,8 +8,8 @@ import java.util.Arrays;
 import java.util.function.Predicate;
 
 public enum SneakBehavior implements StringRepresentable {
-    NONE("treechop.sneak_behavior.none", agent -> false, agent -> false),
-    INVERT_CHOPPING("treechop.sneak_behavior.invert_chopping", Entity::isShiftKeyDown, agent -> false)
+    NONE("treeliable.sneak_behavior.none", agent -> false, agent -> false),
+    INVERT_CHOPPING("treeliable.sneak_behavior.invert_chopping", Entity::isShiftKeyDown, agent -> false)
     ;
 
     public final static int maxNameLength = Arrays.stream(SneakBehavior.values()).map(SneakBehavior::name).map(String::length).max(Integer::compareTo).orElse(0);

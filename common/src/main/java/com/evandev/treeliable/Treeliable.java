@@ -1,6 +1,6 @@
 package com.evandev.treeliable;
 
-import com.evandev.treeliable.api.TreeChopAPI;
+import com.evandev.treeliable.api.TreeliableAPI;
 import com.evandev.treeliable.common.config.Lazy;
 import com.evandev.treeliable.compat.HugeFungusHandler;
 import com.evandev.treeliable.compat.HugeMushroomHandler;
@@ -20,15 +20,15 @@ public abstract class Treeliable {
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
     public static final ResourceLocation CHOP_WOOD = resource("chop_wood");
     public static final Lazy<SoundEvent> CHOP_WOOD_EVENT = new Lazy<>(() -> SoundEvent.createVariableRangeEvent(CHOP_WOOD));
-    public static TreeChopInternalAPI api;
+    public static TreeliableInternalAPI api;
     private static int cryCounter = 10;
 
     public static void init() {
-        api = new TreeChopInternalAPI(MOD_ID);
+        api = new TreeliableInternalAPI(MOD_ID);
         initUsingAPI(api);
     }
 
-    public static void initUsingAPI(TreeChopAPI api) {
+    public static void initUsingAPI(TreeliableAPI api) {
         HugeMushroomHandler.register(api);
         HugeFungusHandler.register(api);
         ProblematicLeavesTreeHandler.register(api);

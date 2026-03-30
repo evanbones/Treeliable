@@ -26,7 +26,7 @@ public record TreeFelledLootItemCondition() implements LootItemCondition {
     }
 
     public boolean test(LootContext context) {
-        Boolean destroying = context.getParamOrNull(TreeChopLootContextParams.DESTROY_BLOCK);
+        Boolean destroying = context.getParamOrNull(TreeliableLootContextParams.DESTROY_BLOCK);
         return destroying == null || destroying;
     }
 }

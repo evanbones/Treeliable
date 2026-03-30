@@ -89,7 +89,7 @@ public abstract class ResourceIdentifier {
     }
 
     private static void parsingError(String idString, String message) {
-        Treeliable.LOGGER.warn("Configuration issue: failed to parse \"{}\": {} (to silence this warning, find and delete \"{}\" in treechop-common.toml)", idString, message, idString);
+        Treeliable.LOGGER.warn("Configuration issue: failed to parse \"{}\": {} (to silence this warning, find and delete \"{}\" in treeliable-common.toml)", idString, message, idString);
     }
 
     public String getNamespace() {

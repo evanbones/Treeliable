@@ -2,7 +2,7 @@ package com.evandev.treeliable.compat;
 
 import com.evandev.treeliable.Treeliable;
 import com.evandev.treeliable.api.IChoppingItem;
-import com.evandev.treeliable.api.TreeChopAPI;
+import com.evandev.treeliable.api.TreeliableAPI;
 import com.evandev.treeliable.common.config.ModConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -28,7 +28,7 @@ public class SilentGear {
     @SubscribeEvent
     public static void enqueueIMC(InterModEnqueueEvent event) {
         if (ModConfig.get().compatForSilentGear && ModList.get().isLoaded("silentgear")) {
-            InterModComms.sendTo("treechop", "getTreeChopAPI", () -> (Consumer<TreeChopAPI>) api -> {
+            InterModComms.sendTo("treeliable", "getTreeliableAPI", () -> (Consumer<TreeliableAPI>) api -> {
                 Item saw = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("silentgear", "saw"));
                 api.registerChoppingItemBehavior(saw, new IChoppingItem() {
                     @Override

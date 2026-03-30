@@ -4,6 +4,7 @@ import com.evandev.treeliable.common.network.ClientRequestSettingsPacket;
 import com.evandev.treeliable.common.network.PacketChannel;
 import com.evandev.treeliable.common.settings.ChoppingEntity;
 import com.evandev.treeliable.common.settings.SyncedChopData;
+import com.evandev.treeliable.platform.server.Server;
 import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
@@ -13,7 +14,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 
-public class FabricServer extends Server implements DedicatedServerModInitializer {
+public class FabricServer extends com.evandev.treeliable.platform.server.Server implements DedicatedServerModInitializer {
 
     public static void init() {
         FabricServer instance = new FabricServer();

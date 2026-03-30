@@ -1,8 +1,8 @@
 package com.evandev.treeliable;
 
 import com.evandev.treeliable.api.IChoppingItem;
-import com.evandev.treeliable.api.ITreeChopBlockBehavior;
-import com.evandev.treeliable.api.TreeChopAPI;
+import com.evandev.treeliable.api.ITreeliableBlockBehavior;
+import com.evandev.treeliable.api.TreeliableAPI;
 import com.evandev.treeliable.api.TreeData;
 import com.evandev.treeliable.common.chop.ChopUtil;
 import com.evandev.treeliable.common.config.ModConfig;
@@ -22,8 +22,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
-public class TreeChopInternalAPI implements TreeChopAPI {
-    private static final Map<Block, ITreeChopBlockBehavior> blockBehaviors = new HashMap<>();
+public class TreeliableInternalAPI implements TreeliableAPI {
+    private static final Map<Block, ITreeliableBlockBehavior> blockBehaviors = new HashMap<>();
 
     private static final Map<Block, Boolean> choppableBlockOverrides = new HashMap<>() {
         @Override
@@ -48,7 +48,7 @@ public class TreeChopInternalAPI implements TreeChopAPI {
 
     private final String modId;
 
-    TreeChopInternalAPI(String modId) {
+    TreeliableInternalAPI(String modId) {
         this.modId = modId;
     }
 
@@ -83,7 +83,7 @@ public class TreeChopInternalAPI implements TreeChopAPI {
     }
 
     @Override
-    public void registerBlockBehavior(Block block, ITreeChopBlockBehavior handler) {
+    public void registerBlockBehavior(Block block, ITreeliableBlockBehavior handler) {
         blockBehaviors.put(block, handler);
         print(String.format("Registered new behavior for block %s",
                 Services.PLATFORM.getResourceLocationForBlock(block)));
@@ -91,19 +91,19 @@ public class TreeChopInternalAPI implements TreeChopAPI {
 
     @Override
     public boolean deregisterBlockBehavior(Block block) {
-        ITreeChopBlockBehavior existing = blockBehaviors.remove(block);
+        ITreeliableBlockBehavior existing = blockBehaviors.remove(block);
         print(String.format("Deregistered behavior for block %s",
                 Services.PLATFORM.getResourceLocationForBlock(block)));
         return existing == null;
     }
 
     @Override
-    public ITreeChopBlockBehavior getRegisteredBlockBehavior(Block block) {
+    public ITreeliableBlockBehavior getRegisteredBlockBehavior(Block block) {
         return blockBehaviors.get(block);
     }
 
     @Override
-    public void registerChoppableBlockBehavior(Block block, ITreeChopBlockBehavior handler) {
+    public void registerChoppableBlockBehavior(Block block, ITreeliableBlockBehavior handler) {
         registerBlockBehavior(block, handler);
     }
 
@@ -113,7 +113,7 @@ public class TreeChopInternalAPI implements TreeChopAPI {
     }
 
     @Override
-    public ITreeChopBlockBehavior getRegisteredChoppableBlockBehavior(Block block) {
+    public ITreeliableBlockBehavior getRegisteredChoppableBlockBehavior(Block block) {
         return getRegisteredBlockBehavior(block);
     }
 

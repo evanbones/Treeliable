@@ -11,7 +11,7 @@ import java.util.function.BiFunction;
 import java.util.stream.Stream;
 
 /**
- * Builds specialized {@link ITreeBlock} handlers for detecting non-standard trees. Enable block handlers using {@link TreeChopAPI#registerBlockBehavior}.
+ * Builds specialized {@link ITreeBlock} handlers for detecting non-standard trees. Enable block handlers using {@link TreeliableAPI#registerBlockBehavior}.
  */
 public class TreeDetectorBuilder {
     private BlockMatcher logMatcher = ChopUtil::isBlockALog;
@@ -68,7 +68,7 @@ public class TreeDetectorBuilder {
     }
 
     /**
-     * @param maxLeavesDistance the maximum shortest-path distance that leaves can be from the tree trunk. If unspecified, use what's in the treechop-common config.
+     * @param maxLeavesDistance the maximum shortest-path distance that leaves can be from the tree trunk. If unspecified, use what's in the treeliable-common config.
      */
     public TreeDetectorBuilder maxLeavesDistance(int maxLeavesDistance) {
         this.maxLeavesDistance = maxLeavesDistance;

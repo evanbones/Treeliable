@@ -1,6 +1,6 @@
 package com.evandev.treeliable.client.gui.screen;
 
-import com.evandev.treeliable.TreeChopException;
+import com.evandev.treeliable.TreeliableException;
 import com.evandev.treeliable.Treeliable;
 import com.evandev.treeliable.client.Client;
 import com.evandev.treeliable.client.gui.util.Sprite;
@@ -71,7 +71,7 @@ public class ChopIndicator {
         }
     }
 
-    public static boolean blockCanBeChopped(BlockPos pos) throws TreeChopException {
+    public static boolean blockCanBeChopped(BlockPos pos) throws TreeliableException {
         Minecraft minecraft = Minecraft.getInstance();
         LocalPlayer player = minecraft.player;
         ClientLevel level = minecraft.level;
@@ -89,11 +89,11 @@ public class ChopIndicator {
         return false;
     }
 
-    private static boolean isAProperTree(BlockPos pos, ClientLevel level, ClientChopSettings chopSettings) throws TreeChopException {
+    private static boolean isAProperTree(BlockPos pos, ClientLevel level, ClientChopSettings chopSettings) throws TreeliableException {
         try {
             return Client.treeCache.getTree(level, pos).isAProperTree(chopSettings.getTreesMustHaveLeaves());
         } catch (Exception e) {
-            throw new TreeChopException(String.format("Parameters: %s, %s, %s", pos, level, chopSettings), e);
+            throw new TreeliableException(String.format("Parameters: %s, %s, %s", pos, level, chopSettings), e);
         }
     }
 }

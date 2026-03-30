@@ -1,4 +1,4 @@
-package com.evandev.treeliable.server;
+package com.evandev.treeliable.platform.server;
 
 import com.evandev.treeliable.common.settings.ChopSettings;
 import com.evandev.treeliable.common.settings.ChoppingEntity;

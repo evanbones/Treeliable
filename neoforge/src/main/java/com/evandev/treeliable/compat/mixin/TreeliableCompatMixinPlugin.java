@@ -10,12 +10,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
 
-public class TreeChopCompatMixinPlugin implements IMixinConfigPlugin {
+public class TreeliableCompatMixinPlugin implements IMixinConfigPlugin {
 
     private static final Supplier<Boolean> TRUE = () -> true;
 
     private static final Map<String, Supplier<Boolean>> MIXINS = Map.of(
-            "ht.treechop.compat.mixin.MultiMineMixin", () -> LoadingModList.get().getModFileById("multimine") != null
+            "ht.treeliable.compat.mixin.MultiMineMixin", () -> LoadingModList.get().getModFileById("multimine") != null
     );
 
     @Override

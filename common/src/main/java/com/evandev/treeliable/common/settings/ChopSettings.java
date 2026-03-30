@@ -70,7 +70,7 @@ public class ChopSettings {
     public <T> T get(SettingsField field, Class<T> type) {
         Object value = fieldValues.get(field);
         if (!type.isInstance(value)) {
-//            TreeChopMod.LOGGER.warn(String.format("SettingsField %s has illegal value %s (%s); reverting to default", field, value, value.getClass()));
+//            TreeliableMod.LOGGER.warn(String.format("SettingsField %s has illegal value %s (%s); reverting to default", field, value, value.getClass()));
             value = field.getDefaultValue();
             fieldValues.put(field, value);
         }

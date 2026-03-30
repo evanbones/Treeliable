@@ -1,6 +1,6 @@
 package com.evandev.treeliable.mixin;
 
-import com.evandev.treeliable.TreeChopException;
+import com.evandev.treeliable.TreeliableException;
 import com.evandev.treeliable.api.TreeData;
 import com.evandev.treeliable.client.Client;
 import com.evandev.treeliable.client.gui.screen.ChopIndicator;
@@ -41,7 +41,7 @@ public abstract class MultiPlayerGameModeMixin {
                     }
                 }
             }
-        } catch (TreeChopException e) {
+        } catch (TreeliableException e) {
             // Ignore
         }
     }

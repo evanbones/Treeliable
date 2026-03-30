@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Entity.class)
 public class EntityChopSettingsMixin implements ChoppingEntity {
     private SyncedChopData chopSettings;
-    private final String KEY = "treechop:chopSettings";
+    private final String KEY = "treeliable:chopSettings";
 
     @Override
     public SyncedChopData getChopData() {

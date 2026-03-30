@@ -31,7 +31,7 @@ public record CountBlockChopsLootItemCondition(IntRange range) implements LootIt
     }
 
     public boolean test(LootContext context) {
-        Integer count = context.getParamOrNull(TreeChopLootContextParams.BLOCK_CHOP_COUNT);
+        Integer count = context.getParamOrNull(TreeliableLootContextParams.BLOCK_CHOP_COUNT);
         return count != null && this.range.test(context, count);
     }
 }
