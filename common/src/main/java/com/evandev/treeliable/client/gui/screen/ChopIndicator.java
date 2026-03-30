@@ -1,13 +1,12 @@
 package com.evandev.treeliable.client.gui.screen;
 
-import com.evandev.treeliable.TreeliableException;
 import com.evandev.treeliable.Treeliable;
+import com.evandev.treeliable.TreeliableException;
 import com.evandev.treeliable.client.Client;
 import com.evandev.treeliable.client.gui.util.Sprite;
 import com.evandev.treeliable.client.settings.ClientChopSettings;
 import com.evandev.treeliable.common.chop.ChopUtil;
 import com.evandev.treeliable.common.config.ModConfig;
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -38,12 +37,7 @@ public class ChopIndicator {
                 BlockPos blockPos = ((BlockHitResult) mouseOver).getBlockPos();
                 if (blockCanBeChopped(blockPos)) {
                     RenderSystem.enableBlend();
-                    RenderSystem.blendFuncSeparate(
-                            GlStateManager.SourceFactor.ONE_MINUS_DST_COLOR,
-                            GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR,
-                            GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO
-                    );
-                    RenderSystem.setShaderTexture(0, Sprite.TEXTURE_PATH);
+                    RenderSystem.defaultBlendFunc();
 
                     boolean mirror = player.getMainArm() == HumanoidArm.LEFT;
                     int indicatorCenterX = windowWidth / 2 + ModConfig.get().indicatorXOffset * (mirror ? -1 : 1);
@@ -62,7 +56,6 @@ public class ChopIndicator {
                             mirror
                     );
 
-                    RenderSystem.defaultBlendFunc();
                     RenderSystem.disableBlend();
                 }
             }
