@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${version}",
+  "name": "${mod_name}",
+  "description": "${description}",
+  "authors": [
+    "${mod_author}"
+  ],
+  "contact": {
+    "homepage": "https://github.com/evanbones/Treeliable",
+    "sources": "https://github.com/evanbones/Treeliable"
+  },
+  "license": "${license}",
+  "icon": "${mod_id}.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.evandev.treeliable.TreeliableFabric"
+    ],
+    "client": [
+      "com.evandev.treeliable.client.FabricClient"
+    ],
+    "server": [
+      "com.evandev.treeliable.server.FabricServer"
+    ],
+    "modmenu": [
+      "com.evandev.treeliable.compat.ModMenuIntegration"
+    ]
+  },
+  "mixins": [
+    "${mod_id}.mixins.json",
+    "${mod_id}.fabric.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}",
+    "java": ">=21"
+  }
+}

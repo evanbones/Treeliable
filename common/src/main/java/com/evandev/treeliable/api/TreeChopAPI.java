@@ -1,0 +1,132 @@
+package com.evandev.treeliable.api;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.state.BlockState;
+
+public interface TreeChopAPI {
+    /**
+     * Changes whether the specified block can be chopped. Overrides the Treeliable configuration files. See {@link
+     * #isBlockChoppable}
+     *
+     * @param isChoppable set to {@code true} to mark {@code block} as choppable
+     */
+    void overrideChoppableBlock(Block block, boolean isChoppable);
+
+    /**
+     * Changes whether the specified block is considered leaves. Overrides the Treeliable configuration files. See {@link
+     * #isBlockLeaves}
+     *
+     * @param isLeaves set to {@code true} to mark {@code block} as leaves
+     */
+    void overrideLeavesBlock(Block block, boolean isLeaves);
+
+    /**
+     * Changes whether chopping is allowed for players holding the specified item in their main hand.
+     *
+     * @param canChop set to {@code true} to allow chopping for {@code item}
+     */
+    void overrideChoppingItem(Item item, boolean canChop);
+
+    /**
+     * Changes Treeliable-related behaviors for a specified block. This <b>only</b> works for blocks that have the
+     * appropriate block tags to be considered choppable or leaveslike (see
+     * <a href="https://github.com/hammertater/treechop/wiki/Adding-compatibility-with-TreeChop">the wiki</a>).
+     * <p>
+     * <b>Log behaviors</b> - See {@link ISimpleChoppableBlock} for a default handler
+     * implementation. For more advanced control, see {@link IChoppableBlock}, {@link IFellableBlock}, {@link
+     * IStrippableBlock}, {@link ICylinderBlock}, and {@link ITreeBlock}.
+     * <p>
+     * <b>Leaves behaviors</b> - See {@link ILeaveslikeBlock}.
+     */
+    void registerBlockBehavior(Block block, ITreeChopBlockBehavior handler);
+
+    /**
+     * Removes a registered block handler.
+     */
+    boolean deregisterBlockBehavior(Block block);
+
+    /**
+     * Retrieves a registered block handler.
+     *
+     * @return {@code null} if no handler is registered for {@code block}
+     */
+    ITreeChopBlockBehavior getRegisteredBlockBehavior(Block block);
+
+    /**
+     * Changes chopping behaviors while holding a specified item.
+     */
+    void registerChoppingItemBehavior(Item item, IChoppingItem handler);
+
+    /**
+     * Removes a registered item handler.
+     */
+    boolean deregisterChoppingItemBehavior(Item item);
+
+    /**
+     * Retrieves a registered item handler.
+     *
+     * @return {@code null} if no handler is registered for {@code item}
+     */
+    IChoppingItem getRegisteredChoppingItemBehavior(Item item);
+
+    /**
+     * Using default config settings, block states with the {@link LeavesBlock#PERSISTENT} property set to {@code true}
+     * are not considered leaves, and connected leaves are automatically broken when a tree is felled.
+     *
+     * @return {@code true} if Treeliable treats the block as leaves.
+     */
+    boolean isBlockLeaves(Level level, BlockPos pos, BlockState blockState);
+
+    /**
+     * Using default config settings, all logs and mushroom stems should be choppable, as well as any blocks that
+     * implement {@link IChoppableBlock}, have a registered handler (see {@link #registerBlockBehavior}), or
+     * have been made choppable using {@link #overrideChoppableBlock}.
+     * <p>
+     * Even if a block is choppable, a player may still choose not to chop it if, for example, it does not have
+     * connected leaves.
+     *
+     * @return {@code true} if the block can be chopped.
+     */
+    boolean isBlockChoppable(Level level, BlockPos pos, BlockState blockState);
+
+    /**
+     * Items can be blacklisted or whitelisted from chopping using the mod configuration files. Alternatively, items can
+     * implement {@link IChoppingItem} for more advanced control over chopping.
+     *
+     * @return true {@code true} if the player may chop the block by breaking it with the item.
+     */
+    boolean canChopWithItem(Player player, ItemStack stack, Level level, BlockPos pos, BlockState blockState);
+
+    /**
+     * Retrieves information about a tree with its origin at {@code pos}. The "base" of the tree is formed by {@code pos} and any connected {@code treechop:chopped_log} blocks, and the "tree" consists of this base and any log blocks that are supported by it. For most trees, this means that unchopped blocks below {@code pos} are *not* part of the tree.
+     * <p>
+     * Currently, no caching is performed. Every call produces a new {@link TreeData} instance. This may change in the future.
+     * <p>
+     * Fires a tree detection event.
+     * @param level
+     * @param pos
+     * @return Always returns a {@link TreeData}, but it may be empty if {@code pos} is not part of a tree. Use {@link TreeData#isAProperTree(boolean)} to check whether it is a valid tree (e.g., connected to leaves) according to the {@code treechop-common.toml} configuration.
+     */
+    TreeData getTree(Level level, BlockPos pos);
+
+    /**
+     * @deprecated Use {@link TreeChopAPI#registerBlockBehavior} instead.
+     */
+    @Deprecated void registerChoppableBlockBehavior(Block block, ITreeChopBlockBehavior handler);
+
+    /**
+     * @deprecated Use {@link TreeChopAPI#deregisterBlockBehavior} instead.
+     */
+    @Deprecated boolean deregisterChoppableBlockBehavior(Block block);
+
+    /**
+     * @deprecated Use {@link TreeChopAPI#getRegisteredBlockBehavior} instead.
+     */
+    @Deprecated ITreeChopBlockBehavior getRegisteredChoppableBlockBehavior(Block block);
+}
