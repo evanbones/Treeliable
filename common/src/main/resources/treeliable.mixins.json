@@ -8,8 +8,7 @@
     "BlockStateMixin"
   ],
   "client": [
-    "MultiPlayerGameModeMixin",
-    "GuiMixin"
+    "MultiPlayerGameModeMixin"
   ],
   "server": [],
   "injectors": {

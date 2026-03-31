@@ -146,7 +146,7 @@ public class FellTreeResult implements ChopResult {
                 }
 
                 if (ModConfig.get().delayFellingLayers) {
-                    FellQueue.addTask(layeredActions, ModConfig.get().fellingLayerDelayTicks);
+                    FellQueue.addTask(layeredActions, ModConfig.get().fellingLayerDelayTicks, ModConfig.get().exponentialFellingSpeedup);
                 } else {
                     for (List<Runnable> layer : layeredActions.values()) {
                         for (Runnable action : layer) {

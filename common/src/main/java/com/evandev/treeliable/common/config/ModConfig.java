@@ -40,10 +40,14 @@ public class ModConfig {
     public boolean treesMustHaveLeaves = true;
     @SerializedName("chop_in_creative_mode")
     public boolean chopInCreativeMode = false;
+    @SerializedName("hytale_like_felling")
+    public boolean hytaleLikeFelling = false;
     @SerializedName("delay_felling_layers")
     public boolean delayFellingLayers = true;
     @SerializedName("felling_layer_delay_ticks")
     public int fellingLayerDelayTicks = 2;
+    @SerializedName("exponential_felling_speedup")
+    public boolean exponentialFellingSpeedup = false;
 
     @SerializedName("max_tree_blocks")
     public int maxTreeBlocks = 1024;
@@ -92,12 +96,6 @@ public class ModConfig {
     @SerializedName("silentgear_saw_chops")
     public int silentGearSawChops = 5;
 
-    @SerializedName("show_chopping_indicators")
-    public boolean showChoppingIndicators = true;
-    @SerializedName("indicator_x_offset")
-    public int indicatorXOffset = 16;
-    @SerializedName("indicator_y_offset")
-    public int indicatorYOffset = 0;
     @SerializedName("show_feedback_messages")
     public boolean showFeedbackMessages = true;
     @SerializedName("verbose_api")

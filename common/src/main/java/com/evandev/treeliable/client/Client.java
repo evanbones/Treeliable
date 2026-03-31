@@ -43,15 +43,6 @@ public abstract class Client {
         return chopSettings;
     }
 
-    public static void setChoppingIndicatorVisibility(boolean showChoppingIndicator) {
-        ModConfig.get().showChoppingIndicators = showChoppingIndicator;
-        ModConfig.save();
-    }
-
-    public static boolean isChoppingIndicatorEnabled() {
-        return ModConfig.get().showChoppingIndicators;
-    }
-
     public static void updatePermissions(Permissions permissions) {
         serverPermissions.copy(permissions);
     }

@@ -1,9 +1,13 @@
 package com.evandev.treeliable.client;
 
+import com.evandev.treeliable.TreeliableException;
 import com.evandev.treeliable.api.TreeData;
-import com.evandev.treeliable.client.gui.screen.ChopIndicator;
+import com.evandev.treeliable.client.settings.ClientChopSettings;
 import com.evandev.treeliable.common.chop.ChopUtil;
+import com.evandev.treeliable.common.config.ModConfig;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 
@@ -15,6 +19,7 @@ public class SpiderwebVisualizer {
     private static BlockPos lastTarget = null;
 
     public static void update(Minecraft minecraft, boolean isDestroying, BlockPos targetPos, float progress) {
+        if (ModConfig.get().hytaleLikeFelling) return;
         Level level = minecraft.level;
         if (level == null || minecraft.player == null) return;
 
@@ -27,7 +32,7 @@ public class SpiderwebVisualizer {
         if (targetPos == null) return;
 
         try {
-            if (ChopUtil.playerWantsToChop(minecraft.player, Client.getChopSettings()) && ChopIndicator.blockCanBeChopped(targetPos)) {
+            if (ChopUtil.playerWantsToChop(minecraft.player, Client.getChopSettings()) && blockCanBeChopped(targetPos)) {
                 TreeData tree = Client.treeCache.getTree(level, targetPos);
 
                 Set<BlockPos> layer = new HashSet<>();
@@ -63,6 +68,32 @@ public class SpiderwebVisualizer {
             }
         } catch (Exception ignored) {
 
+        }
+    }
+
+    public static boolean blockCanBeChopped(BlockPos pos) throws TreeliableException {
+        Minecraft minecraft = Minecraft.getInstance();
+        LocalPlayer player = minecraft.player;
+        ClientLevel level = minecraft.level;
+        ClientChopSettings chopSettings = Client.getChopSettings();
+
+        if (player == null || level == null) {
+            return false;
+        }
+
+        boolean wantToChop = ChopUtil.canChopWithTool(player, level, pos) && ChopUtil.playerWantsToChop(minecraft.player, chopSettings);
+        if (wantToChop) {
+            return isAProperTree(pos, level, chopSettings);
+        }
+
+        return false;
+    }
+
+    private static boolean isAProperTree(BlockPos pos, ClientLevel level, ClientChopSettings chopSettings) throws TreeliableException {
+        try {
+            return Client.treeCache.getTree(level, pos).isAProperTree(chopSettings.getTreesMustHaveLeaves());
+        } catch (Exception e) {
+            throw new TreeliableException(String.format("Parameters: %s, %s, %s", pos, level, chopSettings), e);
         }
     }
 

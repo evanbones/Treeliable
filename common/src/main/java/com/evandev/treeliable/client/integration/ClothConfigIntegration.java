@@ -38,6 +38,9 @@ public class ClothConfigIntegration {
         general.addEntry(eb.startBooleanToggle(Component.translatable("treeliable.config.chop_in_creative_mode"), config.chopInCreativeMode)
                 .setTooltip(Component.translatable("treeliable.config.chop_in_creative_mode.tooltip"))
                 .setDefaultValue(false).setSaveConsumer(v -> config.chopInCreativeMode = v).build());
+        general.addEntry(eb.startBooleanToggle(Component.translatable("treeliable.config.hytale_like_felling"), config.hytaleLikeFelling)
+                .setTooltip(Component.translatable("treeliable.config.hytale_like_felling.tooltip"))
+                .setDefaultValue(false).setSaveConsumer(v -> config.hytaleLikeFelling = v).build());
         general.addEntry(eb.startBooleanToggle(Component.translatable("treeliable.config.drop_loot_for_chopped_blocks"), config.dropLootForChoppedBlocks)
                 .setTooltip(Component.translatable("treeliable.config.drop_loot_for_chopped_blocks.tooltip"))
                 .setDefaultValue(true).setSaveConsumer(v -> config.dropLootForChoppedBlocks = v).build());
@@ -107,21 +110,15 @@ public class ClothConfigIntegration {
 
         ConfigCategory visuals = builder.getOrCreateCategory(Component.translatable("treeliable.config.category.visuals"));
 
-        visuals.addEntry(eb.startBooleanToggle(Component.translatable("treeliable.config.show_chopping_indicators"), config.showChoppingIndicators)
-                .setTooltip(Component.translatable("treeliable.config.show_chopping_indicators.tooltip"))
-                .setDefaultValue(true).setSaveConsumer(v -> config.showChoppingIndicators = v).build());
-        visuals.addEntry(eb.startIntField(Component.translatable("treeliable.config.indicator_x_offset"), config.indicatorXOffset)
-                .setTooltip(Component.translatable("treeliable.config.indicator_x_offset.tooltip"))
-                .setDefaultValue(16).setSaveConsumer(v -> config.indicatorXOffset = v).build());
-        visuals.addEntry(eb.startIntField(Component.translatable("treeliable.config.indicator_y_offset"), config.indicatorYOffset)
-                .setTooltip(Component.translatable("treeliable.config.indicator_y_offset.tooltip"))
-                .setDefaultValue(0).setSaveConsumer(v -> config.indicatorYOffset = v).build());
         visuals.addEntry(eb.startBooleanToggle(Component.translatable("treeliable.config.delay_felling_layers"), config.delayFellingLayers)
                 .setTooltip(Component.translatable("treeliable.config.delay_felling_layers.tooltip"))
                 .setDefaultValue(true).setSaveConsumer(v -> config.delayFellingLayers = v).build());
         visuals.addEntry(eb.startIntField(Component.translatable("treeliable.config.felling_layer_delay_ticks"), config.fellingLayerDelayTicks)
                 .setTooltip(Component.translatable("treeliable.config.felling_layer_delay_ticks.tooltip"))
                 .setDefaultValue(2).setSaveConsumer(v -> config.fellingLayerDelayTicks = v).build());
+        visuals.addEntry(eb.startBooleanToggle(Component.translatable("treeliable.config.exponential_felling_speedup"), config.exponentialFellingSpeedup)
+                .setTooltip(Component.translatable("treeliable.config.exponential_felling_speedup.tooltip"))
+                .setDefaultValue(false).setSaveConsumer(v -> config.exponentialFellingSpeedup = v).build());
         visuals.addEntry(eb.startBooleanToggle(Component.translatable("treeliable.config.show_feedback_messages"), config.showFeedbackMessages)
                 .setTooltip(Component.translatable("treeliable.config.show_feedback_messages.tooltip"))
                 .setDefaultValue(true).setSaveConsumer(v -> config.showFeedbackMessages = v).build());

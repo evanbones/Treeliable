@@ -3,6 +3,7 @@ package com.evandev.treeliable.mixin;
 import com.evandev.treeliable.api.TreeData;
 import com.evandev.treeliable.client.Client;
 import com.evandev.treeliable.common.chop.ChopUtil;
+import com.evandev.treeliable.common.config.ModConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
@@ -29,6 +30,10 @@ public abstract class BlockStateMixin {
             TreeData tree = Client.treeCache.getTree(level, pos);
 
             if (tree != null && tree.isAProperTree(true)) {
+                if (ModConfig.get().hytaleLikeFelling) {
+                    return;
+                }
+
                 int chopsNeeded = tree.numChopsNeededToFell();
                 int toolChops = ChopUtil.getNumChopsByTool(player.getMainHandItem(), state);
 

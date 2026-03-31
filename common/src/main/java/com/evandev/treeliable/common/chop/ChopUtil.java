@@ -88,6 +88,15 @@ public class ChopUtil {
             return ChopResult.IGNORED;
         }
 
+        if (ModConfig.get().hytaleLikeFelling) {
+            boolean hasOtherLogsInLayer = tree.getLogBlocks().stream()
+                    .anyMatch(p -> p.getY() == origin.getY() && !p.equals(origin));
+
+            if (hasOtherLogsInLayer) {
+                return ChopResult.IGNORED;
+            }
+        }
+
         return new FellTreeResult(level, tree, breakLeaves);
     }
 
