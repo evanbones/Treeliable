@@ -120,13 +120,13 @@ public abstract class ResourceIdentifier {
 
     public Optional<String> getQualifier(String key) {
         return qualifiers.stream()
-                .filter(qualifier -> qualifier.getKey().equals(key))
-                .map(IdentifierQualifier::getValue)
+                .filter(qualifier -> qualifier.key().equals(key))
+                .map(IdentifierQualifier::value)
                 .findFirst();
     }
 
     public boolean hasQualifier(String key) {
         return qualifiers.stream()
-                .anyMatch(qualifier -> qualifier.getKey().equals(key));
+                .anyMatch(qualifier -> qualifier.key().equals(key));
     }
 }

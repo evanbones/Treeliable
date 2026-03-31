@@ -1,15 +1,11 @@
 {
   "treeliable.codec.bad_value": "SOMETHING WENT WRONG",
   "treeliable.key.cycle_sneak_behavior": "Cycle Sneak Behavior",
-  "treeliable.key.open_settings_overlay": "Open Settings Overlay",
   "treeliable.key.toggle_chopping": "Toggle Chopping",
   "treeliable.key.toggle_felling": "Toggle Felling",
   "treeliable.sneak_behavior.invert_chopping": "INVERT CHOPPING",
   "treeliable.sneak_behavior.invert_felling": "INVERT FELLING",
   "treeliable.sneak_behavior.none": "NONE",
-  "treeliable.subtitles.block_chopped": "Block chopped",
-  "treeliable.waila.x_out_of_y_chops": "%d/%d chops",
-  "treeliable.waila.chopped_x": "Chopped %s",
 
   "treeliable.config.title": "Treeliable Config",
 

@@ -14,7 +14,21 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 public class ClassUtil {
-    // TODO: get rid of this vile hackery. Build block(state) lists instead of type checking.
+
+    /**
+     * Helper method to reduce type-checking and registry lookups.
+     */
+    @Nullable
+    private static <T> T getBehavior(Block block, Class<T> clazz) {
+        if (clazz.isInstance(block)) {
+            return clazz.cast(block);
+        }
+        ITreeliableBlockBehavior behavior = Treeliable.api.getRegisteredBlockBehavior(block);
+        if (clazz.isInstance(behavior)) {
+            return clazz.cast(behavior);
+        }
+        return null;
+    }
 
     @Nullable
     public static IChoppableBlock getChoppableBlock(BlockGetter level, BlockPos blockPos, BlockState blockState) {
@@ -26,11 +40,12 @@ public class ClassUtil {
 
     @Nullable
     public static IChoppableBlock getChoppableBlockUnchecked(Block block) {
-        if (block instanceof IChoppableBlock choppableBlock) {
-            return choppableBlock;
-        } else if (Treeliable.api.getRegisteredChoppableBlockBehavior(block) instanceof IChoppableBlock choppableBlock) {
-            return choppableBlock;
-        } else if (ModConfig.get().choppableBlocksCache.get().contains(block)) {
+        IChoppableBlock behavior = getBehavior(block, IChoppableBlock.class);
+        if (behavior != null) {
+            return behavior;
+        }
+
+        if (ModConfig.get().choppableBlocksCache.get().contains(block)) {
             return new IChoppableBlock() {
                 @Override
                 public void chop(Player player, ItemStack tool, Level level, BlockPos pos, BlockState blockState, int numChops, boolean felling) {
@@ -49,60 +64,36 @@ public class ClassUtil {
                     return 1;
                 }
             };
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     @Nullable
     public static IFellableBlock getFellableBlock(Block block) {
-        if (block instanceof IFellableBlock fellableBlock) {
-            return fellableBlock;
-        } else if (Treeliable.api.getRegisteredChoppableBlockBehavior(block) instanceof IFellableBlock fellableBlock) {
-            return fellableBlock;
-        } else {
-            return null;
-        }
+        return getBehavior(block, IFellableBlock.class);
     }
 
     @Nullable
     public static IThwackableBlock getThwackableBlock(Block block) {
-        if (block instanceof IThwackableBlock thwackableBlock) {
-            return thwackableBlock;
-        } else if (Treeliable.api.getRegisteredChoppableBlockBehavior(block) instanceof IThwackableBlock thwackableBlock) {
-            return thwackableBlock;
-        } else {
-            return null;
-        }
+        return getBehavior(block, IThwackableBlock.class);
     }
 
     @Nullable
     public static ITreeBlock getTreeBlock(Block block) {
-        if (block instanceof ITreeBlock treeBlock) {
-            return treeBlock;
-        } else if (Treeliable.api.getRegisteredChoppableBlockBehavior(block) instanceof ITreeBlock treeBlock) {
-            return treeBlock;
-        } else {
-            return null;
-        }
+        return getBehavior(block, ITreeBlock.class);
     }
 
     @Nullable
     public static ILeaveslikeBlock getLeaveslikeBlock(Block block) {
-        if (block instanceof ILeaveslikeBlock leaveslikeBlock) {
-            return leaveslikeBlock;
-        } else if (Treeliable.api.getRegisteredBlockBehavior(block) instanceof ILeaveslikeBlock leaveslikeBlock) {
-            return leaveslikeBlock;
-        } else {
-            return null;
-        }
+        return getBehavior(block, ILeaveslikeBlock.class);
     }
 
+    @Nullable
     public static IChoppingItem getChoppingItem(Item item) {
         if (item instanceof IChoppingItem choppingItem) {
             return choppingItem;
-        } else {
-            return Treeliable.api.getRegisteredChoppingItemBehavior(item);
         }
+        return Treeliable.api.getRegisteredChoppingItemBehavior(item);
     }
 }

@@ -13,8 +13,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
 public class EntityChopSettingsMixin implements ChoppingEntity {
-    private SyncedChopData chopSettings;
     private final String KEY = "treeliable:chopSettings";
+    private SyncedChopData chopSettings;
 
     @Override
     public SyncedChopData getChopData() {
@@ -22,9 +22,8 @@ public class EntityChopSettingsMixin implements ChoppingEntity {
     }
 
     @Override
-    public SyncedChopData setChopData(SyncedChopData chopSettings) {
+    public void setChopData(SyncedChopData chopSettings) {
         this.chopSettings = chopSettings;
-        return chopSettings;
     }
 
     @Inject(method = "saveWithoutId", at = @At("HEAD"))

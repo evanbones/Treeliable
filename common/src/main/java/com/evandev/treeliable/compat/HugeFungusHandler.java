@@ -1,9 +1,9 @@
 package com.evandev.treeliable.compat;
 
 import com.evandev.treeliable.api.ITreeBlock;
-import com.evandev.treeliable.api.TreeliableAPI;
 import com.evandev.treeliable.api.TreeData;
 import com.evandev.treeliable.api.TreeDetectorBuilder;
+import com.evandev.treeliable.api.TreeliableAPI;
 import com.evandev.treeliable.common.config.Lazy;
 import com.evandev.treeliable.common.config.ModConfig;
 import net.minecraft.core.BlockPos;

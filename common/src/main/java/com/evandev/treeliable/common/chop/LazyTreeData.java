@@ -3,12 +3,12 @@ package com.evandev.treeliable.common.chop;
 import com.evandev.treeliable.api.AbstractTreeData;
 import com.evandev.treeliable.api.IChoppableBlock;
 import com.evandev.treeliable.common.config.ModConfig;
+import com.evandev.treeliable.common.math.graph.DirectedGraph;
+import com.evandev.treeliable.common.math.graph.FloodFill;
+import com.evandev.treeliable.common.math.graph.FloodFillImpl;
+import com.evandev.treeliable.common.math.graph.GraphUtil;
 import com.evandev.treeliable.common.util.BlockNeighbors;
 import com.evandev.treeliable.common.util.ClassUtil;
-import ht.tuber.graph.DirectedGraph;
-import ht.tuber.graph.FloodFill;
-import ht.tuber.graph.FloodFillImpl;
-import ht.tuber.graph.GraphUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.world.level.Level;
@@ -28,26 +28,11 @@ public class LazyTreeData extends AbstractTreeData {
     private final int chops;
     private final boolean smartDetection;
     private final int maxLeavesDistance;
-    private final Set<BlockPos> leaves = new HashSet<>() {
-        @Override
-        public boolean add(BlockPos blockPos) {
-            return super.add(blockPos);
-        }
-    };
+    private final Set<BlockPos> leaves = new HashSet<>();
     private final DirectedGraph<BlockPos> logsWorld;
     private final DirectedGraph<BlockPos> leavesWorld;
+    private final Set<BlockPos> logs = new HashSet<>();
     private double mass = 0;
-    private boolean overrideLeaves = false;
-    private Set<BlockPos> logs = new HashSet<>() {
-        @Override
-        public boolean add(BlockPos blockPos) {
-            if (super.add(blockPos)) {
-                mass += ChopUtil.getSupportFactor(level, blockPos);
-                return true;
-            }
-            return false;
-        }
-    };
     private LogFinder logFinder;
     private Set<BlockPos> base;
 
@@ -68,7 +53,12 @@ public class LazyTreeData extends AbstractTreeData {
         );
 
         makeTreeBase(level, origin);
-        logs.addAll(base);
+
+        // Populate base logs and calculate initial mass
+        for (BlockPos pos : base) {
+            gatherLog(pos);
+        }
+
         this.chops = base.stream().map(pos -> ChopUtil.getNumChops(level, pos)).reduce(Integer::sum).orElse(0);
 
         logFinder = new LogFinder(logsWorld, base, maxNumLogs);
@@ -107,7 +97,9 @@ public class LazyTreeData extends AbstractTreeData {
     }
 
     private boolean gatherLog(BlockPos pos) {
-        logs.add(pos);
+        if (logs.add(pos)) {
+            mass += ChopUtil.getSupportFactor(level, pos);
+        }
         return true;
     }
 
@@ -120,23 +112,10 @@ public class LazyTreeData extends AbstractTreeData {
 
     @Override
     public boolean hasLeaves() {
-        if (overrideLeaves || !leaves.isEmpty()) {
+        if (!leaves.isEmpty()) {
             return true;
-        } else {
-            return logFinder.find().anyMatch(p -> !leaves.isEmpty() || overrideLeaves);
         }
-    }
-
-    @Override
-    public void setLogBlocks(Set<BlockPos> logBlocks) {
-        logs = logBlocks;
-        mass = ChopUtil.getSupportFactor(level, logs.stream()).orElse(1.0);
-        logFinder = new LogFinder(a -> Stream.empty(), Collections.emptySet(), 0);
-    }
-
-    @Override
-    public void setLeaves(boolean hasLeaves) {
-        overrideLeaves = hasLeaves;
+        return logFinder.find().anyMatch(p -> !leaves.isEmpty());
     }
 
     @Override
@@ -147,9 +126,7 @@ public class LazyTreeData extends AbstractTreeData {
     @Override
     public Stream<BlockPos> streamLeaves() {
         List<BlockPos> allLeaves = new LinkedList<>();
-
-        forEachLeaves(leaves, allLeaves::add); // TODO: yikes; defeats the purpose of streaming
-
+        forEachLeaves(leaves, allLeaves::add);
         return allLeaves.stream();
     }
 

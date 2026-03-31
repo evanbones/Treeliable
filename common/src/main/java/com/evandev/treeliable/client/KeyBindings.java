@@ -1,7 +1,7 @@
 package com.evandev.treeliable.client;
 
-import com.mojang.blaze3d.platform.InputConstants;
 import com.evandev.treeliable.Treeliable;
+import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class KeyBindings {
-    public static final String CATEGORY = "HT's Treeliable";
+    public static final String CATEGORY = "Treeliable";
 
     public static final List<ActionableKeyBinding> allKeyBindings = new LinkedList<>();
 
@@ -20,7 +20,7 @@ public class KeyBindings {
         registerKeyBinding("cycle_sneak_behavior", InputConstants.UNKNOWN, Client::cycleSneakBehavior, register);
     }
 
-    private static ActionableKeyBinding registerKeyBinding(String name, InputConstants.Key defaultKey, Runnable callback, Consumer<KeyMapping> register) {
+    private static void registerKeyBinding(String name, InputConstants.Key defaultKey, Runnable callback, Consumer<KeyMapping> register) {
         ActionableKeyBinding keyBinding = new ActionableKeyBinding(
                 String.format("%s.key.%s", Treeliable.MOD_ID, name),
                 defaultKey,
@@ -29,8 +29,6 @@ public class KeyBindings {
         register.accept(keyBinding);
 
         allKeyBindings.add(keyBinding);
-
-        return keyBinding;
     }
 
     public static class ActionableKeyBinding extends KeyMapping {
@@ -50,6 +48,5 @@ public class KeyBindings {
         public void onPress() {
             callback.run();
         }
-
     }
 }

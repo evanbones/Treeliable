@@ -2,8 +2,8 @@ package com.evandev.treeliable;
 
 import com.evandev.treeliable.api.IChoppingItem;
 import com.evandev.treeliable.api.ITreeliableBlockBehavior;
-import com.evandev.treeliable.api.TreeliableAPI;
 import com.evandev.treeliable.api.TreeData;
+import com.evandev.treeliable.api.TreeliableAPI;
 import com.evandev.treeliable.common.chop.ChopUtil;
 import com.evandev.treeliable.common.config.ModConfig;
 import com.evandev.treeliable.platform.Services;
@@ -100,21 +100,6 @@ public class TreeliableInternalAPI implements TreeliableAPI {
     @Override
     public ITreeliableBlockBehavior getRegisteredBlockBehavior(Block block) {
         return blockBehaviors.get(block);
-    }
-
-    @Override
-    public void registerChoppableBlockBehavior(Block block, ITreeliableBlockBehavior handler) {
-        registerBlockBehavior(block, handler);
-    }
-
-    @Override
-    public boolean deregisterChoppableBlockBehavior(Block block) {
-        return deregisterBlockBehavior(block);
-    }
-
-    @Override
-    public ITreeliableBlockBehavior getRegisteredChoppableBlockBehavior(Block block) {
-        return getRegisteredBlockBehavior(block);
     }
 
     @Override

@@ -79,9 +79,9 @@ abstract public class ChopEvent extends Event {
     /**
      * Used to determine whether a choppable block belongs to a tree. For example,
      * <ul>
-     *   <li> to trigger chopping when a choppable block is broken
-     *   <li> to activate the on-screen chop indicator when the player highlights a choppable block
-     *   <li> to add tree information to Jade/WTHIT/TheOneProbe/etc. popups
+     * <li> to trigger chopping when a choppable block is broken
+     * <li> to activate the on-screen chop indicator when the player highlights a choppable block
+     * <li> to add tree information to Jade/WTHIT/TheOneProbe/etc. popups
      * </ul>
      * Can be canceled to prevent tree detection. Note that detection events only trigger for blocks that are considered choppable (see {@link TreeliableAPI#isBlockChoppable}).
      */
@@ -91,11 +91,6 @@ abstract public class ChopEvent extends Event {
         public DetectTreeEvent(Level level, ServerPlayer player, BlockPos blockPos, BlockState blockState, TreeData treeData) {
             super(level, player, blockPos, blockState);
             this.treeData = treeData;
-        }
-
-        @Deprecated
-        public void overrideTreeHasLeaves(boolean hasLeaves) {
-            treeData.setLeaves(hasLeaves);
         }
 
         public Optional<TreeData> getTreeData() {
@@ -160,5 +155,4 @@ abstract public class ChopEvent extends Event {
             return felled;
         }
     }
-
 }

@@ -47,6 +47,8 @@ public class ChopIndicator {
                     int imageWidth = (int) (sprite.width * IMAGE_SCALE);
                     int imageHeight = (int) (sprite.height * IMAGE_SCALE);
 
+                    gui.setColor(1.0F, 1.0F, 1.0F, 0.5F);
+
                     sprite.blit(
                             gui,
                             indicatorCenterX - imageWidth / 2,
@@ -55,6 +57,8 @@ public class ChopIndicator {
                             imageHeight,
                             mirror
                     );
+
+                    gui.setColor(1.0F, 1.0F, 1.0F, 1.0F);
 
                     RenderSystem.disableBlend();
                 }

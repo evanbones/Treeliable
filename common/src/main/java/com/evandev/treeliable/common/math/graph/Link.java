@@ -1,4 +1,4 @@
-package ht.tuber.graph;
+package com.evandev.treeliable.common.math.graph;
 
 public class Link<T> {
     T node;

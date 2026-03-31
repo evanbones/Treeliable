@@ -24,10 +24,7 @@ import net.neoforged.neoforge.common.NeoForge;
 
 import java.nio.file.Path;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
-import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 public class NeoForgePlatformHelper implements IPlatformHelper {
@@ -75,14 +72,6 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
         treeData = event.getTreeData().orElse(null);
         if (event.isCanceled() || treeData == null) {
             return new AbstractTreeData() {
-                @Override
-                public void setLogBlocks(Set<BlockPos> logBlocks) {
-                }
-
-                @Override
-                public void setLeaves(boolean hasLeaves) {
-                }
-
                 @Override
                 public int getChops() {
                     return 0;

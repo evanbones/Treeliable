@@ -76,14 +76,6 @@ public final class TreeliableEvents {
                             }
 
                             @Override
-                            public void setLogBlocks(Set<BlockPos> logBlocks) {
-                            }
-
-                            @Override
-                            public void setLeaves(boolean hasLeaves) {
-                            }
-
-                            @Override
                             public int getChops() {
                                 return 0;
                             }
@@ -180,9 +172,9 @@ public final class TreeliableEvents {
         /**
          * Used to determine what tree a block belongs to. This is used to:
          * <ul>
-         *   <li> trigger chopping when a choppable block is broken
-         *   <li> activate the on-screen chop indicator when the player highlights a choppable block
-         *   <li> add tree information to Jade/WTHIT/TheOneProbe/etc. popups
+         * <li> trigger chopping when a choppable block is broken
+         * <li> activate the on-screen chop indicator when the player highlights a choppable block
+         * <li> add tree information to Jade/WTHIT/TheOneProbe/etc. popups
          * </ul>
          * Note that detection events only trigger for blocks that are considered choppable (see {@link TreeliableAPI#isBlockChoppable}).
          *

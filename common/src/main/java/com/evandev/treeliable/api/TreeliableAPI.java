@@ -114,19 +114,4 @@ public interface TreeliableAPI {
      * @return Always returns a {@link TreeData}, but it may be empty if {@code pos} is not part of a tree. Use {@link TreeData#isAProperTree(boolean)} to check whether it is a valid tree (e.g., connected to leaves) according to the {@code treeliable-common.toml} configuration.
      */
     TreeData getTree(Level level, BlockPos pos);
-
-    /**
-     * @deprecated Use {@link TreeliableAPI#registerBlockBehavior} instead.
-     */
-    @Deprecated void registerChoppableBlockBehavior(Block block, ITreeliableBlockBehavior handler);
-
-    /**
-     * @deprecated Use {@link TreeliableAPI#deregisterBlockBehavior} instead.
-     */
-    @Deprecated boolean deregisterChoppableBlockBehavior(Block block);
-
-    /**
-     * @deprecated Use {@link TreeliableAPI#getRegisteredBlockBehavior} instead.
-     */
-    @Deprecated ITreeliableBlockBehavior getRegisteredChoppableBlockBehavior(Block block);
 }

@@ -1,4 +1,4 @@
-package ht.tuber.graph;
+package com.evandev.treeliable.common.math.graph;
 
 import java.util.*;
 import java.util.function.Consumer;

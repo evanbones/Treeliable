@@ -9,8 +9,6 @@ import java.util.stream.Stream;
 
 public class BlockNeighbors {
 
-    protected final BlockPos[] blocks;
-
     static public final BlockNeighbors UP = new BlockNeighbors(new BlockPos[]{
             new BlockPos(Direction.UP.getNormal())
     });
@@ -34,20 +32,15 @@ public class BlockNeighbors {
     ).toArray(BlockPos[]::new));
 
     static public final BlockNeighbors VERTICAL_ADJACENTS = join(UP, DOWN);
-
     static public final BlockNeighbors ADJACENTS = join(HORIZONTAL_ADJACENTS, VERTICAL_ADJACENTS);
-
     static public final BlockNeighbors HORIZONTAL = join(HORIZONTAL_ADJACENTS, HORIZONTAL_DIAGONALS);
-
     static public final BlockNeighbors ABOVE = join(UP, offset(new BlockPos(0, 1, 0), HORIZONTAL));
-
     static public final BlockNeighbors HORIZONTAL_AND_ABOVE = join(HORIZONTAL, ABOVE);
-
     static public final BlockNeighbors BELOW = join(DOWN, offset(new BlockPos(0, -1, 0), HORIZONTAL));
-
     static public final BlockNeighbors ADJACENTS_AND_DIAGONALS = join(ABOVE, HORIZONTAL, BELOW);
-
     static public final BlockNeighbors ADJACENTS_AND_BELOW = join(ADJACENTS, BELOW);
+
+    protected final BlockPos[] blocks;
 
     public BlockNeighbors(BlockPos[] blocks) {
         this.blocks = blocks;

@@ -3,14 +3,14 @@ package com.evandev.treeliable.common.settings;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.Entity;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.function.Predicate;
 
 public enum SneakBehavior implements StringRepresentable {
     NONE("treeliable.sneak_behavior.none", agent -> false, agent -> false),
-    INVERT_CHOPPING("treeliable.sneak_behavior.invert_chopping", Entity::isShiftKeyDown, agent -> false)
-    ;
+    INVERT_CHOPPING("treeliable.sneak_behavior.invert_chopping", Entity::isShiftKeyDown, agent -> false);
 
     public final static int maxNameLength = Arrays.stream(SneakBehavior.values()).map(SneakBehavior::name).map(String::length).max(Integer::compareTo).orElse(0);
 
@@ -33,7 +33,7 @@ public enum SneakBehavior implements StringRepresentable {
     }
 
     @Override
-    public String getSerializedName() {
+    public @NotNull String getSerializedName() {
         return name();
     }
 

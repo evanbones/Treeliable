@@ -24,30 +24,36 @@ public class ChopSettings {
         copyFrom(template);
     }
 
-    public boolean getChoppingEnabled() { return get(SettingsField.CHOPPING, Boolean.class); }
+    public boolean getChoppingEnabled() {
+        return get(SettingsField.CHOPPING, Boolean.class);
+    }
 
-    public SneakBehavior getSneakBehavior() { return get(SettingsField.SNEAK_BEHAVIOR, SneakBehavior.class); }
-    public boolean getTreesMustHaveLeaves() { return get(SettingsField.TREES_MUST_HAVE_LEAVES, Boolean.class); }
-    public boolean getChopInCreativeMode() { return get(SettingsField.CHOP_IN_CREATIVE_MODE, Boolean.class); }
-
-    public ChopSettings setChoppingEnabled(boolean enabled) {
+    public void setChoppingEnabled(boolean enabled) {
         set(SettingsField.CHOPPING, enabled);
-        return this;
     }
 
-    public ChopSettings setSneakBehavior(SneakBehavior behavior) {
+    public SneakBehavior getSneakBehavior() {
+        return get(SettingsField.SNEAK_BEHAVIOR, SneakBehavior.class);
+    }
+
+    public void setSneakBehavior(SneakBehavior behavior) {
         set(SettingsField.SNEAK_BEHAVIOR, behavior);
-        return this;
     }
 
-    public ChopSettings setTreesMustHaveLeaves(boolean enabled) {
+    public boolean getTreesMustHaveLeaves() {
+        return get(SettingsField.TREES_MUST_HAVE_LEAVES, Boolean.class);
+    }
+
+    public void setTreesMustHaveLeaves(boolean enabled) {
         set(SettingsField.TREES_MUST_HAVE_LEAVES, enabled);
-        return this;
     }
 
-    public ChopSettings setChopInCreativeMode(boolean enabled) {
+    public boolean getChopInCreativeMode() {
+        return get(SettingsField.CHOP_IN_CREATIVE_MODE, Boolean.class);
+    }
+
+    public void setChopInCreativeMode(boolean enabled) {
         set(SettingsField.CHOP_IN_CREATIVE_MODE, enabled);
-        return this;
     }
 
     @Override
@@ -62,9 +68,8 @@ public class ChopSettings {
         }
     }
 
-    public ChopSettings copyFrom(ChopSettings other) {
+    public void copyFrom(ChopSettings other) {
         fieldValues.putAll(other.fieldValues);
-        return this;
     }
 
     public <T> T get(SettingsField field, Class<T> type) {
@@ -94,7 +99,7 @@ public class ChopSettings {
         if (field.getDefaultValue().getClass().isInstance(value)) {
             fieldValues.put(field, value);
         } else {
-            Treeliable.LOGGER.warn(String.format("Refusing to set setting %s to illegal value %s (%s)", field, value, value.getClass()));
+            Treeliable.LOGGER.warn("Refusing to set setting {} to illegal value {} ({})", field, value, value.getClass());
         }
         return this;
     }

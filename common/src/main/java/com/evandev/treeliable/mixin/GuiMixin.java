@@ -1,9 +1,9 @@
 package com.evandev.treeliable.mixin;
 
-import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.gui.GuiGraphics;
 import com.evandev.treeliable.client.gui.screen.ChopIndicator;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

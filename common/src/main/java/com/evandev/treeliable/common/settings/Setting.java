@@ -18,6 +18,10 @@ public class Setting {
         this.value = value;
     }
 
+    public static Setting decode(FriendlyByteBuf buffer) {
+        return SettingsField.decode(buffer);
+    }
+
     public SettingsField getField() {
         return field;
     }
@@ -38,18 +42,14 @@ public class Setting {
         field.encode(buffer, value);
     }
 
-    public static Setting decode(FriendlyByteBuf buffer) {
-        return SettingsField.decode(buffer);
-    }
-
     @Override
     public boolean equals(Object other) {
         if (other == this) {
             return true;
-        } if (!(other instanceof Setting)) {
+        }
+        if (!(other instanceof Setting otherSetting)) {
             return false;
         } else {
-            Setting otherSetting = (Setting) other;
             return field == otherSetting.field && value.equals(otherSetting.value);
         }
     }

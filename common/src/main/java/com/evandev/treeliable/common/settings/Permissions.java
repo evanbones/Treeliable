@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class Permissions {
 
-    private Set<Setting> permittedSettings = new HashSet<>();
+    private final Set<Setting> permittedSettings = new HashSet<>();
 
     public Permissions() {
     }

@@ -1,14 +1,14 @@
 package com.evandev.treeliable.common.config;
 
 import net.minecraft.util.StringRepresentable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
 
 public enum Rounder implements StringRepresentable {
     DOWN(value -> (int) Math.floor(value)),
     NEAREST(value -> (int) Math.round(value)),
-    UP(value -> (int) Math.ceil(value))
-    ;
+    UP(value -> (int) Math.ceil(value));
 
     private final Function<Double, Integer> transformation;
 
@@ -21,7 +21,7 @@ public enum Rounder implements StringRepresentable {
     }
 
     @Override
-    public String getSerializedName() {
+    public @NotNull String getSerializedName() {
         return name();
     }
 }
