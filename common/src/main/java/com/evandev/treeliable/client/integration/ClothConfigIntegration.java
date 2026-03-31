@@ -122,6 +122,9 @@ public class ClothConfigIntegration {
         visuals.addEntry(eb.startBooleanToggle(Component.translatable("treeliable.config.verbose_api"), config.verboseAPI)
                 .setTooltip(Component.translatable("treeliable.config.verbose_api.tooltip"))
                 .setDefaultValue(false).setSaveConsumer(v -> config.verboseAPI = v).build());
+        visuals.addEntry(eb.startBooleanToggle(Component.translatable("treeliable.config.suppress_vanilla_leaf_sounds_on_fell"), config.suppressVanillaLeafSoundsOnFell)
+                .setTooltip(Component.translatable("treeliable.config.suppress_vanilla_leaf_sounds_on_fell.tooltip"))
+                .setDefaultValue(true).setSaveConsumer(v -> config.suppressVanillaLeafSoundsOnFell = v).build());
 
         ConfigCategory compat = builder.getOrCreateCategory(Component.translatable("treeliable.config.category.compat"));
 

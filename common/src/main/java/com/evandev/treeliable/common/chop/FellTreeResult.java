@@ -112,9 +112,11 @@ public class FellTreeResult implements ChopResult {
 
         tree.forEachLeaves(leavesBreaker);
 
-        effects.stream()
-                .limit(maxNumEffects)
-                .forEach(posState -> playBlockBreakEffects(level, posState.getLeft(), posState.getRight()));
+        if (!ModConfig.get().suppressVanillaLeafSoundsOnFell) {
+            effects.stream()
+                    .limit(maxNumEffects)
+                    .forEach(posState -> playBlockBreakEffects(level, posState.getLeft(), posState.getRight()));
+        }
     }
 
     private static void collectSomeBlocks(Queue<Pair<BlockPos, BlockState>> collection, BlockPos pos, BlockState state, AtomicInteger counter, int period) {

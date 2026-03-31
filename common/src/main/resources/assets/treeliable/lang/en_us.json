@@ -77,6 +77,8 @@
   "treeliable.config.show_feedback_messages.tooltip": "Show chat messages when toggling in-game settings.",
   "treeliable.config.verbose_api": "Verbose API Logging",
   "treeliable.config.verbose_api.tooltip": "Enable detailed API and debugging logging in the console.",
+  "treeliable.config.suppress_vanilla_leaf_sounds_on_fell": "Suppress Vanilla Leaf Breaking Sounds",
+  "treeliable.config.suppress_vanilla_leaf_sounds_on_fell.tooltip": "If enabled, leaves won't play a sound when a tree is felled.",
 
   "treeliable.config.compat_for_apotheosis": "Compat for Apotheosis",
   "treeliable.config.compat_for_apotheosis.tooltip": "Enable compatibility logic for Apotheosis.",

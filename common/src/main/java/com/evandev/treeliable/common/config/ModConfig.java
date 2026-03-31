@@ -98,6 +98,8 @@ public class ModConfig {
     public boolean showFeedbackMessages = true;
     @SerializedName("verbose_api")
     public boolean verboseAPI = false;
+    @SerializedName("suppress_vanilla_leaf_sounds_on_fell")
+    public boolean suppressVanillaLeafSoundsOnFell = true;
 
     @SerializedName("choppable_blocks")
     public List<String> choppableBlocks = Arrays.asList("#treeliable:choppables", "#minecraft:logs");
