@@ -75,11 +75,6 @@ public class ClassUtil {
     }
 
     @Nullable
-    public static IThwackableBlock getThwackableBlock(Block block) {
-        return getBehavior(block, IThwackableBlock.class);
-    }
-
-    @Nullable
     public static ITreeBlock getTreeBlock(Block block) {
         return getBehavior(block, ITreeBlock.class);
     }

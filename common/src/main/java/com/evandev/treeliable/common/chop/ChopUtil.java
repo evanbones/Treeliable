@@ -12,7 +12,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -92,7 +91,7 @@ public class ChopUtil {
 
     private static ChopResult getChopResult(Level level, BlockPos origin, int numChops, boolean mustHaveLeaves, boolean breakLeaves, TreeData tree) {
         if (tree.isAProperTree(mustHaveLeaves)) {
-            return getChopResult(level, origin, tree, numChops, breakLeaves);
+            return getChopResult(level, origin, tree, breakLeaves);
         } else {
             return ChopResult.IGNORED;
         }
@@ -109,17 +108,13 @@ public class ChopUtil {
         return Services.PLATFORM.detectTreeEvent(level, null, origin, level.getBlockState(origin), tree);
     }
 
-    private static ChopResult getChopResult(Level level, BlockPos origin, TreeData tree, int numChops, boolean breakLeaves) {
+    private static ChopResult getChopResult(Level level, BlockPos origin, TreeData tree, boolean breakLeaves) {
         if (tree.streamLogs().findFirst().isEmpty()) {
             return ChopResult.IGNORED;
         }
 
-        if (tree.readyToFell(tree.getChops() + numChops)) {
-            int numChopsNeeded = Math.min(10, Math.max(0, tree.numChopsNeededToFell() - tree.getChops())); // Max 10 in case numChops is set super high for instant felling
-            return new FellTreeResult(level, tree, breakLeaves, tree.chop(origin, numChopsNeeded));
-        } else {
-            return new ChopTreeResult(level, tree.chop(origin, numChops));
-        }
+        int numChopsNeeded = Math.min(10, Math.max(0, tree.numChopsNeededToFell() - tree.getChops()));
+        return new FellTreeResult(level, tree, breakLeaves, tree.chop(origin, numChopsNeeded));
     }
 
     public static int getMaxNumChops(Level level, BlockPos blockPos, BlockState blockState) {
@@ -244,28 +239,9 @@ public class ChopUtil {
             chopResult.apply(pos, agent, tool);
             Services.PLATFORM.finishChopEvent(agent, level, pos, blockState, chopData, chopResult);
             tool.mineBlock(level, blockState, pos, agent);
-
-            boolean felled = chopResult instanceof FellTreeResult;
-            if (!felled) {
-                thwack(agent, level, pos, blockState);
-            }
-
-            return !felled;
         }
 
         return false;
-    }
-
-    public static void thwack(Player thwacker, Level level, BlockPos pos, BlockState state) {
-        IThwackableBlock thwackable = ClassUtil.getThwackableBlock(state.getBlock());
-        if (thwackable != null) {
-            thwackable.thwack(thwacker, level, pos, state);
-        } else {
-            final float volume = .3f;
-            final float pitch = 1f;
-            level.playSound(thwacker, pos, Treeliable.CHOP_WOOD_EVENT.get(), SoundSource.BLOCKS, volume, pitch);
-            level.addDestroyBlockEffect(pos, state);
-        }
     }
 
     public static BlockState getLogState(Level level, BlockPos pos) {
