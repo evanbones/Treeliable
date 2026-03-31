@@ -24,8 +24,10 @@ import net.neoforged.neoforge.common.NeoForge;
 
 import java.nio.file.Path;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 public class NeoForgePlatformHelper implements IPlatformHelper {

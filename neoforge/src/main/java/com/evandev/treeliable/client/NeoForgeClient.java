@@ -1,11 +1,15 @@
 package com.evandev.treeliable.client;
 
+import com.evandev.treeliable.client.integration.ClothConfigIntegration;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.lwjgl.glfw.GLFW;
@@ -20,12 +24,16 @@ public class NeoForgeClient extends Client {
         modEventBus.addListener(NeoForgeClient::onRegisterKeyMappings);
     }
 
-    // TODO: fix this
-    //  ClientConfigSetup.register();
-
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         NeoForge.EVENT_BUS.register(EventHandler.class);
+
+        if (ModList.get().isLoaded("cloth_config")) {
+            ModLoadingContext.get().registerExtensionPoint(
+                    IConfigScreenFactory.class,
+                    () -> (client, parent) -> ClothConfigIntegration.createScreen(parent)
+            );
+        }
     }
 
     @SubscribeEvent

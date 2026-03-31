@@ -1,6 +1,5 @@
 package com.evandev.treeliable.compat;
 
-import com.evandev.treeliable.Treeliable;
 import com.evandev.treeliable.api.IChoppingItem;
 import com.evandev.treeliable.api.TreeliableAPI;
 import com.evandev.treeliable.common.config.ModConfig;
@@ -12,10 +11,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.InterModComms;
 import net.neoforged.fml.ModList;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.InterModEnqueueEvent;
 
 import java.util.function.Consumer;
@@ -23,9 +20,7 @@ import java.util.function.Consumer;
 /**
  * Make saws perform several chops instead of 1.
  */
-@EventBusSubscriber(modid = Treeliable.MOD_ID)
 public class SilentGear {
-    @SubscribeEvent
     public static void enqueueIMC(InterModEnqueueEvent event) {
         if (ModConfig.get().compatForSilentGear && ModList.get().isLoaded("silentgear")) {
             InterModComms.sendTo("treeliable", "getTreeliableAPI", () -> (Consumer<TreeliableAPI>) api -> {

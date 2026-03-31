@@ -11,7 +11,6 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
@@ -72,8 +71,8 @@ public final class TreeliableEvents {
                     if (treeData == null) {
                         return new TreeData() {
                             @Override
-                            public Optional<Set<BlockPos>> getLogBlocks() {
-                                return Optional.of(Collections.emptySet());
+                            public Set<BlockPos> getLogBlocks() {
+                                return Collections.emptySet();
                             }
 
                             @Override
@@ -82,11 +81,6 @@ public final class TreeliableEvents {
 
                             @Override
                             public void setLeaves(boolean hasLeaves) {
-                            }
-
-                            @Override
-                            public Set<BlockPos> getLogBlocksOrEmpty() {
-                                return Collections.emptySet();
                             }
 
                             @Override

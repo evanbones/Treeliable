@@ -29,8 +29,6 @@ public class TreeliableNeoForge {
             NeoForgeClient.init(modEventBus);
         }
 
-        if (FMLEnvironment.dist == Dist.DEDICATED_SERVER) {
-            NeoForgeServer.init(modEventBus);
-        }
+        NeoForgeServer.init(modEventBus);
     }
 }

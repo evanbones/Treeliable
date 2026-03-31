@@ -1,11 +1,10 @@
 package com.evandev.treeliable.compat;
 
-import com.evandev.treeliable.Treeliable;
 import com.evandev.treeliable.api.ChopEvent;
 import com.evandev.treeliable.common.config.ModConfig;
 import com.evandev.treeliable.common.util.TickUtil;
 import net.minecraft.world.entity.Entity;
-import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
@@ -13,7 +12,6 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import java.util.HashMap;
 import java.util.Map;
 
-@EventBusSubscriber(modid = Treeliable.MOD_ID)
 public class NoChopOnRightClick {
 
     private static final Map<Entity, Long> lastRightClickTickByPlayers = new HashMap<>();
@@ -32,13 +30,14 @@ public class NoChopOnRightClick {
         }
     }
 
-    // TODO: check this
     private static class EventHandler {
+        @SubscribeEvent
         public static void onBlockStartClick(PlayerInteractEvent.RightClickBlock event) {
             long time = event.getLevel().getGameTime();
             lastRightClickTickByPlayers.put(event.getEntity(), time);
         }
 
+        @SubscribeEvent
         public static void onChop(ChopEvent.StartChopEvent event) {
             long time = event.getLevel().getGameTime();
             if (lastRightClickTickByPlayers.getOrDefault(event.getPlayer(), TickUtil.NEVER) == time) {
@@ -46,5 +45,4 @@ public class NoChopOnRightClick {
             }
         }
     }
-
 }

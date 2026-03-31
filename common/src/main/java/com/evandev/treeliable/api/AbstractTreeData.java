@@ -4,7 +4,6 @@ import com.evandev.treeliable.common.config.FellLeavesStrategy;
 import com.evandev.treeliable.common.config.ModConfig;
 import net.minecraft.core.BlockPos;
 
-import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -18,12 +17,7 @@ public abstract class AbstractTreeData implements TreeData {
     }
 
     @Override
-    public Optional<Set<BlockPos>> getLogBlocks() {
-        return Optional.of(getLogBlocksOrEmpty());
-    }
-
-    @Override
-    public Set<BlockPos> getLogBlocksOrEmpty() {
+    public Set<BlockPos> getLogBlocks() {
         return streamLogs().collect(Collectors.toSet());
     }
 

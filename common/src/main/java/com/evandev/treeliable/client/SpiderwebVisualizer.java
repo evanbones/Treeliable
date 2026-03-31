@@ -33,7 +33,7 @@ public class SpiderwebVisualizer {
                 Set<BlockPos> layer = new HashSet<>();
                 int maxDist = 0;
 
-                for (BlockPos pos : tree.getLogBlocksOrEmpty()) {
+                for (BlockPos pos : tree.getLogBlocks()) {
                     if (pos.getY() == targetPos.getY()) {
                         layer.add(pos);
                         int dist = ChopUtil.horizontalBlockDistance(targetPos, pos);

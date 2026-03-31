@@ -41,9 +41,6 @@ public class ClothConfigIntegration {
         general.addEntry(eb.startBooleanToggle(Component.translatable("treeliable.config.drop_loot_for_chopped_blocks"), config.dropLootForChoppedBlocks)
                 .setTooltip(Component.translatable("treeliable.config.drop_loot_for_chopped_blocks.tooltip"))
                 .setDefaultValue(true).setSaveConsumer(v -> config.dropLootForChoppedBlocks = v).build());
-        general.addEntry(eb.startBooleanToggle(Component.translatable("treeliable.config.drop_loot_on_first_chop"), config.dropLootOnFirstChop)
-                .setTooltip(Component.translatable("treeliable.config.drop_loot_on_first_chop.tooltip"))
-                .setDefaultValue(false).setSaveConsumer(v -> config.dropLootOnFirstChop = v).build());
         general.addEntry(eb.startBooleanToggle(Component.translatable("treeliable.config.must_use_correct_tool_for_drops"), config.mustUseCorrectToolForDrops)
                 .setTooltip(Component.translatable("treeliable.config.must_use_correct_tool_for_drops.tooltip"))
                 .setDefaultValue(true).setSaveConsumer(v -> config.mustUseCorrectToolForDrops = v).build());

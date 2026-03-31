@@ -2,6 +2,7 @@ package com.evandev.treeliable.common.chop;
 
 import com.evandev.treeliable.api.AbstractTreeData;
 import com.evandev.treeliable.api.IChoppableBlock;
+import com.evandev.treeliable.common.config.ModConfig;
 import com.evandev.treeliable.common.util.BlockNeighbors;
 import com.evandev.treeliable.common.util.ClassUtil;
 import ht.tuber.graph.DirectedGraph;
@@ -163,10 +164,20 @@ public class LazyTreeData extends AbstractTreeData {
 
     private void forEachLeaves(Collection<BlockPos> firstLeaves, Consumer<BlockPos> forEach) {
         completeTree(); // Make sure all log-adjacent leaves are discovered
+
+        AtomicInteger leavesCount = new AtomicInteger(0);
+        int maxLeaves = ModConfig.get().maxLeavesBlocks;
+
+        Consumer<BlockPos> limitingConsumer = pos -> {
+            if (leavesCount.getAndIncrement() < maxLeaves) {
+                forEach.accept(pos);
+            }
+        };
+
         if (smartDetection) {
-            forEachLeavesSmart(firstLeaves, forEach);
+            forEachLeavesSmart(firstLeaves, limitingConsumer);
         } else {
-            forEachLeavesDumb(firstLeaves, forEach);
+            forEachLeavesDumb(firstLeaves, limitingConsumer);
         }
     }
 

@@ -30,8 +30,6 @@
   "treeliable.config.chop_in_creative_mode.tooltip": "If enabled, trees can be chopped down while in creative mode.",
   "treeliable.config.drop_loot_for_chopped_blocks": "Drop Loot for Chopped Blocks",
   "treeliable.config.drop_loot_for_chopped_blocks.tooltip": "If enabled, each chopped block in the tree drops its appropriate item.",
-  "treeliable.config.drop_loot_on_first_chop": "Drop Loot on First Chop",
-  "treeliable.config.drop_loot_on_first_chop.tooltip": "If true, blocks drop their loot as soon as they are chopped once.",
   "treeliable.config.must_use_correct_tool_for_drops": "Must Use Correct Tool for Drops",
   "treeliable.config.must_use_correct_tool_for_drops.tooltip": "If true, you must use the correct tool (e.g. an axe) to get drops from the tree.",
   "treeliable.config.must_use_fast_breaking_tool": "Must Use Fast Breaking Tool",

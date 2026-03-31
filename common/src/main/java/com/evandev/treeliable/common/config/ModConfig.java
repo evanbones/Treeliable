@@ -32,8 +32,6 @@ public class ModConfig {
     public boolean enabled = true;
     @SerializedName("drop_loot_for_chopped_blocks")
     public boolean dropLootForChoppedBlocks = true;
-    @SerializedName("drop_loot_on_first_chop")
-    public boolean dropLootOnFirstChop = false;
     @SerializedName("chopping_enabled")
     public boolean choppingEnabled = true;
     @SerializedName("sneak_behavior")

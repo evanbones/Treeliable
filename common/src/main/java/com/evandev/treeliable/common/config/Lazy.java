@@ -12,11 +12,6 @@ public class Lazy<T> implements Supplier<T> {
         this.supplier = supplier;
     }
 
-    public Lazy(Signal<Lazy<?>> resetSignal, Supplier<T> supplier) {
-        this(supplier);
-        resetSignal.add(this);
-    }
-
     @Override
     public T get() {
         if (!available) {
