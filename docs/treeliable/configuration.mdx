@@ -1,0 +1,32 @@
+---
+title: Configuration
+hide_meta: true
+---
+
+The main configuration file is located at `config/treeliable.json` in your instance directory. It automatically syncs gameplay rules from the server to clients.
+
+### Key Settings
+
+**General**
+* `chopping_enabled`: Master toggle for tree felling.
+* `sneak_behavior`: Controls whether sneaking prevents chopping (`INVERT_CHOPPING`) or does nothing (`NONE`).
+* `drop_loot_for_chopped_blocks`: Whether felling the tree yields item drops.
+
+**Limits & Rules**
+* `trees_must_have_leaves`: Set to `true` to require connected leaves (prevents chopping down houses).
+* `max_tree_blocks`: The maximum number of logs a single tree can have (default `1024`) before the algorithm stops searching.
+* `fell_leaves_strategy`: Determines what happens to leaves. Options are `DECAY` (fast vanilla decay), `BREAK` (shatter immediately), or `IGNORE`.
+* `damage_tool_per_log` / `exhaustion_per_log`: Controls whether your tool takes damage and you lose hunger for every block broken during a fell.
+
+**Algorithm**
+* `chop_counting_algorithm`: Choose `LOGARITHMIC` (diminishing time increases for massive trees) or `LINEAR` (1 log = 1 extra unit of break time).
+
+**Tags & Lists**
+
+For Treeliable to detect modded trees, you only need two things:
+
+- Log blocks should have the `#minecraft:logs` or `#minecraft:logs_that_burn` tag.
+- Leaves blocks should have the `#mincraft:leaves` tag.
+
+If for some reason your tree blocks shouldn't have the normal logs and leaves tags (things like huge mushrooms etc.), there are two alternative, more specific tags:
+* `#treeliable:choppables` (for blocks that can be chopped) and `#treeliable:leaves_like` (for connected blocks that should automatically break when the tree is felled).

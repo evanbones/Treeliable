@@ -1,3 +1,5 @@
 {
-  "usage.mdx": "Usage"
+  "features.mdx": "Features",
+  "usage.mdx": "Usage & Commands",
+  "configuration.mdx": "Configuration"
 }

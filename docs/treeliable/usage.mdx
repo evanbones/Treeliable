@@ -1,7 +1,20 @@
 ---
-title: Usage
+title: Usage & Commands
 hide_meta: true
 ---
 
-### Configuration Location
-The mod watches the `./config/treeliable/` folder in your instance.
+### Basic Usage
+To fell a tree, simply equip an axe (or another configured chopping tool) and break the bottom log block.
+If the visual indicator is enabled, you will see a small icon on your crosshair confirming that the tree can be chopped.
+
+### Sneak Behavior
+By default, the mod uses an **invert chopping** sneak behavior. This means if you want to break a *single* log from a tree without felling the whole thing, just hold your sneak key (Shift) while breaking it. You can toggle this behavior with a hotkey or in the configuration.
+
+### Commands
+Treeliable includes a server command for operators:
+* `/treeliable fell <pos>`: Force-fells a tree starting at the specified coordinates.
+
+### Client Controls
+You can bind custom keys in the Controls menu to:
+* **Toggle Chopping:** Completely enable or disable the mod's felling behavior.
+* **Cycle Sneak Behavior:** Switch between "sneak to invert" and "sneak does nothing" on the fly.
