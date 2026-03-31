@@ -1,7 +1,7 @@
 package com.evandev.treeliable.common.chop;
 
-import com.evandev.treeliable.TreeliableException;
 import com.evandev.treeliable.Treeliable;
+import com.evandev.treeliable.TreeliableException;
 import com.evandev.treeliable.api.*;
 import com.evandev.treeliable.common.config.*;
 import com.evandev.treeliable.common.settings.ChopSettings;
@@ -218,6 +218,12 @@ public class ChopUtil {
         }
 
         TreeData tree = getTree(level, pos);
+
+        int neededChops = tree.numChopsNeededToFell();
+        if (numChops < neededChops) {
+            numChops = neededChops;
+        }
+
         ChopData chopData = new ChopDataImpl(numChops, tree);
 
         boolean doChop = Services.PLATFORM.startChopEvent(agent, level, pos, blockState, chopData, trigger);

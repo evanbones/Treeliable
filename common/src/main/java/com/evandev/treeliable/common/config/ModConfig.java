@@ -72,7 +72,7 @@ public class ModConfig {
     @SerializedName("must_use_correct_tool_for_drops")
     public boolean mustUseCorrectToolForDrops = true;
     @SerializedName("must_use_fast_breaking_tool")
-    public boolean mustUseFastBreakingTool = false;
+    public boolean mustUseFastBreakingTool = true;
     @SerializedName("prevent_chopping_on_right_click")
     public boolean preventChoppingOnRightClick = false;
     @SerializedName("prevent_chop_recursion")
