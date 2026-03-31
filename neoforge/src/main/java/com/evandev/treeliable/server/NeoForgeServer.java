@@ -1,5 +1,6 @@
 package com.evandev.treeliable.server;
 
+import com.evandev.treeliable.common.chop.FellQueue;
 import com.evandev.treeliable.common.settings.ChoppingEntity;
 import com.evandev.treeliable.common.settings.SyncedChopData;
 import com.evandev.treeliable.platform.server.Server;
@@ -13,6 +14,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 public class NeoForgeServer extends com.evandev.treeliable.platform.server.Server {
@@ -49,6 +51,11 @@ public class NeoForgeServer extends com.evandev.treeliable.platform.server.Serve
                 SyncedChopData chopSettings = instance.getPlayerChopData(oldPlayer);
                 ((ChoppingEntity) newPlayer).setChopData(chopSettings);
             }
+        }
+
+        @SubscribeEvent
+        public static void onServerTick(ServerTickEvent.Post event) {
+            FellQueue.tick();
         }
     }
 }

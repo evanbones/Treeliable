@@ -116,6 +116,12 @@ public class ClothConfigIntegration {
         visuals.addEntry(eb.startIntField(Component.translatable("treeliable.config.indicator_y_offset"), config.indicatorYOffset)
                 .setTooltip(Component.translatable("treeliable.config.indicator_y_offset.tooltip"))
                 .setDefaultValue(0).setSaveConsumer(v -> config.indicatorYOffset = v).build());
+        visuals.addEntry(eb.startBooleanToggle(Component.translatable("treeliable.config.delay_felling_layers"), config.delayFellingLayers)
+                .setTooltip(Component.translatable("treeliable.config.delay_felling_layers.tooltip"))
+                .setDefaultValue(true).setSaveConsumer(v -> config.delayFellingLayers = v).build());
+        visuals.addEntry(eb.startIntField(Component.translatable("treeliable.config.felling_layer_delay_ticks"), config.fellingLayerDelayTicks)
+                .setTooltip(Component.translatable("treeliable.config.felling_layer_delay_ticks.tooltip"))
+                .setDefaultValue(2).setSaveConsumer(v -> config.fellingLayerDelayTicks = v).build());
         visuals.addEntry(eb.startBooleanToggle(Component.translatable("treeliable.config.show_feedback_messages"), config.showFeedbackMessages)
                 .setTooltip(Component.translatable("treeliable.config.show_feedback_messages.tooltip"))
                 .setDefaultValue(true).setSaveConsumer(v -> config.showFeedbackMessages = v).build());

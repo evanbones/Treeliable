@@ -40,6 +40,10 @@ public class ModConfig {
     public boolean treesMustHaveLeaves = true;
     @SerializedName("chop_in_creative_mode")
     public boolean chopInCreativeMode = false;
+    @SerializedName("delay_felling_layers")
+    public boolean delayFellingLayers = true;
+    @SerializedName("felling_layer_delay_ticks")
+    public int fellingLayerDelayTicks = 2;
 
     @SerializedName("max_tree_blocks")
     public int maxTreeBlocks = 1024;

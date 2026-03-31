@@ -18,12 +18,12 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Comparator;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
@@ -48,11 +48,8 @@ public class FellTreeResult implements ChopResult {
         }
     }
 
-    private static boolean breakLogs(ServerPlayer player, ServerLevel level, TreeData tree, GameType gameType, Consumer<BlockPos> blockBreaker, BlockPos targetPos, ItemStack tool) {
-        final long maxNumEffects = 4;
+    private static boolean breakLogs(ServerPlayer player, ServerLevel level, TreeData tree, GameType gameType, Consumer<BlockPos> blockBreaker, BlockPos targetPos, ItemStack tool, Map<Integer, List<Runnable>> layeredActions) {
         AtomicInteger i = new AtomicInteger(0);
-        PriorityQueue<Pair<BlockPos, BlockState>> effects = new PriorityQueue<>(Comparator.comparing(pair -> pair.getLeft().getY()));
-
         boolean toolBroke = false;
 
         for (BlockPos pos : tree.getLogBlocks()) {
@@ -74,55 +71,47 @@ public class FellTreeResult implements ChopResult {
                 player.causeFoodExhaustion(0.005F);
             }
 
-            collectSomeBlocks(effects, pos, state, i, 3);
-            blockBreaker.accept(pos);
-        }
+            Runnable action = () -> {
+                if (i.getAndIncrement() % 3 == 0) {
+                    playBlockBreakEffects(level, pos, state);
+                }
+                blockBreaker.accept(pos);
+            };
 
-        effects.stream()
-                .limit(maxNumEffects)
-                .forEach(posState -> playBlockBreakEffects(level, posState.getLeft(), posState.getRight()));
+            layeredActions.computeIfAbsent(pos.getY(), y -> new ArrayList<>()).add(action);
+        }
 
         return toolBroke;
     }
 
-    private static void breakLeaves(ServerPlayer player, ServerLevel level, TreeData tree, GameType gameType, Consumer<BlockPos> blockBreaker) {
-        final long maxNumEffects = 5;
+    private static void breakLeaves(ServerPlayer player, ServerLevel level, TreeData tree, GameType gameType, Consumer<BlockPos> blockBreaker, Map<Integer, List<Runnable>> layeredActions) {
         AtomicInteger i = new AtomicInteger(0);
-        PriorityQueue<Pair<BlockPos, BlockState>> effects = new PriorityQueue<>(Comparator.comparing(pair -> pair.getLeft().getY()));
-
         boolean tryToDecay = ModConfig.get().fellLeavesStrategy == FellLeavesStrategy.DECAY;
+
         Consumer<BlockPos> leavesBreaker = pos -> {
             if (!player.blockActionRestricted(level, pos, gameType)) {
                 BlockState state = level.getBlockState(pos);
 
-                ILeaveslikeBlock leavesLike = ClassUtil.getLeaveslikeBlock(state.getBlock());
-                if (leavesLike != null) {
-                    leavesLike.fell(player, level, pos, state);
-                } else if (tryToDecay && shouldDecayLeaves(state)) {
-                    decayLeavesInsteadOfBreaking(level, pos, state);
-                } else {
-                    blockBreaker.accept(pos);
-                }
+                Runnable action = () -> {
+                    ILeaveslikeBlock leavesLike = ClassUtil.getLeaveslikeBlock(state.getBlock());
+                    if (leavesLike != null) {
+                        leavesLike.fell(player, level, pos, state);
+                    } else if (tryToDecay && shouldDecayLeaves(state)) {
+                        decayLeavesInsteadOfBreaking(level, pos, state);
+                    } else {
+                        blockBreaker.accept(pos);
+                    }
 
-                if (effects.isEmpty() || player.distanceToSqr(pos.getX() + .5, pos.getY() + .5, pos.getZ() + .5) > 9.0) {
-                    collectSomeBlocks(effects, pos, state, i, 8);
-                }
+                    if (!ModConfig.get().suppressVanillaLeafSoundsOnFell && (i.getAndIncrement() % 8 == 0 || player.distanceToSqr(pos.getX() + .5, pos.getY() + .5, pos.getZ() + .5) > 9.0)) {
+                        playBlockBreakEffects(level, pos, state);
+                    }
+                };
+
+                layeredActions.computeIfAbsent(pos.getY(), y -> new ArrayList<>()).add(action);
             }
         };
 
         tree.forEachLeaves(leavesBreaker);
-
-        if (!ModConfig.get().suppressVanillaLeafSoundsOnFell) {
-            effects.stream()
-                    .limit(maxNumEffects)
-                    .forEach(posState -> playBlockBreakEffects(level, posState.getLeft(), posState.getRight()));
-        }
-    }
-
-    private static void collectSomeBlocks(Queue<Pair<BlockPos, BlockState>> collection, BlockPos pos, BlockState state, AtomicInteger counter, int period) {
-        if (counter.getAndIncrement() % period == 0) {
-            collection.add(Pair.of(pos, state));
-        }
     }
 
     private static void playBlockBreakEffects(Level level, BlockPos pos, BlockState state) {
@@ -136,7 +125,7 @@ public class FellTreeResult implements ChopResult {
 
     private static boolean shouldDecayLeaves(BlockState blockState) {
         return blockState.hasProperty(LeavesBlock.DISTANCE) && blockState.hasProperty(LeavesBlock.PERSISTENT)
-                && blockState.setValue(LeavesBlock.DISTANCE, 7).setValue(LeavesBlock.PERSISTENT, false).isRandomlyTicking(); // Catches modded leaves that don't decay
+                && blockState.setValue(LeavesBlock.DISTANCE, 7).setValue(LeavesBlock.PERSISTENT, false).isRandomlyTicking();
     }
 
     @Override
@@ -147,11 +136,23 @@ public class FellTreeResult implements ChopResult {
             boolean fell = Services.PLATFORM.startFellTreeEvent(player, level, targetPos, fellData);
 
             if (fell) {
+                Map<Integer, List<Runnable>> layeredActions = new TreeMap<>();
                 Consumer<BlockPos> blockBreaker = makeBlockBreaker(player, serverLevel);
-                boolean toolBroke = breakLogs(player, serverLevel, fellData.getTree(), gameType, blockBreaker, targetPos, tool);
+
+                boolean toolBroke = breakLogs(player, serverLevel, fellData.getTree(), gameType, blockBreaker, targetPos, tool, layeredActions);
 
                 if (fellData.getBreakLeaves() && !toolBroke) {
-                    breakLeaves(player, serverLevel, fellData.getTree(), gameType, blockBreaker);
+                    breakLeaves(player, serverLevel, fellData.getTree(), gameType, blockBreaker, layeredActions);
+                }
+
+                if (ModConfig.get().delayFellingLayers) {
+                    FellQueue.addTask(layeredActions, ModConfig.get().fellingLayerDelayTicks);
+                } else {
+                    for (List<Runnable> layer : layeredActions.values()) {
+                        for (Runnable action : layer) {
+                            action.run();
+                        }
+                    }
                 }
 
                 Services.PLATFORM.finishFellTreeEvent(player, level, targetPos, fellData);
