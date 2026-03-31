@@ -18,10 +18,8 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Stream;
 
 public class ChopUtil {
@@ -59,10 +57,6 @@ public class ChopUtil {
         return behavior != null && behavior.isLeaves(blockState);
     }
 
-    public static boolean enoughChopsToFell(int chops, double support) {
-        return ChopCounting.calculate((int) support) <= chops;
-    }
-
     public static int numChopsToFell(double support) {
         return ChopCounting.calculate(Math.max(1, Double.valueOf(support).intValue()));
     }
@@ -89,12 +83,12 @@ public class ChopUtil {
                 : 1.0;
     }
 
-    private static ChopResult getChopResult(Level level, BlockPos origin, int numChops, boolean mustHaveLeaves, boolean breakLeaves, TreeData tree) {
-        if (tree.isAProperTree(mustHaveLeaves)) {
-            return getChopResult(level, origin, tree, breakLeaves);
-        } else {
+    private static ChopResult getChopResult(Level level, BlockPos origin, TreeData tree, boolean breakLeaves) {
+        if (tree.streamLogs().findFirst().isEmpty()) {
             return ChopResult.IGNORED;
         }
+
+        return new FellTreeResult(level, tree, breakLeaves);
     }
 
     public static TreeData getTree(Level level, BlockPos origin) {
@@ -106,40 +100,6 @@ public class ChopUtil {
         TreeData tree = detector.getTree(level, origin);
 
         return Services.PLATFORM.detectTreeEvent(level, null, origin, level.getBlockState(origin), tree);
-    }
-
-    private static ChopResult getChopResult(Level level, BlockPos origin, TreeData tree, boolean breakLeaves) {
-        if (tree.streamLogs().findFirst().isEmpty()) {
-            return ChopResult.IGNORED;
-        }
-
-        int numChopsNeeded = Math.min(10, Math.max(0, tree.numChopsNeededToFell() - tree.getChops()));
-        return new FellTreeResult(level, tree, breakLeaves, tree.chop(origin, numChopsNeeded));
-    }
-
-    public static int getMaxNumChops(Level level, BlockPos blockPos, BlockState blockState) {
-        IChoppableBlock choppableBlock = ClassUtil.getChoppableBlock(level, blockPos, blockState);
-        return (choppableBlock != null) ? choppableBlock.getMaxNumChops(level, blockPos, blockState) : 0;
-    }
-
-    public static int getNumChops(Level level, BlockPos pos) {
-        return getNumChops(level, pos, level.getBlockState(pos));
-    }
-
-    public static int getNumChops(Level level, BlockPos pos, BlockState blockState) {
-        Block block = blockState.getBlock();
-        return block instanceof IChoppableBlock choppableBlock ? choppableBlock.getNumChops(level, pos, blockState) : 0;
-    }
-
-    public static int getNumChops(Level level, Set<BlockPos> positions) {
-        return positions.stream()
-                .map(pos -> Pair.of(pos, level.getBlockState(pos)))
-                .map(posAndblockState -> posAndblockState.getRight().getBlock() instanceof IChoppableBlock choppableBlock
-                        ? choppableBlock.getNumChops(level, posAndblockState.getLeft(), posAndblockState.getRight())
-                        : 0
-                )
-                .reduce(Integer::sum)
-                .orElse(0);
     }
 
     public static int blockDistance(BlockPos a, BlockPos b) {
@@ -213,12 +173,6 @@ public class ChopUtil {
         }
 
         TreeData tree = getTree(level, pos);
-
-        int neededChops = tree.numChopsNeededToFell();
-        if (numChops < neededChops) {
-            numChops = neededChops;
-        }
-
         ChopData chopData = new ChopDataImpl(numChops, tree);
 
         boolean doChop = Services.PLATFORM.startChopEvent(agent, level, pos, blockState, chopData, trigger);
@@ -229,10 +183,8 @@ public class ChopUtil {
         ChopResult chopResult = ChopUtil.getChopResult(
                 level,
                 pos,
-                chopData.getNumChops(),
-                treesMustHaveLeaves,
-                ModConfig.get().fellLeavesStrategy != FellLeavesStrategy.IGNORE,
-                tree
+                tree,
+                ModConfig.get().fellLeavesStrategy != FellLeavesStrategy.IGNORE
         );
 
         if (chopResult != ChopResult.IGNORED) {

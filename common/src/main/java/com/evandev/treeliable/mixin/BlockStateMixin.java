@@ -30,8 +30,11 @@ public abstract class BlockStateMixin {
 
             if (tree != null && tree.isAProperTree(true)) {
                 int chopsNeeded = tree.numChopsNeededToFell();
-                if (chopsNeeded > 1) {
-                    cir.setReturnValue(cir.getReturnValue() / (float) chopsNeeded);
+                int toolChops = ChopUtil.getNumChopsByTool(player.getMainHandItem(), state);
+
+                if (chopsNeeded > toolChops && toolChops > 0) {
+                    float penalty = (float) chopsNeeded / toolChops;
+                    cir.setReturnValue(cir.getReturnValue() / penalty);
                 }
             }
         }

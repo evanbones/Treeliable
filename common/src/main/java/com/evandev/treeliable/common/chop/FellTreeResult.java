@@ -21,7 +21,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.Queue;
@@ -31,12 +30,10 @@ import java.util.function.Consumer;
 public class FellTreeResult implements ChopResult {
     private final Level level;
     private final FellDataImpl fellData;
-    private final Collection<Chop> chops;
 
-    public FellTreeResult(Level level, TreeData tree, boolean breakLeaves, Collection<Chop> chops) {
+    public FellTreeResult(Level level, TreeData tree, boolean breakLeaves) {
         this.level = level;
         this.fellData = new FellDataImpl(tree, breakLeaves);
-        this.chops = chops;
     }
 
     @NotNull
@@ -51,21 +48,41 @@ public class FellTreeResult implements ChopResult {
         }
     }
 
-    private static void breakLogs(ServerPlayer player, ServerLevel level, TreeData tree, GameType gameType, Consumer<BlockPos> blockBreaker, BlockPos targetPos) {
+    private static boolean breakLogs(ServerPlayer player, ServerLevel level, TreeData tree, GameType gameType, Consumer<BlockPos> blockBreaker, BlockPos targetPos, ItemStack tool) {
         final long maxNumEffects = 4;
         AtomicInteger i = new AtomicInteger(0);
         PriorityQueue<Pair<BlockPos, BlockState>> effects = new PriorityQueue<>(Comparator.comparing(pair -> pair.getLeft().getY()));
 
-        tree.streamLogs()
-                .filter(pos -> !pos.equals(targetPos) && !player.blockActionRestricted(level, targetPos, gameType))
-                .forEach(pos -> {
-                    collectSomeBlocks(effects, pos, level.getBlockState(pos), i, 3);
-                    blockBreaker.accept(pos);
-                });
+        boolean toolBroke = false;
+
+        for (BlockPos pos : tree.getLogBlocks()) {
+            if (pos.equals(targetPos) || player.blockActionRestricted(level, targetPos, gameType)) {
+                continue;
+            }
+
+            BlockState state = level.getBlockState(pos);
+
+            if (ModConfig.get().damageToolPerLog && !player.isCreative()) {
+                if (tool.isEmpty()) {
+                    toolBroke = true;
+                    break;
+                }
+                tool.mineBlock(level, state, pos, player);
+            }
+
+            if (ModConfig.get().exhaustionPerLog && !player.isCreative()) {
+                player.causeFoodExhaustion(0.005F);
+            }
+
+            collectSomeBlocks(effects, pos, state, i, 3);
+            blockBreaker.accept(pos);
+        }
 
         effects.stream()
                 .limit(maxNumEffects)
                 .forEach(posState -> playBlockBreakEffects(level, posState.getLeft(), posState.getRight()));
+
+        return toolBroke;
     }
 
     private static void breakLeaves(ServerPlayer player, ServerLevel level, TreeData tree, GameType gameType, Consumer<BlockPos> blockBreaker) {
@@ -127,13 +144,11 @@ public class FellTreeResult implements ChopResult {
         if (level instanceof ServerLevel serverLevel && !serverLevel.getBlockState(targetPos).isAir() && !player.blockActionRestricted(serverLevel, targetPos, gameType)) {
             boolean fell = Services.PLATFORM.startFellTreeEvent(player, level, targetPos, fellData);
 
-            chops.forEach(chop -> chop.apply(level, player, tool, fell));
-
             if (fell) {
                 Consumer<BlockPos> blockBreaker = makeBlockBreaker(player, serverLevel);
-                breakLogs(player, serverLevel, fellData.getTree(), gameType, blockBreaker, targetPos);
+                boolean toolBroke = breakLogs(player, serverLevel, fellData.getTree(), gameType, blockBreaker, targetPos, tool);
 
-                if (fellData.getBreakLeaves()) {
+                if (fellData.getBreakLeaves() && !toolBroke) {
                     breakLeaves(player, serverLevel, fellData.getTree(), gameType, blockBreaker);
                 }
 

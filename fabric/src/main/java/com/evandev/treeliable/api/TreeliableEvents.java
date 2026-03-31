@@ -1,6 +1,5 @@
 package com.evandev.treeliable.api;
 
-import com.evandev.treeliable.common.chop.Chop;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.core.BlockPos;
@@ -9,7 +8,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -76,11 +74,6 @@ public final class TreeliableEvents {
                             }
 
                             @Override
-                            public int getChops() {
-                                return 0;
-                            }
-
-                            @Override
                             public Stream<BlockPos> streamLogs() {
                                 return Stream.empty();
                             }
@@ -101,18 +94,8 @@ public final class TreeliableEvents {
                             }
 
                             @Override
-                            public boolean readyToFell(int numChops) {
-                                return false;
-                            }
-
-                            @Override
                             public int numChopsNeededToFell() {
                                 return 0;
-                            }
-
-                            @Override
-                            public Collection<Chop> chop(BlockPos target, int numChops) {
-                                return Collections.emptyList();
                             }
 
                             @Override

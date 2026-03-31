@@ -1,7 +1,6 @@
 package com.evandev.treeliable.platform;
 
 import com.evandev.treeliable.api.*;
-import com.evandev.treeliable.common.chop.Chop;
 import com.evandev.treeliable.common.chop.ChopResult;
 import com.evandev.treeliable.common.chop.FellTreeResult;
 import com.evandev.treeliable.common.platform.ModLoader;
@@ -23,8 +22,6 @@ import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.common.NeoForge;
 
 import java.nio.file.Path;
-import java.util.Collection;
-import java.util.List;
 import java.util.stream.Stream;
 
 public class NeoForgePlatformHelper implements IPlatformHelper {
@@ -73,11 +70,6 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
         if (event.isCanceled() || treeData == null) {
             return new AbstractTreeData() {
                 @Override
-                public int getChops() {
-                    return 0;
-                }
-
-                @Override
                 public Stream<BlockPos> streamLogs() {
                     return Stream.empty();
                 }
@@ -93,18 +85,8 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
                 }
 
                 @Override
-                public boolean readyToFell(int numChops) {
-                    return false;
-                }
-
-                @Override
                 public int numChopsNeededToFell() {
                     return 0;
-                }
-
-                @Override
-                public Collection<Chop> chop(BlockPos target, int numChops) {
-                    return List.of();
                 }
             };
         }

@@ -53,6 +53,10 @@ public class ModConfig {
     public FellLeavesStrategy fellLeavesStrategy = FellLeavesStrategy.DECAY;
     @SerializedName("fell_credit_strategy")
     public FellCreditStrategy fellCreditStrategy = FellCreditStrategy.NONE;
+    @SerializedName("damage_tool_per_log")
+    public boolean damageToolPerLog = true;
+    @SerializedName("exhaustion_per_log")
+    public boolean exhaustionPerLog = true;
 
     @SerializedName("chop_counting_algorithm")
     public ChopCountingAlgorithm chopCountingAlgorithm = ChopCountingAlgorithm.LOGARITHMIC;

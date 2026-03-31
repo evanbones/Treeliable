@@ -77,6 +77,12 @@ public class ClothConfigIntegration {
         limits.addEntry(eb.startEnumSelector(Component.translatable("treeliable.config.fell_credit_strategy"), FellCreditStrategy.class, config.fellCreditStrategy)
                 .setTooltip(Component.translatable("treeliable.config.fell_credit_strategy.tooltip"))
                 .setDefaultValue(FellCreditStrategy.NONE).setSaveConsumer(v -> config.fellCreditStrategy = v).build());
+        limits.addEntry(eb.startBooleanToggle(Component.translatable("treeliable.config.damage_tool_per_log"), config.damageToolPerLog)
+                .setTooltip(Component.translatable("treeliable.config.damage_tool_per_log.tooltip"))
+                .setDefaultValue(true).setSaveConsumer(v -> config.damageToolPerLog = v).build());
+        limits.addEntry(eb.startBooleanToggle(Component.translatable("treeliable.config.exhaustion_per_log"), config.exhaustionPerLog)
+                .setTooltip(Component.translatable("treeliable.config.exhaustion_per_log.tooltip"))
+                .setDefaultValue(true).setSaveConsumer(v -> config.exhaustionPerLog = v).build());
 
         ConfigCategory algorithm = builder.getOrCreateCategory(Component.translatable("treeliable.config.category.algorithm"));
 

@@ -4,11 +4,8 @@ import com.evandev.treeliable.Treeliable;
 import com.evandev.treeliable.api.*;
 import com.evandev.treeliable.common.config.ModConfig;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
@@ -47,22 +44,6 @@ public class ClassUtil {
 
         if (ModConfig.get().choppableBlocksCache.get().contains(block)) {
             return new IChoppableBlock() {
-                @Override
-                public void chop(Player player, ItemStack tool, Level level, BlockPos pos, BlockState blockState, int numChops, boolean felling) {
-                    if (!felling) {
-                        LevelUtil.harvestBlock(player, level, pos, tool, true);
-                    }
-                }
-
-                @Override
-                public int getNumChops(BlockGetter level, BlockPos pos, BlockState blockState) {
-                    return 0;
-                }
-
-                @Override
-                public int getMaxNumChops(BlockGetter level, BlockPos blockPos, BlockState blockState) {
-                    return 1;
-                }
             };
         }
 

@@ -1,20 +1,15 @@
 package com.evandev.treeliable.common.chop;
 
 import com.evandev.treeliable.api.AbstractTreeData;
-import com.evandev.treeliable.api.IChoppableBlock;
 import com.evandev.treeliable.common.config.ModConfig;
 import com.evandev.treeliable.common.math.graph.DirectedGraph;
 import com.evandev.treeliable.common.math.graph.FloodFill;
 import com.evandev.treeliable.common.math.graph.FloodFillImpl;
 import com.evandev.treeliable.common.math.graph.GraphUtil;
-import com.evandev.treeliable.common.util.BlockNeighbors;
-import com.evandev.treeliable.common.util.ClassUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Vec3i;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import org.apache.commons.lang3.RandomUtils;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -25,7 +20,6 @@ import java.util.stream.Stream;
 public class LazyTreeData extends AbstractTreeData {
 
     private final Level level;
-    private final int chops;
     private final boolean smartDetection;
     private final int maxLeavesDistance;
     private final Set<BlockPos> leaves = new HashSet<>();
@@ -59,41 +53,7 @@ public class LazyTreeData extends AbstractTreeData {
             gatherLog(pos);
         }
 
-        this.chops = base.stream().map(pos -> ChopUtil.getNumChops(level, pos)).reduce(Integer::sum).orElse(0);
-
         logFinder = new LogFinder(logsWorld, base, maxNumLogs);
-    }
-
-    private static int gatherChopAndGetNumChopsRemaining(Level level, BlockPos pos, int numChops, List<Chop> chops) {
-        BlockState blockStateBeforeChopping = level.getBlockState(pos);
-
-        if (!(blockStateBeforeChopping.getBlock() instanceof IChoppableBlock) && isBlockSurrounded(level, pos)) {
-            return numChops;
-        }
-
-        int adjustedNumChops = adjustNumChops(level, pos, blockStateBeforeChopping, numChops);
-
-        if (adjustedNumChops > 0) {
-            chops.add(new Chop(pos, adjustedNumChops));
-        }
-
-        return numChops - adjustedNumChops;
-    }
-
-    private static int adjustNumChops(Level level, BlockPos blockPos, BlockState blockState, int numChops) {
-        IChoppableBlock choppableBlock = ClassUtil.getChoppableBlock(level, blockPos, blockState);
-        if (choppableBlock != null) {
-            int currentNumChops = choppableBlock.getNumChops(level, blockPos, blockState);
-            int maxNondestructiveChops = choppableBlock.getMaxNumChops(level, blockPos, blockState) - currentNumChops;
-            return Math.min(maxNondestructiveChops, numChops);
-        } else {
-            return 0;
-        }
-    }
-
-    private static boolean isBlockSurrounded(Level level, BlockPos pos) {
-        return Stream.of(pos.west(), pos.north(), pos.east(), pos.south())
-                .allMatch(neighborPos -> ChopUtil.isBlockALog(level, neighborPos));
     }
 
     private boolean gatherLog(BlockPos pos) {
@@ -194,23 +154,9 @@ public class LazyTreeData extends AbstractTreeData {
     }
 
     @Override
-    public boolean readyToFell(int numChops) {
-        if (!ChopUtil.enoughChopsToFell(numChops, mass)) {
-            return false;
-        } else {
-            return logFinder.find().allMatch(ignored -> ChopUtil.enoughChopsToFell(numChops, mass));
-        }
-    }
-
-    @Override
     public int numChopsNeededToFell() {
         completeTree();
         return ChopUtil.numChopsToFell(mass);
-    }
-
-    @Override
-    public int getChops() {
-        return chops;
     }
 
     public Level getLevel() {
@@ -228,33 +174,8 @@ public class LazyTreeData extends AbstractTreeData {
     private void makeTreeBase(Level level, BlockPos origin) {
         base = new HashSet<>();
         if (ChopUtil.isBlockChoppable(level, origin)) {
-            DirectedGraph<BlockPos> adjacentWorld = BlockNeighbors.ADJACENTS_AND_DIAGONALS::asStream;
             base.add(origin);
-
-            GraphUtil.flood(
-                    GraphUtil.filterNeighbors(adjacentWorld, pos -> ChopUtil.getNumChops(level, pos) > 0),
-                    origin,
-                    Vec3i::getY
-            ).fill().forEach(base::add);
         }
-    }
-
-    @Override
-    public Collection<Chop> chop(BlockPos target, int numChops) {
-        List<Chop> chops = new Stack<>();
-        AtomicInteger chopsLeft = new AtomicInteger(numChops);
-
-        if (chopsLeft.get() > 0) {
-            GraphUtil.flood(logsWorld, base, a -> ChopUtil.blockDistance(target, a) * 32 + RandomUtils.nextInt(0, 32))
-                    .fill()
-                    .takeWhile(pos -> {
-                        chopsLeft.set(gatherChopAndGetNumChopsRemaining(level, pos, chopsLeft.get(), chops));
-                        return chopsLeft.get() > 0;
-                    })
-                    .count();
-        }
-
-        return chops;
     }
 
     private static class LogFinder {
