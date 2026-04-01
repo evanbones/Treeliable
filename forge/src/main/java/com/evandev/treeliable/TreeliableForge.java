@@ -14,14 +14,19 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 
 @Mod(Treeliable.MOD_ID)
 public class TreeliableForge {
-    public TreeliableForge(IEventBus modEventBus) {
+
+    public TreeliableForge() {
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
         ModConfig.load();
         Treeliable.init();
-        modEventBus.addListener(ForgePacketHandler::registerPayloads);
+
+        ForgePacketHandler.register();
 
         modEventBus.addListener(Apotheosis::commonSetup);
         modEventBus.addListener(NoChopOnRightClick::commonSetup);

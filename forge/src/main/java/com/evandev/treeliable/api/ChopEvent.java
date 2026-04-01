@@ -5,6 +5,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
 
 import java.util.Optional;
@@ -46,7 +47,8 @@ abstract public class ChopEvent extends Event {
      * Signals that a tree is about to be felled. Fires before any blocks are broken.
      * Can be canceled to prevent felling.
      */
-    public static class BeforeFellEvent extends ChopEvent implements ICancellableEvent {
+    @Cancelable
+    public static class BeforeFellEvent extends ChopEvent {
         private final FellData fellData;
 
         public BeforeFellEvent(Level level, ServerPlayer player, BlockPos blockPos, BlockState blockState, FellData fellData) {
@@ -62,7 +64,8 @@ abstract public class ChopEvent extends Event {
     /**
      * Signals that a tree has been felled.
      */
-    public static class AfterFellEvent extends ChopEvent implements ICancellableEvent {
+    @Cancelable
+    public static class AfterFellEvent extends ChopEvent {
         private final FellData fellData;
 
         public AfterFellEvent(Level level, ServerPlayer player, BlockPos blockPos, BlockState blockState, FellData fellData) {
@@ -84,7 +87,8 @@ abstract public class ChopEvent extends Event {
      * </ul>
      * Can be canceled to prevent tree detection. Note that detection events only trigger for blocks that are considered choppable (see {@link TreeliableAPI#isBlockChoppable}).
      */
-    public static class DetectTreeEvent extends ChopEvent implements ICancellableEvent {
+    @Cancelable
+    public static class DetectTreeEvent extends ChopEvent {
         private TreeData treeData;
 
         public DetectTreeEvent(Level level, ServerPlayer player, BlockPos blockPos, BlockState blockState, TreeData treeData) {
@@ -106,7 +110,8 @@ abstract public class ChopEvent extends Event {
      * TreeliableAPI#isBlockChoppable}), but before it is replaced by a chopped block (usually a {@code
      * treeliable:chopped_log}). Can be canceled to prevent chopping.
      */
-    public static class StartChopEvent extends ChopEvent implements ICancellableEvent {
+    @Cancelable
+    public static class StartChopEvent extends ChopEvent {
         private final Object trigger;
         private final ChopData chopData;
 

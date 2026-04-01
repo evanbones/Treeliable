@@ -1,6 +1,8 @@
 package com.evandev.treeliable.client;
 
 import com.evandev.treeliable.client.integration.ClothConfigIntegration;
+import com.evandev.treeliable.common.network.ForgePacketHandler;
+import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
@@ -9,7 +11,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.network.PacketDistributor;
 import org.lwjgl.glfw.GLFW;
 
 import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
@@ -30,8 +31,8 @@ public class ForgeClient extends Client {
 
         if (ModList.get().isLoaded("cloth_config")) {
             ModLoadingContext.get().registerExtensionPoint(
-                    IConfigScreenFactory.class,
-                    () -> (client, parent) -> ClothConfigIntegration.createScreen(parent)
+                    ConfigScreenHandler.ConfigScreenFactory.class,
+                    () -> new ConfigScreenHandler.ConfigScreenFactory((client, parent) -> ClothConfigIntegration.createScreen(parent))
             );
         }
     }
@@ -42,8 +43,8 @@ public class ForgeClient extends Client {
     }
 
     @Override
-    public void sendToServer(CustomPacketPayload payload) {
-        PacketDistributor.sendToServer(payload);
+    public void sendToServer(Object payload) {
+        ForgePacketHandler.CHANNEL.sendToServer(payload);
     }
 
     static class EventHandler {

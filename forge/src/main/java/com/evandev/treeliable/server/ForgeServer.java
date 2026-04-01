@@ -1,6 +1,7 @@
 package com.evandev.treeliable.server;
 
 import com.evandev.treeliable.common.chop.FellQueue;
+import com.evandev.treeliable.common.network.ForgePacketHandler;
 import com.evandev.treeliable.common.settings.ChoppingEntity;
 import com.evandev.treeliable.common.settings.SyncedChopData;
 import com.evandev.treeliable.platform.server.Server;
@@ -8,7 +9,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -17,7 +17,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.network.PacketDistributor;
 
-public class ForgeServer extends com.evandev.treeliable.platform.server.Server {
+public class ForgeServer extends Server {
     static {
         Server.instance = new ForgeServer();
     }
@@ -32,13 +32,13 @@ public class ForgeServer extends com.evandev.treeliable.platform.server.Server {
     }
 
     @Override
-    public void broadcast(ServerLevel level, BlockPos pos, CustomPacketPayload payload) {
-        PacketDistributor.sendToPlayersTrackingChunk(level, new ChunkPos(pos), payload);
+    public void broadcast(ServerLevel level, BlockPos pos, Object payload) {
+        ForgePacketHandler.CHANNEL.send(PacketDistributor.TRACKING_CHUNK.with(() -> level.getChunkAt(pos)), payload);
     }
 
     @Override
-    public void sendTo(ServerPlayer player, CustomPacketPayload payload) {
-        PacketDistributor.sendToPlayer(player, payload);
+    public void sendTo(ServerPlayer player, Object payload) {
+        ForgePacketHandler.CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), payload);
     }
 
     private static class EventHandler {
