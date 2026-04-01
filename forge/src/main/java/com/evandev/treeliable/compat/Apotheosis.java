@@ -7,22 +7,22 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.neoforged.bus.api.EventPriority;
-import net.neoforged.fml.ModList;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.common.util.FakePlayer;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 public class Apotheosis {
 
     public static void commonSetup(FMLCommonSetupEvent event) {
         if (ModConfig.get().compatForApotheosis && ModList.get().isLoaded("apothic_enchanting")) {
-            NeoForge.EVENT_BUS.addListener(EventPriority.NORMAL, Apotheosis::onChop);
+            MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, Apotheosis::onChop);
         }
     }
 
     public static void onChop(ChopEvent.StartChopEvent event) {
-        final ResourceKey<Enchantment> chainsaw_key = ResourceKey.create(Registries.ENCHANTMENT, ResourceLocation.fromNamespaceAndPath("apothic_enchanting", "chainsaw"));
+        final ResourceKey<Enchantment> chainsaw_key = ResourceKey.create(Registries.ENCHANTMENT, new ResourceLocation("apothic_enchanting", "chainsaw"));
         ItemStack tool = event.getPlayer().getMainHandItem();
 
         event.getLevel().registryAccess().lookup(Registries.ENCHANTMENT)

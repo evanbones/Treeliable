@@ -4,28 +4,18 @@ import com.evandev.treeliable.Treeliable;
 import com.evandev.treeliable.client.Client;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class ServerConfirmSettingsPacket implements CustomPacketPayload {
+public class ServerConfirmSettingsPacket {
     public static final ResourceLocation ID = Treeliable.resource("server_confirm_settings");
-    public static final CustomPacketPayload.Type<ServerConfirmSettingsPacket> TYPE = new CustomPacketPayload.Type<>(ID);
-    public static final StreamCodec<FriendlyByteBuf, ServerConfirmSettingsPacket> STREAM_CODEC = CustomPacketPayload.codec(
-            ServerConfirmSettingsPacket::encode, ServerConfirmSettingsPacket::decode
-    );
 
     private final List<ConfirmedSetting> settings;
 
     public ServerConfirmSettingsPacket(final List<ConfirmedSetting> settings) {
         this.settings = settings;
-    }
-
-    public void encode(FriendlyByteBuf buffer) {
-        buffer.writeInt(settings.size());
-        settings.forEach(setting -> setting.encode(buffer));
     }
 
     public static ServerConfirmSettingsPacket decode(FriendlyByteBuf buffer) {
@@ -37,17 +27,17 @@ public class ServerConfirmSettingsPacket implements CustomPacketPayload {
         return new ServerConfirmSettingsPacket(settings);
     }
 
-    public void handle() {
-        settings.forEach(ServerConfirmSettingsPacket::processSingleSetting);
-    }
-
     private static void processSingleSetting(ConfirmedSetting setting) {
         Client.getChopSettings().accept(setting.getField(), setting.getValue());
         setting.event.run(setting);
     }
 
-    @Override
-    public @NotNull Type<? extends CustomPacketPayload> type() {
-        return TYPE;
+    public void encode(FriendlyByteBuf buffer) {
+        buffer.writeInt(settings.size());
+        settings.forEach(setting -> setting.encode(buffer));
+    }
+
+    public void handle() {
+        settings.forEach(ServerConfirmSettingsPacket::processSingleSetting);
     }
 }

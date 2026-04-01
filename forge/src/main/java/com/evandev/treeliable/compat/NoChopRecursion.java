@@ -1,14 +1,12 @@
 package com.evandev.treeliable.compat;
 
-import com.evandev.treeliable.Treeliable;
 import com.evandev.treeliable.api.ChopEvent;
 import com.evandev.treeliable.common.config.ModConfig;
 import com.evandev.treeliable.common.util.TickUtil;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.neoforge.common.NeoForge;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +17,7 @@ public class NoChopRecursion {
 
     public static void commonSetup(FMLCommonSetupEvent event) {
         if (ModConfig.get().preventChopRecursion) {
-            NeoForge.EVENT_BUS.register(EventHandler.class);
+            MinecraftForge.EVENT_BUS.register(EventHandler.class);
         }
     }
 

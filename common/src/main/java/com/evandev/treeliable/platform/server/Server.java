@@ -28,7 +28,7 @@ public abstract class Server {
         return chopper.getChopData();
     }
 
-    public abstract void broadcast(ServerLevel level, BlockPos pos, CustomPacketPayload payload);
+    public abstract void broadcast(ServerLevel level, BlockPos pos, Object payload);
 
-    public abstract void sendTo(ServerPlayer player, CustomPacketPayload payload);
+    public abstract void sendTo(ServerPlayer player, Object payload);
 }

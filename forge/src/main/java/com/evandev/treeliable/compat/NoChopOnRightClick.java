@@ -4,10 +4,10 @@ import com.evandev.treeliable.api.ChopEvent;
 import com.evandev.treeliable.common.config.ModConfig;
 import com.evandev.treeliable.common.util.TickUtil;
 import net.minecraft.world.entity.Entity;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +25,7 @@ public class NoChopOnRightClick {
 
     public static void enable() {
         if (!enabled) {
-            NeoForge.EVENT_BUS.register(EventHandler.class);
+            MinecraftForge.EVENT_BUS.register(EventHandler.class);
             enabled = true;
         }
     }

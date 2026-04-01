@@ -21,7 +21,7 @@ public class GuiMixin {
     private static final ResourceLocation CHOP_ICON = Treeliable.resource("textures/gui/chop_icon.png");
 
     @Inject(method = "renderCrosshair", at = @At("TAIL"))
-    private void treeliable$renderChopIcon(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
+    private void treeliable$renderChopIcon(GuiGraphics guiGraphics, CallbackInfo ci) {
         Minecraft minecraft = Minecraft.getInstance();
 
         if (minecraft.hitResult != null && minecraft.hitResult.getType() == HitResult.Type.BLOCK) {

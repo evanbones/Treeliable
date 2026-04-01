@@ -4,6 +4,7 @@ import com.evandev.treeliable.client.integration.ClothConfigIntegration;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -18,7 +19,7 @@ public class ForgeClient extends Client {
         Client.instance = new ForgeClient();
     }
 
-    public static void init(net.neoforged.bus.api.IEventBus modEventBus) {
+    public static void init(IEventBus modEventBus) {
         modEventBus.addListener(ForgeClient::onClientSetup);
         modEventBus.addListener(ForgeClient::onRegisterKeyMappings);
     }

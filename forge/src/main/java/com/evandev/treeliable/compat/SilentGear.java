@@ -11,9 +11,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.fml.InterModComms;
-import net.neoforged.fml.ModList;
-import net.neoforged.fml.event.lifecycle.InterModEnqueueEvent;
+import net.minecraftforge.fml.InterModComms;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 
 import java.util.function.Consumer;
 
@@ -24,7 +24,7 @@ public class SilentGear {
     public static void enqueueIMC(InterModEnqueueEvent event) {
         if (ModConfig.get().compatForSilentGear && ModList.get().isLoaded("silentgear")) {
             InterModComms.sendTo("treeliable", "getTreeliableAPI", () -> (Consumer<TreeliableAPI>) api -> {
-                Item saw = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("silentgear", "saw"));
+                Item saw = BuiltInRegistries.ITEM.get(new ResourceLocation("silentgear", "saw"));
                 api.registerChoppingItemBehavior(saw, new IChoppingItem() {
                     @Override
                     public boolean canChop(Player player, ItemStack tool, Level level, BlockPos pos, BlockState target) {

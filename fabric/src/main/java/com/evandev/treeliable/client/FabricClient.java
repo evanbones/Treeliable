@@ -1,5 +1,6 @@
 package com.evandev.treeliable.client;
 
+import com.evandev.treeliable.common.network.ClientRequestSettingsPacket;
 import com.evandev.treeliable.common.network.ServerConfirmSettingsPacket;
 import com.evandev.treeliable.common.network.ServerPermissionsPacket;
 import net.fabricmc.api.ClientModInitializer;
@@ -9,7 +10,8 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.minecraft.network.FriendlyByteBuf;
 
 @Environment(EnvType.CLIENT)
 public class FabricClient extends Client implements ClientModInitializer {
@@ -38,12 +40,23 @@ public class FabricClient extends Client implements ClientModInitializer {
     }
 
     private void registerPackets() {
-        ClientPlayNetworking.registerGlobalReceiver(ServerConfirmSettingsPacket.TYPE, (payload, context) -> payload.handle());
-        ClientPlayNetworking.registerGlobalReceiver(ServerPermissionsPacket.TYPE, (payload, context) -> payload.handle());
+        ClientPlayNetworking.registerGlobalReceiver(ServerConfirmSettingsPacket.ID, (client, handler, buf, responseSender) -> {
+            ServerConfirmSettingsPacket packet = ServerConfirmSettingsPacket.decode(buf);
+            client.execute(packet::handle);
+        });
+
+        ClientPlayNetworking.registerGlobalReceiver(ServerPermissionsPacket.ID, (client, handler, buf, responseSender) -> {
+            ServerPermissionsPacket packet = ServerPermissionsPacket.decode(buf);
+            client.execute(packet::handle);
+        });
     }
 
     @Override
-    public void sendToServer(CustomPacketPayload payload) {
-        ClientPlayNetworking.send(payload);
+    public void sendToServer(Object payload) {
+        if (payload instanceof ClientRequestSettingsPacket packet) {
+            FriendlyByteBuf buf = PacketByteBufs.create();
+            packet.encode(buf);
+            ClientPlayNetworking.send(ClientRequestSettingsPacket.ID, buf);
+        }
     }
 }

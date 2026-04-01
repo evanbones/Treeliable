@@ -70,5 +70,5 @@ public abstract class Client {
         return Minecraft.getInstance().player;
     }
 
-    abstract public void sendToServer(CustomPacketPayload payload);
+    abstract public void sendToServer(Object payload);
 }
