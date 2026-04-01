@@ -5,23 +5,32 @@ import com.evandev.treeliable.client.SpiderwebVisualizer;
 import com.evandev.treeliable.common.config.ModConfig;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Gui.class)
-public class GuiMixin {
+public abstract class GuiMixin {
+
     private static final ResourceLocation CHOP_ICON = Treeliable.resource("textures/gui/chop_icon.png");
 
+    @Shadow
+    protected int screenWidth;
+
+    @Shadow
+    protected int screenHeight;
+
     @Inject(method = "renderCrosshair", at = @At("TAIL"))
-    private void treeliable$renderChopIcon(GuiGraphics guiGraphics, CallbackInfo ci) {
+    private void treeliable$renderChopIcon(PoseStack poseStack, CallbackInfo ci) {
         Minecraft minecraft = Minecraft.getInstance();
 
         if (minecraft.hitResult != null && minecraft.hitResult.getType() == HitResult.Type.BLOCK) {
@@ -29,11 +38,9 @@ public class GuiMixin {
 
             try {
                 if (ModConfig.get().showChoppingIndicator && SpiderwebVisualizer.blockCanBeChopped(blockHit.getBlockPos())) {
-                    int screenWidth = guiGraphics.guiWidth();
-                    int screenHeight = guiGraphics.guiHeight();
 
-                    int x = (screenWidth / 2) + ModConfig.get().choppingIndicatorXOffset;
-                    int y = (screenHeight / 2) + ModConfig.get().choppingIndicatorYOffset;
+                    int x = (this.screenWidth / 2) + ModConfig.get().choppingIndicatorXOffset;
+                    int y = (this.screenHeight / 2) + ModConfig.get().choppingIndicatorYOffset;
 
                     RenderSystem.enableBlend();
 
@@ -44,8 +51,10 @@ public class GuiMixin {
                             GlStateManager.DestFactor.ZERO
                     );
 
-                    guiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
-                    guiGraphics.blit(CHOP_ICON, x, y, 0, 0, 16, 16, 16, 16);
+                    RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+                    RenderSystem.setShaderTexture(0, CHOP_ICON);
+
+                    GuiComponent.blit(poseStack, x, y, 0, 0, 16, 16, 16, 16);
 
                     RenderSystem.defaultBlendFunc();
                     RenderSystem.disableBlend();

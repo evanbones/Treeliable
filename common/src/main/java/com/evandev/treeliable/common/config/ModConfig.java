@@ -11,7 +11,7 @@ import com.evandev.treeliable.platform.Services;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.Registry;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
@@ -198,11 +198,11 @@ public class ModConfig {
     }
 
     public static Stream<Block> getIdentifiedBlocks(List<String> strings) {
-        return strings.stream().map(ResourceIdentifier::from).flatMap(id -> id.resolve(BuiltInRegistries.BLOCK));
+        return strings.stream().map(ResourceIdentifier::from).flatMap(id -> id.resolve(Registry.BLOCK));
     }
 
     public static Stream<Item> getIdentifiedItems(List<String> strings) {
-        return strings.stream().map(ResourceIdentifier::from).flatMap(id -> id.resolve(BuiltInRegistries.ITEM));
+        return strings.stream().map(ResourceIdentifier::from).flatMap(id -> id.resolve(Registry.ITEM));
     }
 
     public static Permissions getServerPermissions() {
