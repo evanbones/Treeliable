@@ -3,8 +3,6 @@ package com.evandev.treeliable.common.network;
 import com.evandev.treeliable.Treeliable;
 import com.evandev.treeliable.client.Client;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 

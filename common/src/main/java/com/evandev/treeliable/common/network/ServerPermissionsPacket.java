@@ -5,8 +5,6 @@ import com.evandev.treeliable.client.Client;
 import com.evandev.treeliable.common.settings.Permissions;
 import com.evandev.treeliable.common.settings.Setting;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 

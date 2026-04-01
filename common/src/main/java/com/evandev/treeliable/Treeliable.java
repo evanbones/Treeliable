@@ -37,7 +37,7 @@ public abstract class Treeliable {
     }
 
     public static ResourceLocation resource(String path) {
-        return ResourceLocation.fromNamespaceAndPath(Treeliable.MOD_ID, path);
+        return new ResourceLocation(Treeliable.MOD_ID, path);
     }
 
     public static void cry(Throwable e) {

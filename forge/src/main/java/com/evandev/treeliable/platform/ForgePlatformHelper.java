@@ -14,21 +14,21 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.fml.ModList;
-import net.neoforged.fml.loading.FMLEnvironment;
-import net.neoforged.fml.loading.FMLLoader;
-import net.neoforged.fml.loading.FMLPaths;
-import net.neoforged.neoforge.common.NeoForge;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraftforge.fml.loading.FMLLoader;
+import net.minecraftforge.fml.loading.FMLPaths;
 
 import java.nio.file.Path;
 import java.util.stream.Stream;
 
-public class NeoForgePlatformHelper implements IPlatformHelper {
+public class ForgePlatformHelper implements IPlatformHelper {
 
     @Override
     public String getPlatformName() {
-        return "NeoForge";
+        return "Forge";
     }
 
     @Override
@@ -58,13 +58,13 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
 
     @Override
     public boolean uses(ModLoader loader) {
-        return loader == ModLoader.NEOFORGE;
+        return loader == ModLoader.FORGE;
     }
 
     @Override
     public TreeData detectTreeEvent(Level level, ServerPlayer agent, BlockPos blockPos, BlockState blockState, TreeData treeData) {
         ChopEvent.DetectTreeEvent event = new ChopEvent.DetectTreeEvent(level, agent, blockPos, blockState, treeData);
-        NeoForge.EVENT_BUS.post(event);
+        MinecraftForge.EVENT_BUS.post(event);
 
         treeData = event.getTreeData().orElse(null);
         if (event.isCanceled() || treeData == null) {
@@ -96,26 +96,26 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
     @Override
     public boolean startChopEvent(ServerPlayer agent, ServerLevel level, BlockPos pos, BlockState blockState, ChopData chopData, Object trigger) {
         ChopEvent.StartChopEvent startChopEvent = new ChopEvent.StartChopEvent(level, agent, pos, blockState, chopData, trigger);
-        NeoForge.EVENT_BUS.post(startChopEvent);
+        MinecraftForge.EVENT_BUS.post(startChopEvent);
         return !startChopEvent.isCanceled();
     }
 
     @Override
     public void finishChopEvent(ServerPlayer agent, ServerLevel level, BlockPos pos, BlockState blockState, ChopDataImmutable chopData, ChopResult chopResult) {
-        NeoForge.EVENT_BUS.post(new ChopEvent.FinishChopEvent(level, agent, pos, blockState, chopData, chopResult instanceof FellTreeResult));
+        MinecraftForge.EVENT_BUS.post(new ChopEvent.FinishChopEvent(level, agent, pos, blockState, chopData, chopResult instanceof FellTreeResult));
     }
 
     @Override
     public boolean startFellTreeEvent(ServerPlayer player, Level level, BlockPos choppedPos, FellData fellData) {
         ChopEvent.BeforeFellEvent beforeFellEvent = new ChopEvent.BeforeFellEvent(level, player, choppedPos, level.getBlockState(choppedPos), fellData);
-        NeoForge.EVENT_BUS.post(beforeFellEvent);
+        MinecraftForge.EVENT_BUS.post(beforeFellEvent);
         return !beforeFellEvent.isCanceled();
     }
 
     @Override
     public void finishFellTreeEvent(ServerPlayer player, Level level, BlockPos choppedPos, FellData fellData) {
         ChopEvent.AfterFellEvent afterFellEvent = new ChopEvent.AfterFellEvent(level, player, choppedPos, level.getBlockState(choppedPos), fellData);
-        NeoForge.EVENT_BUS.post(afterFellEvent);
+        MinecraftForge.EVENT_BUS.post(afterFellEvent);
     }
 
     @Override

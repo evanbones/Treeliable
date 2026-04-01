@@ -1,32 +1,31 @@
 package com.evandev.treeliable.client;
 
 import com.evandev.treeliable.client.integration.ClothConfigIntegration;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModList;
-import net.neoforged.fml.ModLoadingContext;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
-import net.neoforged.neoforge.client.event.InputEvent;
-import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
-import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
+import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.network.PacketDistributor;
 import org.lwjgl.glfw.GLFW;
 
-public class NeoForgeClient extends Client {
+import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
+
+public class ForgeClient extends Client {
     static {
-        Client.instance = new NeoForgeClient();
+        Client.instance = new ForgeClient();
     }
 
     public static void init(net.neoforged.bus.api.IEventBus modEventBus) {
-        modEventBus.addListener(NeoForgeClient::onClientSetup);
-        modEventBus.addListener(NeoForgeClient::onRegisterKeyMappings);
+        modEventBus.addListener(ForgeClient::onClientSetup);
+        modEventBus.addListener(ForgeClient::onRegisterKeyMappings);
     }
 
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
-        NeoForge.EVENT_BUS.register(EventHandler.class);
+        EVENT_BUS.register(EventHandler.class);
 
         if (ModList.get().isLoaded("cloth_config")) {
             ModLoadingContext.get().registerExtensionPoint(

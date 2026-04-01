@@ -5,30 +5,30 @@ import com.evandev.treeliable.common.settings.ChoppingEntity;
 import com.evandev.treeliable.common.settings.SyncedChopData;
 import com.evandev.treeliable.platform.server.Server;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ChunkPos;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.entity.player.PlayerEvent;
-import net.neoforged.neoforge.event.tick.ServerTickEvent;
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.network.PacketDistributor;
 
-public class NeoForgeServer extends com.evandev.treeliable.platform.server.Server {
+public class ForgeServer extends com.evandev.treeliable.platform.server.Server {
     static {
-        Server.instance = new NeoForgeServer();
+        Server.instance = new ForgeServer();
     }
 
-    public static void init(net.neoforged.bus.api.IEventBus modEventBus) {
-        modEventBus.addListener(NeoForgeServer::onCommonSetup);
+    public static void init(IEventBus modEventBus) {
+        modEventBus.addListener(ForgeServer::onCommonSetup);
     }
 
     @SubscribeEvent
     public static void onCommonSetup(FMLCommonSetupEvent event) {
-        NeoForge.EVENT_BUS.register(EventHandler.class);
+        MinecraftForge.EVENT_BUS.register(EventHandler.class);
     }
 
     @Override
@@ -54,8 +54,10 @@ public class NeoForgeServer extends com.evandev.treeliable.platform.server.Serve
         }
 
         @SubscribeEvent
-        public static void onServerTick(ServerTickEvent.Post event) {
-            FellQueue.tick();
+        public static void onServerTick(TickEvent.ServerTickEvent event) {
+            if (event.phase == TickEvent.Phase.END) {
+                FellQueue.tick();
+            }
         }
     }
 }

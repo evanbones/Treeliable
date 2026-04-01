@@ -10,7 +10,6 @@ import com.evandev.treeliable.common.settings.SettingsField;
 import com.evandev.treeliable.common.settings.SneakBehavior;
 import com.evandev.treeliable.common.util.TreeCache;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.entity.player.Player;
 
 public abstract class Client {

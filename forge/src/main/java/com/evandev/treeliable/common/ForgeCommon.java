@@ -9,14 +9,14 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.TagsUpdatedEvent;
-import net.neoforged.neoforge.event.level.BlockEvent;
+import net.minecraftforge.event.TagsUpdatedEvent;
+import net.minecraftforge.event.level.BlockEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
 
-@EventBusSubscriber(modid = Treeliable.MOD_ID)
-public class NeoForgeCommon {
+@Mod.EventBusSubscriber(modid = Treeliable.MOD_ID)
+public class ForgeCommon {
 
     @SubscribeEvent
     public static void onTagsUpdated(TagsUpdatedEvent event) {

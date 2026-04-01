@@ -5,7 +5,6 @@ import com.evandev.treeliable.client.SpiderwebVisualizer;
 import com.evandev.treeliable.common.config.ModConfig;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
