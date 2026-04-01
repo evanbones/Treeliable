@@ -69,6 +69,13 @@
   "treeliable.config.linear_b": "Linear B Factor",
   "treeliable.config.linear_b.tooltip": "The base additive (B) for the linear algorithm.",
 
+  "treeliable.config.show_chopping_indicator": "Show Chopping Indicator",
+  "treeliable.config.show_chopping_indicator.tooltip": "Displays a small icon next to your crosshair when looking at a choppable tree.",
+  "treeliable.config.chopping_indicator_x_offset": "Indicator X Offset",
+  "treeliable.config.chopping_indicator_x_offset.tooltip": "The horizontal distance (in pixels) from the center of the crosshair to the chopping indicator.",
+  "treeliable.config.chopping_indicator_y_offset": "Indicator Y Offset",
+  "treeliable.config.chopping_indicator_y_offset.tooltip": "The vertical distance (in pixels) from the center of the crosshair to the chopping indicator.",
+
   "treeliable.config.delay_felling_layers": "Delay Felling Layers",
   "treeliable.config.delay_felling_layers.tooltip": "When enabled, the tree will break layer-by-layer starting from the bottom with a delay between each vertical level.",
   "treeliable.config.felling_layer_delay_ticks": "Felling Layer Delay (Ticks)",

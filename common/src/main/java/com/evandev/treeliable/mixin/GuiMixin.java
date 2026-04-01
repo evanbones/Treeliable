@@ -2,6 +2,7 @@ package com.evandev.treeliable.mixin;
 
 import com.evandev.treeliable.Treeliable;
 import com.evandev.treeliable.client.SpiderwebVisualizer;
+import com.evandev.treeliable.common.config.ModConfig;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.DeltaTracker;
@@ -28,12 +29,12 @@ public class GuiMixin {
             BlockHitResult blockHit = (BlockHitResult) minecraft.hitResult;
 
             try {
-                if (SpiderwebVisualizer.blockCanBeChopped(blockHit.getBlockPos())) {
+                if (ModConfig.get().showChoppingIndicator && SpiderwebVisualizer.blockCanBeChopped(blockHit.getBlockPos())) {
                     int screenWidth = guiGraphics.guiWidth();
                     int screenHeight = guiGraphics.guiHeight();
 
-                    int x = (screenWidth / 2) + 10;
-                    int y = (screenHeight / 2) - 8;
+                    int x = (screenWidth / 2) + ModConfig.get().choppingIndicatorXOffset;
+                    int y = (screenHeight / 2) + ModConfig.get().choppingIndicatorYOffset;
 
                     RenderSystem.enableBlend();
 

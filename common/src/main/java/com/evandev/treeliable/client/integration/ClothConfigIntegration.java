@@ -110,6 +110,15 @@ public class ClothConfigIntegration {
 
         ConfigCategory visuals = builder.getOrCreateCategory(Component.translatable("treeliable.config.category.visuals"));
 
+        visuals.addEntry(eb.startBooleanToggle(Component.translatable("treeliable.config.show_chopping_indicator"), config.showChoppingIndicator)
+                .setTooltip(Component.translatable("treeliable.config.show_chopping_indicator.tooltip"))
+                .setDefaultValue(true).setSaveConsumer(v -> config.showChoppingIndicator = v).build());
+        visuals.addEntry(eb.startIntField(Component.translatable("treeliable.config.chopping_indicator_x_offset"), config.choppingIndicatorXOffset)
+                .setTooltip(Component.translatable("treeliable.config.chopping_indicator_x_offset.tooltip"))
+                .setDefaultValue(8).setSaveConsumer(v -> config.choppingIndicatorXOffset = v).build());
+        visuals.addEntry(eb.startIntField(Component.translatable("treeliable.config.chopping_indicator_y_offset"), config.choppingIndicatorYOffset)
+                .setTooltip(Component.translatable("treeliable.config.chopping_indicator_y_offset.tooltip"))
+                .setDefaultValue(-8).setSaveConsumer(v -> config.choppingIndicatorYOffset = v).build());
         visuals.addEntry(eb.startBooleanToggle(Component.translatable("treeliable.config.delay_felling_layers"), config.delayFellingLayers)
                 .setTooltip(Component.translatable("treeliable.config.delay_felling_layers.tooltip"))
                 .setDefaultValue(true).setSaveConsumer(v -> config.delayFellingLayers = v).build());

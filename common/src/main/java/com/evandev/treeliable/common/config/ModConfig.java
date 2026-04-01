@@ -30,6 +30,12 @@ public class ModConfig {
 
     @SerializedName("enabled")
     public boolean enabled = true;
+    @SerializedName("show_chopping_indicator")
+    public boolean showChoppingIndicator = true;
+    @SerializedName("chopping_indicator_x_offset")
+    public int choppingIndicatorXOffset = 8;
+    @SerializedName("chopping_indicator_y_offset")
+    public int choppingIndicatorYOffset = -8;
     @SerializedName("drop_loot_for_chopped_blocks")
     public boolean dropLootForChoppedBlocks = true;
     @SerializedName("chopping_enabled")
