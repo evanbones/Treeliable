@@ -6,17 +6,24 @@
 
 **Treeliable** is a highly configurable, simple mod that adds balanced tree felling mechanics!
 
+### Dependencies
+
+* [Cloth Config](https://modrinth.com/mod/cloth-config) is recommended to configure the mod.
+
 ## Features
 
-* **Smart Tree Felling:** Chop down entire trees by breaking a single block. By default, trees must have leaves connected to them to be considered a tree, preventing you from accidentally destroying wooden structures.
-* **Balanced & Configurable Chopping:** The time it takes to chop down a tree scales dynamically based on its size. You can configure this algorithm to be logarithmic or linear to suit your modpack's balance.
-* **Layered Felling:** Trees can be configured to break layer-by-layer with customizable delays and exponential speedup, instead of instantly vanishing.
-* **Hytale-Like Felling:** Toggle alternative felling mechanics inspired by Hytale! Chopping a layer of a tree will cause the whole tree to fall.
-* **In-Game Configuration:** Fully integrated with Cloth Config! Tweak algorithms, visual indicators, tool damage, exhaustion rates, and felling mechanics directly from the game menu. 
-* **Sneak Behavior:** Sneaking can either prevent chopping or activate it (configurable).
-* **Visual Indicators:** An on-screen icon lets you know when you're looking at a tree that can be felled. There's also a spiderweb-like breaking animation on the tree layers as you chop.
-* **Survival Integration:** The mod calculates and applies tool damage and player food exhaustion based on the size of the tree being felled. 
-* **Compatibility:** Built-in support for Apotheosis axes, Silent Gear saws, huge mushrooms, and nether fungi.
+* Chop down entire trees by breaking a single block. By default, trees must have leaves connected to them to be considered a tree, preventing you from accidentally destroying wooden structures.
+  * The time it takes to chop down a tree scales dynamically based on its size. You can configure this algorithm to be logarithmic or linear to suit your modpack's balance.
+* Trees can be configured to break layer-by-layer with customizable delays and exponential speedup, instead of instantly vanishing.
+* An on-screen icon lets you know when you're looking at a tree that can be felled. There's also a spiderweb-like breaking animation on the tree layers as you chop.
+* The mod calculates and applies tool damage and player food exhaustion based on the size of the tree being felled. 
+* Sneaking can either prevent chopping or activate it (configurable).
+* There's also the option to toggle alternative felling mechanics inspired by Hytale! Chopping a layer of a tree will cause the whole tree to fall.
+
+## Mod Compatibility
+
+* Most mods should work out of the box, as long as their logs and leaves are properly tagged with #minecraft:logs and #minecraft:leaves respectively.
+* There are additional features for Apotheosis axes, Silent Gear saws, and handling for more troublesome modded trees like from Alex's Caves and Tropicraft.
 
 ## For Developers
 
