@@ -6,6 +6,10 @@ public class ChopCounting {
     private static final int[] cache = new int[CACHE_SIZE];
     private static int numCached = 1;
 
+    public static void invalidateCache() {
+        numCached = 1;
+    }
+
     public static int calculate(int support) {
         if (support < CACHE_SIZE) {
             if (numCached <= support) {
