@@ -73,11 +73,11 @@ public class ModConfig {
     public boolean exhaustionPerLog = true;
 
     @SerializedName("chop_counting_algorithm")
-    public ChopCountingAlgorithm chopCountingAlgorithm = ChopCountingAlgorithm.LOGARITHMIC;
+    public ChopCountingAlgorithm chopCountingAlgorithm = ChopCountingAlgorithm.LINEAR;
     @SerializedName("chop_count_rounding")
     public Rounder chopCountRounding = Rounder.NEAREST;
     @SerializedName("can_require_more_chops_than_blocks")
-    public boolean canRequireMoreChopsThanBlocks = false;
+    public boolean canRequireMoreChopsThanBlocks = true;
     @SerializedName("logarithmic_a")
     public double logarithmicA = 10.0;
     @SerializedName("linear_m")
@@ -220,5 +220,6 @@ public class ModConfig {
         leavesBlocksCache.reset();
         choppingItemsCache.reset();
         ChopUtil.defaultDetector.reset();
+        ChopCounting.invalidateCache();
     }
 }

@@ -6,6 +6,7 @@ import com.evandev.treeliable.api.*;
 import com.evandev.treeliable.common.config.*;
 import com.evandev.treeliable.common.settings.ChopSettings;
 import com.evandev.treeliable.common.util.ClassUtil;
+import com.evandev.treeliable.common.util.PlacedLogTracker;
 import com.evandev.treeliable.platform.Services;
 import com.evandev.treeliable.platform.server.Server;
 import net.minecraft.core.BlockPos;
@@ -33,7 +34,7 @@ public class ChopUtil {
     }
 
     public static boolean isBlockALog(Level level, BlockPos pos, BlockState blockState) {
-        return isBlockChoppable(level, pos, blockState);
+        return isBlockChoppable(level, pos, blockState) && !PlacedLogTracker.isPlayerPlaced(level, pos);
     }
 
     public static boolean isBlockChoppable(Level level, BlockPos pos) {

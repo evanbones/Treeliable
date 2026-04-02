@@ -91,13 +91,13 @@ public class ClothConfigIntegration {
 
         algorithm.addEntry(eb.startEnumSelector(Component.translatable("treeliable.config.chop_counting_algorithm"), ChopCountingAlgorithm.class, config.chopCountingAlgorithm)
                 .setTooltip(Component.translatable("treeliable.config.chop_counting_algorithm.tooltip"))
-                .setDefaultValue(ChopCountingAlgorithm.LOGARITHMIC).setSaveConsumer(v -> config.chopCountingAlgorithm = v).build());
+                .setDefaultValue(ChopCountingAlgorithm.LINEAR).setSaveConsumer(v -> config.chopCountingAlgorithm = v).build());
         algorithm.addEntry(eb.startEnumSelector(Component.translatable("treeliable.config.chop_count_rounding"), Rounder.class, config.chopCountRounding)
                 .setTooltip(Component.translatable("treeliable.config.chop_count_rounding.tooltip"))
                 .setDefaultValue(Rounder.NEAREST).setSaveConsumer(v -> config.chopCountRounding = v).build());
         algorithm.addEntry(eb.startBooleanToggle(Component.translatable("treeliable.config.can_require_more_chops_than_blocks"), config.canRequireMoreChopsThanBlocks)
                 .setTooltip(Component.translatable("treeliable.config.can_require_more_chops_than_blocks.tooltip"))
-                .setDefaultValue(false).setSaveConsumer(v -> config.canRequireMoreChopsThanBlocks = v).build());
+                .setDefaultValue(true).setSaveConsumer(v -> config.canRequireMoreChopsThanBlocks = v).build());
         algorithm.addEntry(eb.startDoubleField(Component.translatable("treeliable.config.logarithmic_a"), config.logarithmicA)
                 .setTooltip(Component.translatable("treeliable.config.logarithmic_a.tooltip"))
                 .setDefaultValue(10.0).setSaveConsumer(v -> config.logarithmicA = v).build());
