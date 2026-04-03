@@ -1,7 +1,7 @@
 package com.evandev.treeliable.common.config.resource;
 
 import net.minecraft.core.DefaultedRegistry;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.List;
 import java.util.regex.Pattern;
@@ -12,7 +12,7 @@ public class ResourcePatternIdentifier extends ResourceIdentifier {
     private final Pattern pattern;
 
     public ResourcePatternIdentifier(Pattern pattern, List<IdentifierQualifier> qualifiers, String string) {
-        super("", "", qualifiers, string);
+        super("", "", string);
         this.pattern = pattern;
     }
 
@@ -20,7 +20,7 @@ public class ResourcePatternIdentifier extends ResourceIdentifier {
     public <R extends DefaultedRegistry<T>, T> Stream<T> resolve(R registry) {
         return registry.stream()
                 .filter(resource -> {
-                    ResourceLocation loc = registry.getKey(resource);
+                    Identifier loc = registry.getKey(resource);
                     return loc != registry.getDefaultKey() && pattern.matcher(loc.toString()).matches();
                 });
     }

@@ -18,9 +18,9 @@ public class TreeliableFabric implements ModInitializer {
         ModConfig.load();
         Treeliable.init();
 
-        PayloadTypeRegistry.playC2S().register(ClientRequestSettingsPacket.TYPE, ClientRequestSettingsPacket.STREAM_CODEC);
-        PayloadTypeRegistry.playS2C().register(ServerConfirmSettingsPacket.TYPE, ServerConfirmSettingsPacket.STREAM_CODEC);
-        PayloadTypeRegistry.playS2C().register(ServerPermissionsPacket.TYPE, ServerPermissionsPacket.STREAM_CODEC);
+        PayloadTypeRegistry.serverboundPlay().register(ClientRequestSettingsPacket.TYPE, ClientRequestSettingsPacket.STREAM_CODEC);
+        PayloadTypeRegistry.clientboundPlay().register(ServerConfirmSettingsPacket.TYPE, ServerConfirmSettingsPacket.STREAM_CODEC);
+        PayloadTypeRegistry.clientboundPlay().register(ServerPermissionsPacket.TYPE, ServerPermissionsPacket.STREAM_CODEC);
 
         PlayerBlockBreakEvents.BEFORE.register(FabricCommon::onBreakEvent);
 

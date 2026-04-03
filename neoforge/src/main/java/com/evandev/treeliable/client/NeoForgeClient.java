@@ -2,6 +2,7 @@ package com.evandev.treeliable.client;
 
 import com.evandev.treeliable.client.integration.ClothConfigIntegration;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.ModLoadingContext;
@@ -10,8 +11,8 @@ import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.network.PacketDistributor;
 import org.lwjgl.glfw.GLFW;
 
 public class NeoForgeClient extends Client {
@@ -19,7 +20,7 @@ public class NeoForgeClient extends Client {
         Client.instance = new NeoForgeClient();
     }
 
-    public static void init(net.neoforged.bus.api.IEventBus modEventBus) {
+    public static void init(IEventBus modEventBus) {
         modEventBus.addListener(NeoForgeClient::onClientSetup);
         modEventBus.addListener(NeoForgeClient::onRegisterKeyMappings);
     }
@@ -43,7 +44,7 @@ public class NeoForgeClient extends Client {
 
     @Override
     public void sendToServer(CustomPacketPayload payload) {
-        PacketDistributor.sendToServer(payload);
+        ClientPacketDistributor.sendToServer(payload);
     }
 
     static class EventHandler {

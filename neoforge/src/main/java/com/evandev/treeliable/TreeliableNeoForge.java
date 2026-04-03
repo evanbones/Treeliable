@@ -30,7 +30,7 @@ public class TreeliableNeoForge {
 
         NeoForge.EVENT_BUS.addListener(this::onRegisterCommands);
 
-        if (FMLEnvironment.dist == Dist.CLIENT) {
+        if (FMLEnvironment.getDist() == Dist.CLIENT) {
             NeoForgeClient.init(modEventBus);
         }
 

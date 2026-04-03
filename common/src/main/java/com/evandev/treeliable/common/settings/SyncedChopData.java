@@ -44,13 +44,14 @@ public class SyncedChopData {
 
     public SyncedChopData readSaveData(CompoundTag tag) {
         if (tag.contains(IS_SYNCED_KEY)) {
-            Optional<Boolean> choppingEnabled = getBoolean(tag, CHOPPING_ENABLED_KEY);
-            Optional<Boolean> onlyChopTreesWithLeaves = getBoolean(tag, TREES_MUST_HAVE_LEAVES_KEY);
-            Optional<Boolean> chopInCreativeMode = getBoolean(tag, CHOP_IN_CREATIVE_MODE_KEY);
-            Optional<Boolean> isSynced = getBoolean(tag, IS_SYNCED_KEY);
+            Optional<Boolean> choppingEnabled = tag.getBoolean(CHOPPING_ENABLED_KEY);
+            Optional<Boolean> onlyChopTreesWithLeaves = tag.getBoolean(TREES_MUST_HAVE_LEAVES_KEY);
+            Optional<Boolean> chopInCreativeMode = tag.getBoolean(CHOP_IN_CREATIVE_MODE_KEY);
+            Optional<Boolean> isSynced = tag.getBoolean(IS_SYNCED_KEY);
 
             SneakBehavior defaultSneakBehavior = (SneakBehavior) SettingsField.SNEAK_BEHAVIOR.getDefaultValue();
-            String sneakBehaviorId = (tag.contains(SNEAK_BEHAVIOR_KEY)) ? tag.getString(SNEAK_BEHAVIOR_KEY) : "";
+            String sneakBehaviorId = tag.getString(SNEAK_BEHAVIOR_KEY).orElse("");
+
             if (sneakBehaviorId.isEmpty()) {
                 settings.setSneakBehavior(defaultSneakBehavior);
             } else {
@@ -58,7 +59,7 @@ public class SyncedChopData {
                 try {
                     sneakBehavior = SneakBehavior.valueOf(sneakBehaviorId);
                 } catch (IllegalArgumentException e) {
-                    Treeliable.LOGGER.warn("NBT contains bad sneak behavior value \"{}\"; using default value \"{}\"", tag.getString(SNEAK_BEHAVIOR_KEY), defaultSneakBehavior.name());
+                    Treeliable.LOGGER.warn("NBT contains bad sneak behavior value \"{}\"; using default value \"{}\"", sneakBehaviorId, defaultSneakBehavior.name());
                     sneakBehavior = defaultSneakBehavior;
                 }
                 settings.setSneakBehavior(sneakBehavior);
@@ -74,11 +75,5 @@ public class SyncedChopData {
         }
 
         return this;
-    }
-
-    protected Optional<Boolean> getBoolean(CompoundTag CompoundTag, String key) {
-        return (CompoundTag.contains(key))
-                ? Optional.of(CompoundTag.getBoolean(key))
-                : Optional.empty();
     }
 }

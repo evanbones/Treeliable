@@ -1,8 +1,6 @@
 {
   "treeliable.codec.bad_value": "SOMETHING WENT WRONG",
-  "treeliable.key.cycle_sneak_behavior": "Cycle Sneak Behavior",
-  "treeliable.key.toggle_chopping": "Toggle Chopping",
-  "treeliable.key.toggle_felling": "Toggle Felling",
+
   "treeliable.sneak_behavior.invert_chopping": "INVERT CHOPPING",
   "treeliable.sneak_behavior.invert_felling": "INVERT FELLING",
   "treeliable.sneak_behavior.none": "NONE",
@@ -107,5 +105,9 @@
   "treeliable.config.leaves_blocks_exceptions": "Leaves Blocks Exceptions",
   "treeliable.config.leaves_blocks_exceptions.tooltip": "List of block tags or IDs to explicitly exclude from being leaves.",
   "treeliable.config.chopping_items": "Chopping Items",
-  "treeliable.config.chopping_items.tooltip": "List of specific item IDs affected by the filter type."
+  "treeliable.config.chopping_items.tooltip": "List of specific item IDs affected by the filter type.",
+
+  "key.category.treeliable.keys": "Treeliable",
+  "key.treeliable.toggle_chopping": "Toggle Chopping",
+  "key.treeliable.cycle_sneak_behavior": "Cycle Sneak Behavior"
 }

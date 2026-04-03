@@ -3,31 +3,25 @@ package com.evandev.treeliable.common.config.resource;
 import com.evandev.treeliable.Treeliable;
 import net.minecraft.core.DefaultedRegistry;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public abstract class ResourceIdentifier {
 
     private static final Pattern PATTERN = Pattern.compile("^\\s*([#@])?([a-z0-9_\\-.]*(?=:))?:?([a-z0-9_\\-./]*)?$");
-    private static final Pattern QUALIFIERS_PATTERN = Pattern.compile("^\\?(.*)$"); // Disabled to keep regex IDs simple
     private static final String DEFAULT_NAMESPACE = "minecraft";
 
     private final String nameSpace;
     private final String localSpace;
-    private final List<IdentifierQualifier> qualifiers;
     private final String string;
 
-    public ResourceIdentifier(String nameSpace, String localSpace, List<IdentifierQualifier> qualifiers, String string) {
+    public ResourceIdentifier(String nameSpace, String localSpace, String string) {
         this.nameSpace = nameSpace;
         this.localSpace = localSpace;
-        this.qualifiers = qualifiers;
         this.string = string;
     }
 
@@ -44,15 +38,15 @@ public abstract class ResourceIdentifier {
             List<IdentifierQualifier> qualifiers = List.of(); //parseQualifiers(Optional.ofNullable(matcher.group(4)).orElse(""));
 
             if (searchSpace.equals("#")) {
-                return new ResourceTagIdentifier(either(namespace, DEFAULT_NAMESPACE), localSpace, qualifiers, string);
+                return new ResourceTagIdentifier(either(namespace), localSpace, qualifiers, string);
             } else if (searchSpace.equals("@")) {
-                if (namespace.equals("")) {
+                if (namespace.isEmpty()) {
                     return new ResourceNamespaceIdentifier(localSpace, qualifiers, string);
                 } else {
                     return new MalformedResourceIdentifier(string, "unqualified identifier does not match \"@mod\"");
                 }
             } else {
-                return new SingleResourceIdentifier(either(namespace, DEFAULT_NAMESPACE), localSpace, qualifiers, string);
+                return new SingleResourceIdentifier(either(namespace), localSpace, qualifiers, string);
             }
         } else {
             try {
@@ -64,32 +58,12 @@ public abstract class ResourceIdentifier {
         }
     }
 
-    private static List<IdentifierQualifier> parseQualifiers(String qualifiersString) {
-        Matcher matcher = QUALIFIERS_PATTERN.matcher(qualifiersString);
-        if (matcher.find()) {
-            return Arrays.stream(matcher.group(1).split(","))
-                    .map(ResourceIdentifier::parseQualifier)
-                    .collect(Collectors.toList());
-        } else {
-            return Collections.emptyList();
-        }
-    }
-
-    private static IdentifierQualifier parseQualifier(String string) {
-        String[] parts = string.split("=", 2);
-        if (parts.length <= 1) {
-            return new IdentifierQualifier(string, null);
-        } else {
-            return new IdentifierQualifier(parts[0], parts[1]);
-        }
-    }
-
-    private static String either(String string, String fallbackIfEmpty) {
-        return string.equals("") ? fallbackIfEmpty : string;
+    private static String either(String string) {
+        return string.isEmpty() ? ResourceIdentifier.DEFAULT_NAMESPACE : string;
     }
 
     private static void parsingError(String idString, String message) {
-        Treeliable.LOGGER.warn("Configuration issue: failed to parse \"{}\": {} (to silence this warning, find and delete \"{}\" in treeliable-common.toml)", idString, message, idString);
+        Treeliable.LOGGER.warn("Configuration issue: failed to parse \"{}\": {} (to silence this warning, find and delete \"{}\" in treeliable.json)", idString, message, idString);
     }
 
     public String getNamespace() {
@@ -100,15 +74,11 @@ public abstract class ResourceIdentifier {
         return localSpace;
     }
 
-    public List<IdentifierQualifier> getQualifiers() {
-        return qualifiers;
-    }
-
     public String getString() {
         return string;
     }
 
-    public String getResourceLocation() {
+    public String getIdentifier() {
         return String.format("%s:%s", getNamespace(), getLocalSpace());
     }
 
@@ -116,17 +86,5 @@ public abstract class ResourceIdentifier {
 
     public void parsingError(String message) {
         parsingError(getString(), message);
-    }
-
-    public Optional<String> getQualifier(String key) {
-        return qualifiers.stream()
-                .filter(qualifier -> qualifier.key().equals(key))
-                .map(IdentifierQualifier::value)
-                .findFirst();
-    }
-
-    public boolean hasQualifier(String key) {
-        return qualifiers.stream()
-                .anyMatch(qualifier -> qualifier.key().equals(key));
     }
 }

@@ -17,7 +17,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-public class NeoForgeServer extends com.evandev.treeliable.platform.server.Server {
+public class NeoForgeServer extends Server {
     static {
         Server.instance = new NeoForgeServer();
     }
@@ -33,7 +33,7 @@ public class NeoForgeServer extends com.evandev.treeliable.platform.server.Serve
 
     @Override
     public void broadcast(ServerLevel level, BlockPos pos, CustomPacketPayload payload) {
-        PacketDistributor.sendToPlayersTrackingChunk(level, new ChunkPos(pos), payload);
+        PacketDistributor.sendToPlayersTrackingChunk(level, new ChunkPos(pos.getX(), pos.getZ()), payload);
     }
 
     @Override

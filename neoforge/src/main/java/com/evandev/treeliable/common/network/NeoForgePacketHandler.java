@@ -9,7 +9,7 @@ public class NeoForgePacketHandler {
     public static void registerPayloads(final RegisterPayloadHandlersEvent event) {
         final PayloadRegistrar registrar = event.registrar(Treeliable.MOD_ID).versioned("1.0.0");
 
-        registrar.playBidirectional(
+        registrar.playToServer(
                 ClientRequestSettingsPacket.TYPE,
                 ClientRequestSettingsPacket.STREAM_CODEC,
                 (payload, context) -> payload.handle(context.player(), context::reply)

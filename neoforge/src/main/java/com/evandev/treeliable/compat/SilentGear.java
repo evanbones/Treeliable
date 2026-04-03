@@ -5,7 +5,7 @@ import com.evandev.treeliable.api.TreeliableAPI;
 import com.evandev.treeliable.common.config.ModConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -24,7 +24,7 @@ public class SilentGear {
     public static void enqueueIMC(InterModEnqueueEvent event) {
         if (ModConfig.get().compatForSilentGear && ModList.get().isLoaded("silentgear")) {
             InterModComms.sendTo("treeliable", "getTreeliableAPI", () -> (Consumer<TreeliableAPI>) api -> {
-                Item saw = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("silentgear", "saw"));
+                Item saw = BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath("silentgear", "saw"));
                 api.registerChoppingItemBehavior(saw, new IChoppingItem() {
                     @Override
                     public boolean canChop(Player player, ItemStack tool, Level level, BlockPos pos, BlockState target) {

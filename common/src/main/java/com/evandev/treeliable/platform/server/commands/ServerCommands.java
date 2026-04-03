@@ -12,12 +12,13 @@ import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
 import net.minecraft.commands.arguments.coordinates.Coordinates;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.permissions.Permissions;
 import net.minecraft.world.item.ItemStack;
 
 public class ServerCommands {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         LiteralArgumentBuilder<CommandSourceStack> builder = Commands.literal("treeliable")
-                .requires(source -> source.hasPermission(2));
+                .requires(source -> source.permissions().hasPermission(Permissions.COMMANDS_GAMEMASTER));
 
         builder.then(Commands.literal("fell")
                 .then(Commands.argument("chopPos", BlockPosArgument.blockPos())

@@ -2,13 +2,12 @@ package com.evandev.treeliable.common.config.resource;
 
 import net.minecraft.core.DefaultedRegistry;
 
-import java.util.Collections;
 import java.util.stream.Stream;
 
 public class MalformedResourceIdentifier extends ResourceIdentifier {
 
     public MalformedResourceIdentifier(String string, String explanation) {
-        super("", "", Collections.emptyList(), string);
+        super("", "", string);
         parsingError(explanation);
     }
 

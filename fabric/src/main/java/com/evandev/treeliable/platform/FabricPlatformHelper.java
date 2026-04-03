@@ -9,7 +9,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Item;
@@ -81,12 +81,12 @@ public class FabricPlatformHelper implements IPlatformHelper {
     }
 
     @Override
-    public ResourceLocation getResourceLocationForBlock(Block block) {
+    public Identifier getIdentifierForBlock(Block block) {
         return BuiltInRegistries.BLOCK.getKey(block);
     }
 
     @Override
-    public ResourceLocation getResourceLocationForItem(Item item) {
+    public Identifier getIdentifierForItem(Item item) {
         return BuiltInRegistries.ITEM.getKey(item);
     }
 }

@@ -7,14 +7,13 @@ import com.evandev.treeliable.common.platform.ModLoader;
 import com.evandev.treeliable.platform.services.IPlatformHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.fml.loading.FMLLoader;
@@ -38,7 +37,7 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
 
     @Override
     public boolean isDevelopmentEnvironment() {
-        return !FMLLoader.isProduction();
+        return !FMLLoader.getCurrent().isProduction();
     }
 
     @Override
@@ -48,12 +47,12 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
 
     @Override
     public boolean isPhysicalClient() {
-        return FMLLoader.getDist() == Dist.CLIENT;
+        return FMLEnvironment.getDist().isClient();
     }
 
     @Override
     public boolean isDedicatedServer() {
-        return FMLEnvironment.dist.isDedicatedServer();
+        return FMLEnvironment.getDist().isDedicatedServer();
     }
 
     @Override
@@ -119,12 +118,12 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
     }
 
     @Override
-    public ResourceLocation getResourceLocationForBlock(Block block) {
+    public Identifier getIdentifierForBlock(Block block) {
         return BuiltInRegistries.BLOCK.getKey(block);
     }
 
     @Override
-    public ResourceLocation getResourceLocationForItem(Item item) {
+    public Identifier getIdentifierForItem(Item item) {
         return BuiltInRegistries.ITEM.getKey(item);
     }
 }

@@ -7,7 +7,7 @@ import com.evandev.treeliable.api.TreeData;
 import com.evandev.treeliable.common.chop.ChopResult;
 import com.evandev.treeliable.common.platform.ModLoader;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Item;
@@ -74,9 +74,9 @@ public interface IPlatformHelper {
 
     void finishChopEvent(ServerPlayer player, ServerLevel level, BlockPos pos, BlockState blockState, ChopDataImmutable chopData, ChopResult chopResult);
 
-    ResourceLocation getResourceLocationForBlock(Block block);
+    Identifier getIdentifierForBlock(Block block);
 
-    ResourceLocation getResourceLocationForItem(Item item);
+    Identifier getIdentifierForItem(Item item);
 
     boolean startFellTreeEvent(ServerPlayer player, Level level, BlockPos choppedPos, FellData fellData);
 

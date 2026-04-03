@@ -3,8 +3,8 @@ package com.evandev.treeliable.compat;
 import com.evandev.treeliable.api.ChopEvent;
 import com.evandev.treeliable.common.config.ModConfig;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.neoforged.bus.api.EventPriority;
@@ -22,7 +22,7 @@ public class Apotheosis {
     }
 
     public static void onChop(ChopEvent.StartChopEvent event) {
-        final ResourceKey<Enchantment> chainsaw_key = ResourceKey.create(Registries.ENCHANTMENT, ResourceLocation.fromNamespaceAndPath("apothic_enchanting", "chainsaw"));
+        final ResourceKey<Enchantment> chainsaw_key = ResourceKey.create(Registries.ENCHANTMENT, Identifier.fromNamespaceAndPath("apothic_enchanting", "chainsaw"));
         ItemStack tool = event.getPlayer().getMainHandItem();
 
         event.getLevel().registryAccess().lookup(Registries.ENCHANTMENT)

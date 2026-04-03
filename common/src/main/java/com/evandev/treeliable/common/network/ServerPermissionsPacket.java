@@ -7,7 +7,7 @@ import com.evandev.treeliable.common.settings.Setting;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class ServerPermissionsPacket implements CustomPacketPayload {
-    public static final ResourceLocation ID = Treeliable.resource("server_permissions");
+    public static final Identifier ID = Treeliable.resource("server_permissions");
     public static final CustomPacketPayload.Type<ServerPermissionsPacket> TYPE = new CustomPacketPayload.Type<>(ID);
     public static final StreamCodec<FriendlyByteBuf, ServerPermissionsPacket> STREAM_CODEC = CustomPacketPayload.codec(
             ServerPermissionsPacket::encode, ServerPermissionsPacket::decode

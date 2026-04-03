@@ -10,11 +10,11 @@ import java.util.stream.Stream;
 public class BlockNeighbors {
 
     static public final BlockNeighbors UP = new BlockNeighbors(new BlockPos[]{
-            new BlockPos(Direction.UP.getNormal())
+            new BlockPos(Direction.UP.getUnitVec3i())
     });
 
     static public final BlockNeighbors DOWN = new BlockNeighbors(new BlockPos[]{
-            new BlockPos(Direction.DOWN.getNormal())
+            new BlockPos(Direction.DOWN.getUnitVec3i())
     });
 
     static public final BlockNeighbors HORIZONTAL_ADJACENTS = new BlockNeighbors(new BlockPos[]{

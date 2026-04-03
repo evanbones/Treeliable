@@ -63,7 +63,7 @@ public class TreeliableInternalAPI implements TreeliableAPI {
         choppableBlockOverrides.put(block, isChoppable);
         print(String.format("Set isChoppable=%s for block %s",
                 isChoppable,
-                Services.PLATFORM.getResourceLocationForBlock(block)));
+                Services.PLATFORM.getIdentifierForBlock(block)));
     }
 
     @Override
@@ -71,7 +71,7 @@ public class TreeliableInternalAPI implements TreeliableAPI {
         leavesBlockOverrides.put(block, isLeaves);
         print(String.format("Set isLeaves=%s for block %s",
                 isLeaves,
-                Services.PLATFORM.getResourceLocationForBlock(block)));
+                Services.PLATFORM.getIdentifierForBlock(block)));
     }
 
     @Override
@@ -79,21 +79,21 @@ public class TreeliableInternalAPI implements TreeliableAPI {
         choppingItemOverrides.put(item, canChop);
         print(String.format("Set canChop=%s for item %s",
                 canChop,
-                Services.PLATFORM.getResourceLocationForItem(item)));
+                Services.PLATFORM.getIdentifierForItem(item)));
     }
 
     @Override
     public void registerBlockBehavior(Block block, ITreeliableBlockBehavior handler) {
         blockBehaviors.put(block, handler);
         print(String.format("Registered new behavior for block %s",
-                Services.PLATFORM.getResourceLocationForBlock(block)));
+                Services.PLATFORM.getIdentifierForBlock(block)));
     }
 
     @Override
     public boolean deregisterBlockBehavior(Block block) {
         ITreeliableBlockBehavior existing = blockBehaviors.remove(block);
         print(String.format("Deregistered behavior for block %s",
-                Services.PLATFORM.getResourceLocationForBlock(block)));
+                Services.PLATFORM.getIdentifierForBlock(block)));
         return existing == null;
     }
 
@@ -106,14 +106,14 @@ public class TreeliableInternalAPI implements TreeliableAPI {
     public void registerChoppingItemBehavior(Item item, IChoppingItem handler) {
         choppingItemBehaviors.put(item, handler);
         print(String.format("Registered new behavior for item %s",
-                Services.PLATFORM.getResourceLocationForItem(item)));
+                Services.PLATFORM.getIdentifierForItem(item)));
     }
 
     @Override
     public boolean deregisterChoppingItemBehavior(Item item) {
         IChoppingItem existing = choppingItemBehaviors.remove(item);
         print(String.format("Deregistered behavior for item %s",
-                Services.PLATFORM.getResourceLocationForItem(item)));
+                Services.PLATFORM.getIdentifierForItem(item)));
         return existing == null;
     }
 
