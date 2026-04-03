@@ -21,7 +21,6 @@ public abstract class Treeliable {
 
     public static void init() {
         api = new TreeliableInternalAPI(MOD_ID);
-        initUsingAPI(api);
     }
 
     public static void initUsingAPI(TreeliableAPI api) {

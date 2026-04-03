@@ -9,6 +9,7 @@ import com.evandev.treeliable.platform.server.commands.ServerCommands;
 import com.evandev.treeliable.server.FabricServer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.event.lifecycle.v1.CommonLifecycleEvents;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 
@@ -17,6 +18,10 @@ public class TreeliableFabric implements ModInitializer {
     public void onInitialize() {
         ModConfig.load();
         Treeliable.init();
+
+        CommonLifecycleEvents.TAGS_LOADED.register((registries, client) -> {
+            Treeliable.initUsingAPI(Treeliable.api);
+        });
 
         PayloadTypeRegistry.serverboundPlay().register(ClientRequestSettingsPacket.TYPE, ClientRequestSettingsPacket.STREAM_CODEC);
         PayloadTypeRegistry.clientboundPlay().register(ServerConfirmSettingsPacket.TYPE, ServerConfirmSettingsPacket.STREAM_CODEC);

@@ -1,3 +1,1 @@
-### Fixed
-
-- Fixed crash on NeoForge.
+- Ported to 26.1.
