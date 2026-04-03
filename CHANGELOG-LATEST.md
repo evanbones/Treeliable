@@ -1,3 +1,7 @@
+### Changed
+
+- Adjusted default leaf breaking sounds.
+
 ### Fixed
 
-- Fixed crash on NeoForge.
+- Fixed leaf sounds not properly batching.
