@@ -43,7 +43,7 @@ public class ServerCommands {
             );
 
             if (felled) {
-                LevelUtil.harvestBlock(source.getPlayer(), source.getLevel(), pos, ItemStack.EMPTY, true);
+                LevelUtil.harvestBlock(source.getPlayer(), source.getLevel(), pos, ItemStack.EMPTY, true, true);
             }
         } catch (TreeliableException e) {
             source.sendFailure(Component.literal("Failed to fell tree: " + e.getMessage()));

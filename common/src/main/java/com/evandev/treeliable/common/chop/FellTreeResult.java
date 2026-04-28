@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class FellTreeResult implements ChopResult {
@@ -37,18 +38,18 @@ public class FellTreeResult implements ChopResult {
     }
 
     @NotNull
-    private static Consumer<BlockPos> makeBlockBreaker(ServerPlayer player, ServerLevel level) {
+    private static BiConsumer<BlockPos, Boolean> makeBlockBreaker(ServerPlayer player, ServerLevel level) {
         if (player.isCreative()) {
             BlockState air = Blocks.AIR.defaultBlockState();
-            return pos -> level.setBlockAndUpdate(pos, air);
+            return (pos, dropLoot) -> level.setBlockAndUpdate(pos, air);
         } else {
             ServerPlayer creditPlayer = (ModConfig.get().fellCreditStrategy == FellCreditStrategy.NONE) ? null : player;
             ItemStack creditTool = (ModConfig.get().fellCreditStrategy == FellCreditStrategy.PLAYER_AND_TOOL) ? player.getMainHandItem() : ItemStack.EMPTY;
-            return pos -> LevelUtil.harvestBlock(creditPlayer, level, pos, creditTool, false);
+            return (pos, dropLoot) -> LevelUtil.harvestBlock(creditPlayer, level, pos, creditTool, false, dropLoot);
         }
     }
 
-    private static boolean breakLogs(ServerPlayer player, ServerLevel level, TreeData tree, GameType gameType, Consumer<BlockPos> blockBreaker, BlockPos targetPos, ItemStack tool, Map<Integer, List<Runnable>> layeredActions) {
+    private static boolean breakLogs(ServerPlayer player, ServerLevel level, TreeData tree, GameType gameType, BiConsumer<BlockPos, Boolean> blockBreaker, BlockPos targetPos, ItemStack tool, Map<Integer, List<Runnable>> layeredActions) {
         AtomicInteger i = new AtomicInteger(0);
         boolean toolBroke = false;
 
@@ -75,7 +76,9 @@ public class FellTreeResult implements ChopResult {
                 if (i.getAndIncrement() % 3 == 0) {
                     playBlockBreakEffects(level, pos, state);
                 }
-                blockBreaker.accept(pos);
+
+                boolean dropLoot = level.getRandom().nextDouble() < ModConfig.get().logDropChance;
+                blockBreaker.accept(pos, dropLoot);
             };
 
             layeredActions.computeIfAbsent(pos.getY(), y -> new ArrayList<>()).add(action);
@@ -84,7 +87,7 @@ public class FellTreeResult implements ChopResult {
         return toolBroke;
     }
 
-    private static void breakLeaves(ServerPlayer player, ServerLevel level, TreeData tree, GameType gameType, Consumer<BlockPos> blockBreaker, Map<Integer, List<Runnable>> layeredActions) {
+    private static void breakLeaves(ServerPlayer player, ServerLevel level, TreeData tree, GameType gameType, BiConsumer<BlockPos, Boolean> blockBreaker, Map<Integer, List<Runnable>> layeredActions) {
         AtomicInteger i = new AtomicInteger(0);
         boolean tryToDecay = ModConfig.get().fellLeavesStrategy == FellLeavesStrategy.DECAY;
 
@@ -99,7 +102,7 @@ public class FellTreeResult implements ChopResult {
                     } else if (tryToDecay && shouldDecayLeaves(state)) {
                         decayLeavesInsteadOfBreaking(level, pos, state);
                     } else {
-                        blockBreaker.accept(pos);
+                        blockBreaker.accept(pos, true);
                     }
 
                     if (!ModConfig.get().suppressVanillaLeafSoundsOnFell && (i.getAndIncrement() % 8 == 0)) {
@@ -137,7 +140,7 @@ public class FellTreeResult implements ChopResult {
 
             if (fell) {
                 Map<Integer, List<Runnable>> layeredActions = new TreeMap<>();
-                Consumer<BlockPos> blockBreaker = makeBlockBreaker(player, serverLevel);
+                BiConsumer<BlockPos, Boolean> blockBreaker = makeBlockBreaker(player, serverLevel);
 
                 boolean toolBroke = breakLogs(player, serverLevel, fellData.getTree(), gameType, blockBreaker, targetPos, tool, layeredActions);
 

@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 
 public class LevelUtil {
-    public static void harvestBlock(Entity agent, Level level, BlockPos pos, ItemStack tool, boolean loud) {
+    public static void harvestBlock(Entity agent, Level level, BlockPos pos, ItemStack tool, boolean loud, boolean dropLoot) {
         if (level instanceof ServerLevel) {
             BlockState blockState = level.getBlockState(pos);
 
@@ -24,8 +24,8 @@ public class LevelUtil {
             FluidState fluidStateOrAir = level.getFluidState(pos);
             blockState.getBlock().destroy(level, pos, blockState);
 
-            // Check the config before dropping items
-            if (ModConfig.get().dropLootForChoppedBlocks) {
+            // Check the config and the local random roll before dropping items
+            if (ModConfig.get().dropLootForChoppedBlocks && dropLoot) {
                 Block.dropResources(blockState, level, pos, level.getBlockEntity(pos), agent, tool);
             }
 
