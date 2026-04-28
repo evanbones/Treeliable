@@ -53,6 +53,8 @@
   "treeliable.config.damage_tool_per_log.tooltip": "If enabled, the tool will take 1 durability damage for every log in the tree that is felled. The felling process will stop if the tool breaks.",
   "treeliable.config.exhaustion_per_log": "Exhaustion Per Log",
   "treeliable.config.exhaustion_per_log.tooltip": "If enabled, the player will gain a small amount of hunger exhaustion for every log in the tree that is felled.",
+  "treeliable.config.log_drop_chance": "Log Drop Chance",
+  "treeliable.config.log_drop_chance.tooltip": "The chance (0.0 to 1.0) that each felled log will drop an item. For example, 0.5 means roughly 50% of the tree's logs will drop as items.",
 
   "treeliable.config.chop_counting_algorithm": "Chop Counting Algorithm",
   "treeliable.config.chop_counting_algorithm.tooltip": "Algorithm used to calculate how many chops are needed based on tree size.",

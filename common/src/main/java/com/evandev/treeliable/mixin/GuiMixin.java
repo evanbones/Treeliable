@@ -21,7 +21,7 @@ public class GuiMixin {
     private static final Identifier CHOP_ICON = Treeliable.resource("textures/gui/chop_icon.png");
 
     @Inject(method = "extractCrosshair", at = @At("TAIL"))
-    private void treeliable$renderChopIcon(GuiGraphicsExtractor guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
+    private void treeliable$renderChopIcon(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, CallbackInfo ci) {
         Minecraft minecraft = Minecraft.getInstance();
 
         if (minecraft.hitResult != null && minecraft.hitResult.getType() == HitResult.Type.BLOCK) {
@@ -29,14 +29,14 @@ public class GuiMixin {
 
             try {
                 if (ModConfig.get().showChoppingIndicator && SpiderwebVisualizer.blockCanBeChopped(blockHit.getBlockPos())) {
-                    int screenWidth = guiGraphics.guiWidth();
-                    int screenHeight = guiGraphics.guiHeight();
+                    int screenWidth = graphics.guiWidth();
+                    int screenHeight = graphics.guiHeight();
 
                     int x = (screenWidth / 2) + ModConfig.get().choppingIndicatorXOffset;
                     int y = (screenHeight / 2) + ModConfig.get().choppingIndicatorYOffset;
 
-                    guiGraphics.blit(
-                            RenderPipelines.GUI_TEXTURED,
+                    graphics.blit(
+                            RenderPipelines.CROSSHAIR,
                             CHOP_ICON,
                             x,
                             y,

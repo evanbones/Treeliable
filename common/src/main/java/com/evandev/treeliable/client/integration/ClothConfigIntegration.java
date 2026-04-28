@@ -86,6 +86,9 @@ public class ClothConfigIntegration {
         limits.addEntry(eb.startBooleanToggle(Component.translatable("treeliable.config.exhaustion_per_log"), config.exhaustionPerLog)
                 .setTooltip(Component.translatable("treeliable.config.exhaustion_per_log.tooltip"))
                 .setDefaultValue(true).setSaveConsumer(v -> config.exhaustionPerLog = v).build());
+        limits.addEntry(eb.startDoubleField(Component.translatable("treeliable.config.log_drop_chance"), config.logDropChance)
+                .setTooltip(Component.translatable("treeliable.config.log_drop_chance.tooltip"))
+                .setDefaultValue(1.0).setMin(0.0).setMax(1.0).setSaveConsumer(v -> config.logDropChance = v).build());
 
         ConfigCategory algorithm = builder.getOrCreateCategory(Component.translatable("treeliable.config.category.algorithm"));
 

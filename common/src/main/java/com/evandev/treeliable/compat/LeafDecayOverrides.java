@@ -18,7 +18,7 @@ public class LeafDecayOverrides {
 
     public static void register(TreeliableAPI api) {
         ITreeliableBlockBehavior handler = (ILeaveslikeBlock) (player, level, pos, blockState) ->
-                LevelUtil.harvestBlock(player, level, pos, ItemStack.EMPTY, false);
+                LevelUtil.harvestBlock(player, level, pos, ItemStack.EMPTY, false, true);
 
         nondecayableLeaves.get().forEach(block -> {
             api.overrideLeavesBlock(block, true);

@@ -71,6 +71,8 @@ public class ModConfig {
     public boolean damageToolPerLog = true;
     @SerializedName("exhaustion_per_log")
     public boolean exhaustionPerLog = true;
+    @SerializedName("log_drop_chance")
+    public double logDropChance = 1.0;
 
     @SerializedName("chop_counting_algorithm")
     public ChopCountingAlgorithm chopCountingAlgorithm = ChopCountingAlgorithm.LINEAR;
