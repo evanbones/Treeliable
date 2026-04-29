@@ -1,7 +1,7 @@
 package com.evandev.treeliable.common;
 
-import com.evandev.treeliable.TreeliableException;
 import com.evandev.treeliable.Treeliable;
+import com.evandev.treeliable.TreeliableException;
 import com.evandev.treeliable.common.chop.ChopUtil;
 import com.evandev.treeliable.common.config.ModConfig;
 import net.minecraft.core.BlockPos;
@@ -12,8 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.TagsUpdatedEvent;
-import net.neoforged.neoforge.event.level.BlockEvent;
-
+import net.neoforged.neoforge.event.level.block.BreakBlockEvent;
 
 @EventBusSubscriber(modid = Treeliable.MOD_ID)
 public class NeoForgeCommon {
@@ -24,7 +23,7 @@ public class NeoForgeCommon {
     }
 
     @SubscribeEvent
-    public static void onBreakEvent(BlockEvent.BreakEvent event) {
+    public static void onBreakEvent(BreakBlockEvent event) {
         if (event.isCanceled()
                 || !(event.getLevel() instanceof ServerLevel level)
                 || !(event.getPlayer() instanceof ServerPlayer agent)) {

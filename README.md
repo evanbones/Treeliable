@@ -24,7 +24,7 @@
 ## Credits
 
 Treeliable is a heavily modified fork of [HT's TreeChop](https://github.com/hammertater/treechop) by hammertater, used
-under its [MIT License](https://github.com/hammertater/treechop/blob/main/LICENSE). This project is built upon their 
+under its [MIT License](https://github.com/hammertater/treechop/blob/main/LICENSE). This project is built upon their
 original work and logic for tree detection and chopping algorithms.
 
 ---
