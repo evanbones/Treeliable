@@ -1,5 +1,6 @@
 package com.evandev.treeliable.mixin;
 
+import com.evandev.treeliable.common.chop.ChopUtil;
 import com.evandev.treeliable.common.util.PlacedLogTracker;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -18,7 +19,9 @@ public class BlockBehaviourMixin {
         BlockState newState = level.getBlockState(pos);
 
         if (!state.is(newState.getBlock())) {
-            PlacedLogTracker.removePlacedLog(level, pos);
+            if (!ChopUtil.isBlockChoppable(level, pos, newState)) {
+                PlacedLogTracker.removePlacedLog(level, pos);
+            }
         }
     }
 }

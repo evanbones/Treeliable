@@ -1,3 +1,3 @@
 ### Fixed
 
-- Update mod to work with latest NeoForge versions.
+- Fixed player-stripped logs being choppable.
