@@ -183,6 +183,11 @@ public class ChopUtil {
         }
 
         TreeData tree = getTree(level, pos);
+
+        if (!tree.isAProperTree(treesMustHaveLeaves)) {
+            return false;
+        }
+
         ChopData chopData = new ChopDataImpl(numChops, tree);
 
         boolean doChop = Services.PLATFORM.startChopEvent(agent, level, pos, blockState, chopData, trigger);
