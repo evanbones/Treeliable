@@ -1,7 +1,3 @@
-### Changed
-
-- Adjusted default leaf breaking sounds.
-
 ### Fixed
 
-- Fixed leaf sounds not properly batching.
+- Fixed player-stripped logs being choppable.
