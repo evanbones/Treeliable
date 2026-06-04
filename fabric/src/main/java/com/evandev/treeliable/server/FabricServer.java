@@ -1,8 +1,10 @@
 package com.evandev.treeliable.server;
 
 import com.evandev.treeliable.common.chop.FellQueue;
+import com.evandev.treeliable.common.config.ModConfig;
 import com.evandev.treeliable.common.network.ClientRequestSettingsPacket;
 import com.evandev.treeliable.common.network.PacketChannel;
+import com.evandev.treeliable.common.network.ServerAlgorithmSyncPacket;
 import com.evandev.treeliable.common.settings.ChoppingEntity;
 import com.evandev.treeliable.common.settings.SyncedChopData;
 import com.evandev.treeliable.platform.server.Server;
@@ -10,6 +12,7 @@ import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -26,6 +29,10 @@ public class FabricServer extends com.evandev.treeliable.platform.server.Server 
         ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> {
             SyncedChopData chopSettings = instance.getPlayerChopData(oldPlayer);
             ((ChoppingEntity) newPlayer).setChopData(chopSettings);
+        });
+
+        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+            ServerPlayNetworking.send(handler.player, new ServerAlgorithmSyncPacket(ModConfig.get()));
         });
 
         ServerTickEvents.END_SERVER_TICK.register(server -> FellQueue.tick());

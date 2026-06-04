@@ -1,3 +1,3 @@
 ### Fixed
 
-- Fixed player-stripped logs being choppable.
+- Fixed client-server config desync.

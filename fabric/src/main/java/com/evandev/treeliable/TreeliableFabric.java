@@ -3,6 +3,7 @@ package com.evandev.treeliable;
 import com.evandev.treeliable.common.FabricCommon;
 import com.evandev.treeliable.common.config.ModConfig;
 import com.evandev.treeliable.common.network.ClientRequestSettingsPacket;
+import com.evandev.treeliable.common.network.ServerAlgorithmSyncPacket;
 import com.evandev.treeliable.common.network.ServerConfirmSettingsPacket;
 import com.evandev.treeliable.common.network.ServerPermissionsPacket;
 import com.evandev.treeliable.platform.server.commands.ServerCommands;
@@ -23,6 +24,7 @@ public class TreeliableFabric implements ModInitializer {
             Treeliable.initUsingAPI(Treeliable.api);
         });
 
+        PayloadTypeRegistry.clientboundPlay().register(ServerAlgorithmSyncPacket.TYPE, ServerAlgorithmSyncPacket.STREAM_CODEC);
         PayloadTypeRegistry.serverboundPlay().register(ClientRequestSettingsPacket.TYPE, ClientRequestSettingsPacket.STREAM_CODEC);
         PayloadTypeRegistry.clientboundPlay().register(ServerConfirmSettingsPacket.TYPE, ServerConfirmSettingsPacket.STREAM_CODEC);
         PayloadTypeRegistry.clientboundPlay().register(ServerPermissionsPacket.TYPE, ServerPermissionsPacket.STREAM_CODEC);

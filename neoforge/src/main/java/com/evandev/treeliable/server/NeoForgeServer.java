@@ -1,6 +1,8 @@
 package com.evandev.treeliable.server;
 
 import com.evandev.treeliable.common.chop.FellQueue;
+import com.evandev.treeliable.common.config.ModConfig;
+import com.evandev.treeliable.common.network.ServerAlgorithmSyncPacket;
 import com.evandev.treeliable.common.settings.ChoppingEntity;
 import com.evandev.treeliable.common.settings.SyncedChopData;
 import com.evandev.treeliable.platform.server.Server;
@@ -29,6 +31,13 @@ public class NeoForgeServer extends Server {
     @SubscribeEvent
     public static void onCommonSetup(FMLCommonSetupEvent event) {
         NeoForge.EVENT_BUS.register(EventHandler.class);
+    }
+
+    @SubscribeEvent
+    public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
+        if (event.getEntity() instanceof ServerPlayer player) {
+            PacketDistributor.sendToPlayer(player, new ServerAlgorithmSyncPacket(ModConfig.get()));
+        }
     }
 
     @Override

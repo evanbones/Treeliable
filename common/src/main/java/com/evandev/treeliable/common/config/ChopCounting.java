@@ -6,11 +6,11 @@ public class ChopCounting {
     private static final int[] cache = new int[CACHE_SIZE];
     private static int numCached = 1;
 
-    public static void invalidateCache() {
+    public static synchronized void invalidateCache() {
         numCached = 1;
     }
 
-    public static int calculate(int support) {
+    public static synchronized int calculate(int support) {
         if (support < CACHE_SIZE) {
             if (numCached <= support) {
                 for (; numCached <= support; ++numCached) {
@@ -27,7 +27,6 @@ public class ChopCounting {
         Rounder rounder = ModConfig.get().chopCountRounding;
         boolean canRequireMore = ModConfig.get().canRequireMoreChopsThanBlocks;
 
-        int count = Math.max(1, rounder.round(ModConfig.get().chopCountingAlgorithm.calculate(support, rounder, canRequireMore)));
-        return canRequireMore ? count : Math.min(support, count);
+        return ModConfig.get().chopCountingAlgorithm.calculate(support, rounder, canRequireMore);
     }
 }

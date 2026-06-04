@@ -1,5 +1,6 @@
 package com.evandev.treeliable.client;
 
+import com.evandev.treeliable.common.network.ServerAlgorithmSyncPacket;
 import com.evandev.treeliable.common.network.ServerConfirmSettingsPacket;
 import com.evandev.treeliable.common.network.ServerPermissionsPacket;
 import net.fabricmc.api.ClientModInitializer;
@@ -40,6 +41,7 @@ public class FabricClient extends Client implements ClientModInitializer {
     private void registerPackets() {
         ClientPlayNetworking.registerGlobalReceiver(ServerConfirmSettingsPacket.TYPE, (payload, context) -> payload.handle());
         ClientPlayNetworking.registerGlobalReceiver(ServerPermissionsPacket.TYPE, (payload, context) -> payload.handle());
+        ClientPlayNetworking.registerGlobalReceiver(ServerAlgorithmSyncPacket.TYPE, (payload, context) -> payload.handle());
     }
 
     @Override

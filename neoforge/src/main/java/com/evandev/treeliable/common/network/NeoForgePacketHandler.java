@@ -9,22 +9,28 @@ public class NeoForgePacketHandler {
     public static void registerPayloads(final RegisterPayloadHandlersEvent event) {
         final PayloadRegistrar registrar = event.registrar(Treeliable.MOD_ID).versioned("1.0.0");
 
+        registrar.playToClient(
+                ServerAlgorithmSyncPacket.TYPE,
+                ServerAlgorithmSyncPacket.STREAM_CODEC,
+                (payload, context) -> context.enqueueWork(payload::handle)
+        );
+
         registrar.playToServer(
                 ClientRequestSettingsPacket.TYPE,
                 ClientRequestSettingsPacket.STREAM_CODEC,
-                (payload, context) -> payload.handle(context.player(), context::reply)
+                (payload, context) -> context.enqueueWork(() -> payload.handle(context.player(), context::reply))
         );
 
         registrar.playToClient(
                 ServerConfirmSettingsPacket.TYPE,
                 ServerConfirmSettingsPacket.STREAM_CODEC,
-                (payload, context) -> payload.handle()
+                (payload, context) -> context.enqueueWork(payload::handle)
         );
 
         registrar.playToClient(
                 ServerPermissionsPacket.TYPE,
                 ServerPermissionsPacket.STREAM_CODEC,
-                (payload, context) -> payload.handle()
+                (payload, context) -> context.enqueueWork(payload::handle)
         );
     }
 }
