@@ -59,12 +59,12 @@ public class FellTreeResult implements ChopResult {
 
             BlockState state = level.getBlockState(pos);
 
-            if (ModConfig.get().damageToolPerLog && !player.isCreative()) {
+            if (ModConfig.get().damageToolPerLog && !player.isCreative() && !tool.isEmpty()) {
+                tool.mineBlock(level, state, pos, player);
                 if (tool.isEmpty()) {
                     toolBroke = true;
                     break;
                 }
-                tool.mineBlock(level, state, pos, player);
             }
 
             if (ModConfig.get().exhaustionPerLog && !player.isCreative()) {
