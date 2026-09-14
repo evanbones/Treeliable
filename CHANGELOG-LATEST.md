@@ -1,3 +1,3 @@
 ### Fixed
 
-- Fixed shift-chopping exploit.
+- Fixed modded blocks not being recognized in the config (@619doof).
