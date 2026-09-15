@@ -12,6 +12,7 @@ import com.evandev.treeliable.server.NeoForgeServer;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
@@ -20,7 +21,7 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
 public class TreeliableNeoForge {
     public TreeliableNeoForge(IEventBus modEventBus) {
         ModConfig.load();
-        Treeliable.init();
+        modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(NeoForgePacketHandler::registerPayloads);
 
         modEventBus.addListener(Apotheosis::commonSetup);
@@ -35,6 +36,10 @@ public class TreeliableNeoForge {
         }
 
         NeoForgeServer.init(modEventBus);
+    }
+
+    private void commonSetup(FMLCommonSetupEvent event) {
+        event.enqueueWork(Treeliable::init);
     }
 
     private void onRegisterCommands(RegisterCommandsEvent event) {
