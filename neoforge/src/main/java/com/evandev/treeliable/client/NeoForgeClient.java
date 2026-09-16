@@ -1,10 +1,10 @@
 package com.evandev.treeliable.client;
 
-import com.evandev.treeliable.client.integration.ClothConfigIntegration;
+import com.evandev.treeliable.client.integration.YaclConfigIntegration;
+import com.evandev.treeliable.platform.Services;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModList;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
@@ -29,10 +29,10 @@ public class NeoForgeClient extends Client {
     public static void onClientSetup(FMLClientSetupEvent event) {
         NeoForge.EVENT_BUS.register(EventHandler.class);
 
-        if (ModList.get().isLoaded("cloth_config")) {
+        if (Services.PLATFORM.isModLoaded("yet_another_config_lib_v3")) {
             ModLoadingContext.get().registerExtensionPoint(
                     IConfigScreenFactory.class,
-                    () -> (client, parent) -> ClothConfigIntegration.createScreen(parent)
+                    () -> (_, parent) -> YaclConfigIntegration.createScreen(parent)
             );
         }
     }

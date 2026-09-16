@@ -40,7 +40,7 @@ public class KeyBindings {
             super(resourceName, InputConstants.Type.KEYSYM, inputByCode.getValue(), CATEGORY);
 
             this.callback = () -> {
-                Screen screen = Minecraft.getInstance().screen;
+                Screen screen = Minecraft.getInstance().gui.screen();
                 if (screen == null) {
                     callback.run();
                 }

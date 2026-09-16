@@ -1,6 +1,6 @@
 package com.evandev.treeliable.compat;
 
-import com.evandev.treeliable.client.integration.ClothConfigIntegration;
+import com.evandev.treeliable.client.integration.YaclConfigIntegration;
 import com.evandev.treeliable.platform.Services;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
@@ -8,9 +8,10 @@ import com.terraformersmc.modmenu.api.ModMenuApi;
 public class ModMenuIntegration implements ModMenuApi {
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        if (Services.PLATFORM.isModLoaded("cloth-config")) {
-            return ClothConfigIntegration::createScreen;
+        if (!Services.PLATFORM.isModLoaded("yet_another_config_lib_v3")) {
+            return null;
         }
-        return null;
+
+        return YaclConfigIntegration::createScreen;
     }
 }
