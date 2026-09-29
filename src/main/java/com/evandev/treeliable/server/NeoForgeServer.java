@@ -1,0 +1,75 @@
+package com.evandev.treeliable.server;
+
+//? if neoforge {
+/*import com.evandev.treeliable.common.chop.FellQueue;
+import com.evandev.treeliable.common.config.ModConfig;
+import com.evandev.treeliable.common.network.ServerAlgorithmSyncPacket;
+import com.evandev.treeliable.common.settings.ChoppingEntity;
+import com.evandev.treeliable.common.settings.SyncedChopData;
+import com.evandev.treeliable.platform.server.Server;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.ChunkPos;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.tick.ServerTickEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
+
+public class NeoForgeServer extends Server {
+    static {
+        Server.instance = new NeoForgeServer();
+    }
+
+    public static void init(net.neoforged.bus.api.IEventBus modEventBus) {
+        modEventBus.addListener(NeoForgeServer::onCommonSetup);
+    }
+
+    @SubscribeEvent
+    public static void onCommonSetup(FMLCommonSetupEvent event) {
+        NeoForge.EVENT_BUS.register(EventHandler.class);
+    }
+
+    @Override
+    public void broadcast(ServerLevel level, BlockPos pos, CustomPacketPayload payload) {
+        //? if >=26.1 {
+        //PacketDistributor.sendToPlayersTrackingChunk(level, ChunkPos.containing(pos), payload);
+        //?} else
+        PacketDistributor.sendToPlayersTrackingChunk(level, new ChunkPos(pos), payload);
+    }
+
+    @Override
+    public void sendTo(ServerPlayer player, CustomPacketPayload payload) {
+        PacketDistributor.sendToPlayer(player, payload);
+    }
+
+    private static class EventHandler {
+        @SubscribeEvent
+        public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
+            if (event.getEntity() instanceof ServerPlayer player) {
+                PacketDistributor.sendToPlayer(player, new ServerAlgorithmSyncPacket(ModConfig.get()));
+            }
+        }
+
+        @SubscribeEvent
+        public static void onPlayerCloned(PlayerEvent.Clone event) {
+            if (event.isWasDeath()) {
+                Player oldPlayer = event.getOriginal();
+                Player newPlayer = event.getEntity();
+
+                SyncedChopData chopSettings = instance.getPlayerChopData(oldPlayer);
+                ((ChoppingEntity) newPlayer).setChopData(chopSettings);
+            }
+        }
+
+        @SubscribeEvent
+        public static void onServerTick(ServerTickEvent.Post event) {
+            FellQueue.tick();
+        }
+    }
+}
+*///?}

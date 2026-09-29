@@ -1,0 +1,52 @@
+package com.evandev.treeliable.common;
+
+//? if forge {
+/*import com.evandev.treeliable.TreeliableException;
+import com.evandev.treeliable.Treeliable;
+import com.evandev.treeliable.common.chop.ChopUtil;
+import com.evandev.treeliable.common.config.ModConfig;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.event.TagsUpdatedEvent;
+import net.minecraftforge.event.level.BlockEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+
+
+@Mod.EventBusSubscriber(modid = Treeliable.MOD_ID)
+public class ForgeCommon {
+
+    @SubscribeEvent
+    public static void onTagsUpdated(TagsUpdatedEvent event) {
+        ModConfig.get().invalidateCaches();
+        if (Treeliable.api != null) {
+            Treeliable.initUsingAPI(Treeliable.api);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onBreakEvent(BlockEvent.BreakEvent event) {
+        if (event.isCanceled()
+                || !(event.getLevel() instanceof ServerLevel level)
+                || !(event.getPlayer() instanceof ServerPlayer agent)) {
+            return;
+        }
+
+        ItemStack tool = agent.getMainHandItem();
+        BlockState blockState = event.getState();
+        BlockPos pos = event.getPos();
+
+        try {
+            if (ChopUtil.chop(agent, level, pos, blockState, tool, event)) {
+                event.setCanceled(true);
+            }
+        } catch (TreeliableException e) {
+            Treeliable.cry(e);
+        }
+    }
+
+}
+*///?}

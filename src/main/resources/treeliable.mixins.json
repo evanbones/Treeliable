@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.evandev.treeliable.mixin",
+  "compatibilityLevel": "JAVA_${java_version}",
+  "mixins": [
+    "EntityChopSettingsMixin",
+    "BlockStateMixin",
+    "BlockMixin",
+    "BlockBehaviourMixin"
+  ],
+  "client": [
+    "GuiMixin",
+    "MultiPlayerGameModeMixin"
+  ],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
+

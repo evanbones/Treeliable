@@ -1,3 +1,5 @@
-### Fixed
+### Changed
 
-- Fixed modded blocks not being recognized in the config (@619doof).
+- Updated to 26.3.
+- Switched to stonecutter for building.
+- All versions are now in parity for bugfixes and features.

@@ -1,0 +1,90 @@
+package com.evandev.treeliable.common.config.resource;
+
+import com.evandev.treeliable.Treeliable;
+import net.minecraft.core.DefaultedRegistry;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
+import java.util.stream.Stream;
+
+public abstract class ResourceIdentifier {
+
+    private static final Pattern PATTERN = Pattern.compile("^\\s*([#@])?([a-z0-9_\\-.]*(?=:))?:?([a-z0-9_\\-./]*)?$");
+    private static final String DEFAULT_NAMESPACE = "minecraft";
+
+    private final String nameSpace;
+    private final String localSpace;
+    private final String string;
+
+    public ResourceIdentifier(String nameSpace, String localSpace, String string) {
+        this.nameSpace = nameSpace;
+        this.localSpace = localSpace;
+        this.string = string;
+    }
+
+    /**
+     * @param string by mod ("@mod"), tag ("#mod:tag"), or single identifier ("mod:id") with optional qualifiers
+     *               ("mod:id=2")
+     */
+    public static ResourceIdentifier from(String string) {
+        Matcher matcher = PATTERN.matcher(string);
+        if (matcher.find()) {
+            String searchSpace = Optional.ofNullable(matcher.group(1)).orElse("");
+            String namespace = Optional.ofNullable(matcher.group(2)).orElse("");
+            String localSpace = Optional.ofNullable(matcher.group(3)).orElse("");
+            List<IdentifierQualifier> qualifiers = List.of(); //parseQualifiers(Optional.ofNullable(matcher.group(4)).orElse(""));
+
+            if (searchSpace.equals("#")) {
+                return new ResourceTagIdentifier(either(namespace), localSpace, qualifiers, string);
+            } else if (searchSpace.equals("@")) {
+                if (namespace.isEmpty()) {
+                    return new ResourceNamespaceIdentifier(localSpace, qualifiers, string);
+                } else {
+                    return new MalformedResourceIdentifier(string, "unqualified identifier does not match \"@mod\"");
+                }
+            } else {
+                return new SingleResourceIdentifier(either(namespace), localSpace, qualifiers, string);
+            }
+        } else {
+            try {
+                Pattern pattern = Pattern.compile("^" + string.strip() + "$");
+                return new ResourcePatternIdentifier(pattern, List.of(), string);
+            } catch (PatternSyntaxException e) {
+                return new MalformedResourceIdentifier(string, "unqualified identifier does not match \"@mod\", \"#mod:tag\", or \"mod:id\", and is not a valid regular expression");
+            }
+        }
+    }
+
+    private static String either(String string) {
+        return string.isEmpty() ? ResourceIdentifier.DEFAULT_NAMESPACE : string;
+    }
+
+    private static void parsingError(String idString, String message) {
+        Treeliable.LOGGER.warn("Configuration issue: failed to parse \"{}\": {} (to silence this warning, find and delete \"{}\" in treeliable.json)", idString, message, idString);
+    }
+
+    public String getNamespace() {
+        return nameSpace;
+    }
+
+    public String getLocalSpace() {
+        return localSpace;
+    }
+
+    public String getString() {
+        return string;
+    }
+
+    public String getResourceLocation() {
+        return String.format("%s:%s", getNamespace(), getLocalSpace());
+    }
+
+    public abstract <R extends DefaultedRegistry<T>, T> Stream<T> resolve(R registry);
+
+    public void parsingError(String message) {
+        parsingError(getString(), message);
+    }
+}
