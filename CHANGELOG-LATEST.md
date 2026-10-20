@@ -1,5 +1,4 @@
-### Changed
+### Fixed
 
-- Updated to 26.3.
-- Switched to stonecutter for building.
-- All versions are now in parity for bugfixes and features.
+- Felling a tree now takes as long as breaking each log by hand, including the short delay between breaking blocks.
+    - Previously, it was about 40% faster with good axes.

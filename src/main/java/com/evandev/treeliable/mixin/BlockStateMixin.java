@@ -14,12 +14,15 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(BlockBehaviour.BlockStateBase.class)
 public abstract class BlockStateMixin {
+    @Unique
+    private static final float BREAK_DELAY_TICKS = 5.0F;
 
     @Inject(method = "getDestroyProgress", at = @At("RETURN"), cancellable = true)
     public void treeliable$scaleDestroyProgress(Player player, BlockGetter blockGetter, BlockPos pos, CallbackInfoReturnable<Float> cir) {
@@ -56,9 +59,11 @@ public abstract class BlockStateMixin {
                 int chopsNeeded = tree.numChopsNeededToFell();
                 int toolChops = ChopUtil.getNumChopsByTool(player.getMainHandItem(), state);
 
-                if (chopsNeeded > toolChops && toolChops > 0) {
-                    float penalty = (float) chopsNeeded / toolChops;
-                    cir.setReturnValue(cir.getReturnValue() / penalty);
+                float progress = cir.getReturnValue();
+                if (chopsNeeded > toolChops && toolChops > 0 && progress > 0.0F) {
+                    float chops = (float) chopsNeeded / toolChops;
+                    float ticks = chops / progress + (chops - 1.0F) * BREAK_DELAY_TICKS;
+                    cir.setReturnValue(1.0F / ticks);
                 }
             }
         }
