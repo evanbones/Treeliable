@@ -50,7 +50,14 @@ public abstract class MultiPlayerGameModeMixin {
 
     @Inject(method = "continueDestroyBlock", at = @At("HEAD"))
     private void treeliable$resetProgressOnChopStateChange(BlockPos posBlock, Direction directionFacing, CallbackInfoReturnable<Boolean> cir) {
-        if (this.minecraft.player == null) {
+        if (this.minecraft.player == null || this.minecraft.level == null) {
+            return;
+        }
+
+        if (!ChopUtil.isBlockChoppable(this.minecraft.level, posBlock)
+                || !ChopUtil.canChopWithTool(this.minecraft.player, this.minecraft.level, posBlock)) {
+            this.treeliable$trackedPos = null;
+            this.treeliable$trackedChopState = null;
             return;
         }
 
