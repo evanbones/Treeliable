@@ -1,5 +1,6 @@
 {
   "replace": false,
   "values": [
+    { "id": "bountifulfares:palm_crown", "required": false }
   ]
 }

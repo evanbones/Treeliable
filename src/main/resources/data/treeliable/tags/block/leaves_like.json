@@ -1,5 +1,7 @@
 {
   "replace": false,
   "values": [
+    { "id": "bountifulfares:palm_frond", "required": false },
+    { "id": "bountifulfares:wall_palm_frond", "required": false }
   ]
 }
